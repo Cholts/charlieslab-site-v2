@@ -575,16 +575,16 @@
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, onSnapshot, query, orderBy, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-        // IMPORTANT: Replace these with your actual Firebase project configuration from your Firebase Console.
-        // Go to Project settings -> Your apps -> Web app -> Firebase SDK snippet (Config).
+        // Your actual web app's Firebase configuration
+        // This MUST be replaced with YOUR unique config from Firebase Console -> Project settings -> Your apps -> Web app
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY", // e.g., "AIzaSyC..."
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com", // e.g., "my-project-12345.firebaseapp.com"
-            projectId: "YOUR_PROJECT_ID", // e.g., "my-project-12345"
-            storageBucket: "YOUR_PROJECT_ID.appspot.com", // e.g., "my-project-12345.appspot.com"
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // e.g., "1234567890"
-            appId: "YOUR_APP_ID", // e.g., "1:1234567890:web:abcdef1234567890abcdef"
-            // measurementId: "G-XXXXXXXXXX" // Optional: if you use Google Analytics
+            apiKey: "AIzaSyDy3cgr5QWdZ_n85Kh5IyZc5nVpkrOmYQM",
+            authDomain: "charlieslab-demo-site.firebaseapp.com",
+            projectId: "charlieslab-demo-site",
+            storageBucket: "charlieslab-demo-site.firebasestorage.app",
+            messagingSenderId: "21859165806",
+            appId: "1:21859165806:web:e5d12c15ded14a93ffe87f",
+            // measurementId: "G-ZTYJPB011E" // Optional: if you use Google Analytics
         };
 
         // Firebase Service Instances
@@ -593,59 +593,55 @@
         let auth;
         let storage;
         let userId; // Will hold the current user ID, important for Firestore rules
-        let isAuthReady = false; // Flag to ensure Firebase Auth is initialized before data ops
 
         // Initialize Firebase App and Authentication
         async function initializeFirebase() {
             try {
-                // Check if firebaseConfig is populated. If not, alert the user to update it.
-                if (firebaseConfig.apiKey === "YOUR_API_KEY" || !firebaseConfig.projectId) {
-                    showMessageModal("Firebase configuration is missing or invalid. Please replace 'YOUR_API_KEY', 'YOUR_PROJECT_ID', etc., in the JavaScript with your actual Firebase project settings.");
-                    console.error("Firebase configuration is missing. Please update firebaseConfig object in index.html.");
-                    return; // Stop initialization if config is missing
-                }
-
+                // Initialize Firebase app with the provided config
                 app = initializeApp(firebaseConfig);
+                // Get Firestore, Auth, and Storage service instances
                 db = getFirestore(app);
                 auth = getAuth(app);
                 storage = getStorage(app);
 
-                // Authenticate the user. For public access, sign in anonymously by default.
-                // Admin login will use signInWithEmailAndPassword.
+                // Authenticate the user. First, try with a custom token (if provided by Canvas).
+                // If no custom token, sign in anonymously. This ensures Firestore access.
+                // The Canvas-specific `__initial_auth_token` is not used in this direct GitHub Pages version.
+                // We'll stick to anonymous sign-in for public and email/password for admin.
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
+                        // User is signed in. Get their UID and update the UI.
                         userId = user.uid;
-                        console.log("Firebase Auth state changed. User authenticated:", user.uid, "Email:", user.email || 'N/A');
+                        console.log("User authenticated:", user.uid, "Email:", user.email || 'N/A');
                         document.getElementById('loggedInUserEmail').textContent = user.email || 'Anonymous User';
                         document.getElementById('loggedInUserId').textContent = user.uid;
-                        isAuthReady = true; // Set flag to true once auth state is confirmed
-                        setupListeners(); // Set up real-time Firestore listeners
+                        setupListeners(); // Set up real-time Firestore listeners now that auth is ready.
                     } else {
-                        // User is signed out or not yet signed in.
-                        // Attempt anonymous sign-in for public access if no user is present.
-                        // This ensures 'userId' is available for public data access rules.
+                        // User is signed out. Attempt anonymous sign-in for public access if no user is present.
+                        // This ensures 'userId' is available for public data access rules,
+                        // and allows unauthenticated users to read public data if rules permit.
                         try {
                             await signInAnonymously(auth);
                             userId = auth.currentUser.uid; // Update userId after anonymous sign-in
                             console.log("Signed in anonymously for public access.");
                         } catch (anonError) {
                             console.error("Error with anonymous sign-in:", anonError);
-                            userId = null; // Ensure userId is null if even anonymous sign-in fails
+                            userId = null; // Ensure userId is null if anonymous sign-in fails
                         }
-
+                        
                         document.getElementById('loggedInUserEmail').textContent = '';
                         document.getElementById('loggedInUserId').textContent = '';
-                        isAuthReady = true; // Auth state is determined, even if anonymous sign-in failed or user is null.
                         // If the user was on an admin-only view, redirect them to a public view.
                         if (currentView === 'adminDashboard') {
                             showView('publications');
                         }
-                        setupListeners(); // Set up listeners even if anon login fails, to load public data (if rules allow unauthenticated reads)
+                        setupListeners(); // Set up listeners even if anonymous sign-in fails, to load public data (if rules allow unauthenticated reads)
                     }
                     updateAuthUI(); // Always update UI elements related to authentication status.
                 });
 
             } catch (error) {
+                // Log and show an error if Firebase initialization fails.
                 console.error("Error initializing Firebase:", error);
                 showMessageModal("msgFirebaseError", "An error occurred during Firebase initialization. Please check your console for details and ensure your Firebase config is correct.", "error");
             }
@@ -736,7 +732,9 @@
             const user = auth.currentUser;
             // Simple check: if a user is logged in AND their email matches a predefined admin email, consider them admin.
             // For a real app, this would involve Firebase custom claims or roles.
-            const isAdmin = user && user.email === 'admin@example.com'; // You can change 'admin@example.com' to your actual admin email
+            const ADMIN_EMAIL = 'admin@example.com'; // <<< IMPORTANT: CHANGE THIS TO YOUR ACTUAL ADMIN EMAIL IN FIREBASE AUTHENTICATION
+
+            const isAdmin = user && user.email === ADMIN_EMAIL;
 
             if (isAdmin) {
                 // If admin, hide login button and show logout button
@@ -790,7 +788,7 @@
         // Function to set up real-time Firestore listeners
         function setupListeners() {
             // Ensure Firebase is initialized and auth state has been checked
-            if (!db || !isAuthReady) {
+            if (!db || !auth.currentUser) { // Check for auth.currentUser ensures it's ready
                 console.warn("Firestore or Auth not ready for listeners.");
                 return;
             }
@@ -800,7 +798,8 @@
 
             // Listen for admin-specific publications (only if authenticated as admin)
             const user = auth.currentUser;
-            const isAdmin = user && user.email === 'admin@example.com';
+            const ADMIN_EMAIL = 'admin@example.com'; // <<< IMPORTANT: CHANGE THIS TO YOUR ACTUAL ADMIN EMAIL
+            const isAdmin = user && user.email === ADMIN_EMAIL;
             if (isAdmin) {
                 listenForAdminPublications();
             } else {
@@ -811,6 +810,9 @@
 
         // Real-time listener for public publications
         function listenForPublicPublications() {
+            // orderBy("year", "desc") is included in the query but remember:
+            // If you get an error like "The query requires an index...", you might need to create an index in Firebase.
+            // Alternatively, fetch all data and sort client-side in `displayPublications`.
             const q = query(collection(db, PUBLIC_PUBLICATIONS_COLLECTION_PATH), orderBy("year", "desc"));
 
             onSnapshot(q, (snapshot) => {
@@ -822,7 +824,7 @@
                 displayPublications(publications); // Render publications on the public view
             }, (error) => {
                 console.error("Error listening to public publications:", error);
-                showMessageModal("msgPublicationLoadError", "Error loading publications: " + error.message, "error");
+                showMessageModal("msgPublicationLoadError", "Error loading publications. Check your Firebase security rules and network connection.", "error");
             });
         }
 
@@ -865,7 +867,7 @@
                 return titleMatch || authorsMatch || yearMatch || descriptionMatch;
             });
 
-            // Sort based on selection
+            // Sort based on selection (client-side sorting for flexibility)
             if (sortBy === 'year-desc') {
                 filteredPublications.sort((a, b) => b.year - a.year);
             } else if (sortBy === 'year-asc') {
@@ -912,22 +914,16 @@
         // --- Publication Search and Sort Event Listeners ---
         // These events will trigger re-rendering of the public publications list based on user input
         document.getElementById('publicationSearch').addEventListener('input', () => {
-            // Re-fetch data and re-display to apply filters, or re-filter current data
-            // For simplicity and to ensure the most up-to-date data is always displayed after filter,
-            // we will re-run the public listener (which fetches and then displays).
-            // This is a common pattern with onSnapshot where you just re-process the current data on filter/sort changes.
-            if (db && isAuthReady) {
-                // As onSnapshot already provides real-time updates, we simply trigger a re-display
-                // of the *current* state of `publications` array after applying the filter/sort.
-                // To do this effectively, the `listenForPublicPublications` would need to update a shared `publicationsData` array
-                // and `displayPublications` would consume that. For now, we simulate by directly re-fetching via getDocs for filter/sort.
-                // A more optimized approach would be to store the `publications` array from the `onSnapshot` callback
-                // in a global variable and then `displayPublications(globalPublicationsArray)` whenever search/sort changes.
-                const q = query(collection(db, PUBLIC_PUBLICATIONS_COLLECTION_PATH), orderBy("year", "desc"));
+            // When search term changes, re-run the listener for public publications to apply the filter.
+            // The `onSnapshot` listener already provides the full data, `displayPublications` re-filters it.
+            // If you change the query for `onSnapshot` to include a `where` clause, then Firestore will do the filtering.
+            // For now, re-calling `displayPublications` with the current data is sufficient.
+            if (db && auth.currentUser) { // Ensure Firebase is initialized
+                 const q = query(collection(db, PUBLIC_PUBLICATIONS_COLLECTION_PATH), orderBy("year", "desc"));
                 getDocs(q).then(snapshot => {
                     const publications = [];
                     snapshot.forEach(doc => publications.push({ id: doc.id, ...doc.data() }));
-                    displayPublications(publications); // Call display with newly fetched (or re-filtered) data
+                    displayPublications(publications); // Call display with all fetched data, filtering happens inside
                 }).catch(error => {
                     console.error("Error re-fetching publications for search/sort:", error);
                 });
@@ -935,12 +931,12 @@
         });
 
         document.getElementById('sortPublications').addEventListener('change', () => {
-            if (db && isAuthReady) {
-                const q = query(collection(db, PUBLIC_PUBLICATIONS_COLLECTION_PATH), orderBy("year", "desc")); // Fetch all or ordered data
+            if (db && auth.currentUser) { // Ensure Firebase is initialized
+                 const q = query(collection(db, PUBLIC_PUBLICATIONS_COLLECTION_PATH), orderBy("year", "desc"));
                 getDocs(q).then(snapshot => {
                     const publications = [];
                     snapshot.forEach(doc => publications.push({ id: doc.id, ...doc.data() }));
-                    displayPublications(publications); // Call display with newly fetched (or re-filtered) data
+                    displayPublications(publications); // Call display with all fetched data, sorting happens inside
                 }).catch(error => {
                     console.error("Error re-fetching publications for search/sort:", error);
                 });
@@ -1001,7 +997,8 @@
             const coverFile = document.getElementById('bookCover').files[0];
             const pdfFile = document.getElementById('bookPdf').files[0];
 
-            if (!db || !auth.currentUser) {
+            const ADMIN_EMAIL = 'admin@example.com'; // <<< IMPORTANT: CHANGE THIS TO YOUR ACTUAL ADMIN EMAIL
+            if (!db || !auth.currentUser || auth.currentUser.email !== ADMIN_EMAIL) {
                 showMessageModal("msgAuthRequired", "Authentication required to add publications.", "error");
                 hideLoadingSpinner();
                 return;
@@ -1033,27 +1030,63 @@
                     console.log("PDF uploaded:", pdfUrl);
                 }
 
-                // Add publication data to Firestore
-                await addDoc(collection(db, PUBLIC_PUBLICATIONS_COLLECTION_PATH), {
-                    title,
-                    authors,
-                    year,
-                    description,
-                    coverImageUrl,
-                    coverImageFileName, // Save filename for future deletion
-                    pdfUrl,
-                    pdfFileName, // Save filename for future deletion
-                    createdAt: new Date()
-                });
+                // If editing an existing publication
+                if (editingPublicationId) {
+                    const docRef = doc(db, PUBLIC_PUBLICATIONS_COLLECTION_PATH, editingPublicationId);
+                    const existingDoc = await getDoc(docRef);
+                    const existingData = existingDoc.data();
 
-                showMessageModal("msgPublicationAdded", "Publication added successfully!", "success");
+                    // If no new file was selected for cover/pdf, retain the old URL/filename
+                    if (!coverFile) {
+                        coverImageUrl = existingData.coverImageUrl || '';
+                        coverImageFileName = existingData.coverImageFileName || '';
+                    }
+                    if (!pdfFile) {
+                        pdfUrl = existingData.pdfUrl || '';
+                        pdfFileName = existingData.pdfFileName || '';
+                    }
+
+                    await updateDoc(docRef, {
+                        title,
+                        authors,
+                        year,
+                        description,
+                        coverImageUrl,
+                        coverImageFileName,
+                        pdfUrl,
+                        pdfFileName,
+                        updatedAt: new Date()
+                    });
+                    showMessageModal("msgPublicationUpdated", "Publication updated successfully!", "success");
+                } else {
+                    // Add new publication data to Firestore
+                    await addDoc(collection(db, PUBLIC_PUBLICATIONS_COLLECTION_PATH), {
+                        title,
+                        authors,
+                        year,
+                        description,
+                        coverImageUrl,
+                        coverImageFileName, // Save filename for future deletion
+                        pdfUrl,
+                        pdfFileName, // Save filename for future deletion
+                        createdAt: new Date()
+                    });
+                    showMessageModal("msgPublicationAdded", "Publication added successfully!", "success");
+                }
+
+
                 e.target.reset(); // Clear form
-                // Clear file inputs and previews after successful submission
+                // Clear file inputs after successful submission
                 document.getElementById('bookCover').value = '';
                 document.getElementById('bookPdf').value = '';
+                editingPublicationId = null; // Exit editing mode
+                document.querySelector('#addPublicationForm button[type="submit"]').textContent = 'Add Publication';
+                const cancelEditButton = document.querySelector('#addPublicationForm button[type="button"]');
+                if (cancelEditButton) cancelEditButton.remove();
+
             } catch (error) {
-                console.error("Error adding publication:", error);
-                showMessageModal("msgErrorAddingPublication", "Error adding publication: " + error.message, "error");
+                console.error("Error adding/updating publication:", error);
+                showMessageModal("msgErrorSavingPublication", "Error saving publication: " + error.message, "error");
             } finally {
                 hideLoadingSpinner(); // Hide loading spinner
             }
@@ -1066,7 +1099,8 @@
         let editingPublicationId = null; // Stores the ID of the publication being edited
 
         async function editPublication(publicationId) {
-            if (!auth.currentUser || auth.currentUser.email !== 'admin@example.com') { // Basic admin check
+            const ADMIN_EMAIL = 'admin@example.com'; // <<< IMPORTANT: CHANGE THIS TO YOUR ACTUAL ADMIN EMAIL
+            if (!auth.currentUser || auth.currentUser.email !== ADMIN_EMAIL) { // Basic admin check
                 showMessageModal("msgPermissionDenied", "You do not have permission to edit publications.", "error");
                 return;
             }
@@ -1087,25 +1121,27 @@
                     document.getElementById('bookDescription').value = data.description;
 
                     // Display current image/pdf info (file inputs cannot be programmatically set for security)
-                    // You might want to display the current file names or a "Clear file" option.
                     console.log("Current Cover URL:", data.coverImageUrl);
                     console.log("Current PDF URL:", data.pdfUrl);
 
                     // Change button text and show cancel button
                     document.querySelector('#addPublicationForm button[type="submit"]').textContent = 'Update Publication';
-                    const cancelBtn = document.createElement('button');
-                    cancelBtn.textContent = 'Cancel Edit';
-                    cancelBtn.className = 'w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-500 hover:bg-gray-600 transition duration-300 ml-2';
-                    cancelBtn.type = 'button'; // Important: Prevent form submission
+                    let cancelBtn = document.querySelector('#addPublicationForm button[type="button"]');
+                    if (!cancelBtn) { // Create if it doesn't exist
+                        cancelBtn = document.createElement('button');
+                        cancelBtn.textContent = 'Cancel Edit';
+                        cancelBtn.className = 'w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-500 hover:bg-gray-600 transition duration-300 ml-2';
+                        cancelBtn.type = 'button'; // Important: Prevent form submission
+                        document.getElementById('addPublicationForm').appendChild(cancelBtn);
+                    }
                     cancelBtn.onclick = () => {
                         document.getElementById('addPublicationForm').reset();
                         document.querySelector('#addPublicationForm button[type="submit"]').textContent = 'Add Publication';
-                        cancelBtn.remove(); // Remove itself
+                        if (cancelBtn) cancelBtn.remove();
                         editingPublicationId = null; // Exit editing mode
                     };
-                    document.getElementById('addPublicationForm').appendChild(cancelBtn);
 
-                    showMessageModal("msgEditingMode", "You are now editing a publication. Upload new files if you want to change them.", "info");
+                    showMessageModal("msgEditingMode", "You are now editing a publication. Upload new files if you want to change them. Clear file input to remove existing file.", "info");
                 } else {
                     showMessageModal("msgPublicationNotFound", "Publication not found.", "error");
                 }
@@ -1119,7 +1155,8 @@
 
         // --- Delete Publication Handling ---
         function confirmDeletePublication(publicationId) {
-            if (!auth.currentUser || auth.currentUser.email !== 'admin@example.com') { // Basic admin check
+            const ADMIN_EMAIL = 'admin@example.com'; // <<< IMPORTANT: CHANGE THIS TO YOUR ACTUAL ADMIN EMAIL
+            if (!auth.currentUser || auth.currentUser.email !== ADMIN_EMAIL) { // Basic admin check
                 showMessageModal("msgPermissionDenied", "You do not have permission to delete publications.", "error");
                 return;
             }
@@ -1141,6 +1178,7 @@
                                 // Delete associated files from Storage
                                 if (publicationData.coverImageFileName) {
                                     try {
+                                        // Path to the file in Storage needs to match how it was uploaded
                                         const coverStorageRef = ref(storage, `artifacts/${firebaseConfig.projectId}/public/files/covers/${publicationData.coverImageFileName}`);
                                         await deleteObject(coverStorageRef);
                                         console.log("Cover image deleted from Storage:", publicationData.coverImageFileName);
@@ -1150,6 +1188,7 @@
                                 }
                                 if (publicationData.pdfFileName) {
                                     try {
+                                        // Path to the file in Storage needs to match how it was uploaded
                                         const pdfStorageRef = ref(storage, `artifacts/${firebaseConfig.projectId}/public/files/pdfs/${publicationData.pdfFileName}`);
                                         await deleteObject(pdfStorageRef);
                                         console.log("PDF file deleted from Storage:", publicationData.pdfFileName);
@@ -1158,7 +1197,7 @@
                                     }
                                 }
 
-                                // Delete the document from Firestore
+                                // Finally, delete the document from Firestore
                                 await deleteDoc(publicationRef);
                                 showMessageModal("msgPublicationDeleted", "Publication deleted successfully!", "success");
                             } else {
