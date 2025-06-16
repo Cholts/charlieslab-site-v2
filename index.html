@@ -734,9 +734,20 @@
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, onSnapshot, query, orderBy, where, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-        // Global Firebase Variables (Provided by Canvas Environment)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        // Global Firebase Variables (Provided by Canvas Environment, or Fallback to hardcoded)
+        // Ensure this firebaseConfig is updated with your actual project details
+        const hardcodedFirebaseConfig = {
+            apiKey: "AIzaSyDy3cgr5QWdZ_n85Kh5IyZc5nVpkrOmYQM",
+            authDomain: "charlieslab-demo-site.firebaseapp.com",
+            projectId: "charlieslab-demo-site",
+            storageBucket: "charlieslab-demo-site.firebasestorage.app",
+            messagingSenderId: "21859165806",
+            appId: "1:21859165806:web:e5d12c15ded14a93ffe87f",
+            measurementId: "G-ZTYJPB011E"
+        };
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : hardcodedFirebaseConfig.projectId;
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : hardcodedFirebaseConfig;
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
         // --- IMPORTANT: Initial Logo Paths ---
