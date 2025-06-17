@@ -1193,6 +1193,7 @@
 
                 // Listen for authentication state changes
                 onAuthStateChanged(auth, (user) => {
+                    // console.log("Auth state changed. User:", user ? user.email : "None");
                     if (user) {
                         userId = user.uid;
                         document.getElementById('loggedInUserEmail').textContent = user.email || 'Anonymous User';
@@ -1228,6 +1229,7 @@
         };
 
         function showView(viewId) {
+            // console.log("Attempting to show view:", viewId);
             // Hide all main views first
             Object.values(views).forEach(view => view.classList.add('hidden'));
 
@@ -1316,6 +1318,7 @@
         function updateAuthUI() {
             const user = auth.currentUser;
             const isAdmin = user && user.email === 'admin@example.com';
+            // console.log("updateAuthUI called. User is admin:", isAdmin, "Current view:", currentView);
 
             // Toggle visibility of footer admin login button and dashboard sub-sections
             document.getElementById('adminLoginBtnFooter').classList.toggle('hidden', isAdmin);
@@ -1339,7 +1342,8 @@
             loginErrorMessage.textContent = ''; // Clear previous error
 
             try {
-                await signInWithEmailAndPassword(auth, email, password);
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                // console.log("Login successful:", userCredential.user.email);
                 showMessageModal("successMessage", "adminLoginSuccessful", "success");
                 document.getElementById('adminEmail').value = '';
                 document.getElementById('adminPassword').value = '';
@@ -1414,6 +1418,7 @@
             try {
                 const fileRef = ref(storage, `${path}/${uniqueFileName}`);
                 await deleteObject(fileRef);
+                // console.log("Successfully deleted file:", uniqueFileName);
             } catch (error) {
                 if (error.code === 'storage/object-not-found') {
                     console.warn(translations[currentLanguage].fileNotFoundInStorage + uniqueFileName);
@@ -1438,6 +1443,7 @@
                     currentContributor2Logo.url = data.contributor2LogoUrl || DEFAULT_CONTRIB2_LOGO_URL;
                     currentContributor2Logo.fileName = data.contributor2LogoFileName || '';
                 } else {
+                    // console.warn(translations[currentLanguage].siteLogosNotFound);
                     currentHeaderLogo.url = DEFAULT_HEADER_LOGO_URL;
                     currentFooterLogo.url = DEFAULT_FOOTER_LOGO_URL;
                     currentContributor1Logo.url = DEFAULT_CONTRIB1_LOGO_URL;
@@ -1874,8 +1880,8 @@
                 // Handle file uploads and deletions for updates
                 const uploadAndUpdateFile = async (fileInput, currentFileName, storagePath) => {
                     let newFileName = currentFileName;
-                    let newUrl = currentPubFiles.pdfUrl; // Default to existing URL for PDFs/Abstracts
-                    
+                    let newUrl = null; // Initialize as null or empty string for new uploads
+
                     if (fileInput.files[0]) {
                         if (currentFileName) { // If there was an old file, delete it
                             await deleteFile(currentFileName, storagePath);
@@ -1883,6 +1889,14 @@
                         const uploadResult = await uploadFile(fileInput.files[0], storagePath);
                         newFileName = uploadResult.fileName;
                         newUrl = uploadResult.url;
+                    } else { // If no new file selected, retain old URL/filename from currentPubFiles
+                        // This applies to scenarios where no new file is uploaded for a specific field,
+                        // and we need to keep the existing one.
+                         if (storagePath === STORAGE_PATH_COVERS) newUrl = currentPubFiles.coverUrl;
+                         else if (storagePath === STORAGE_PATH_PDFS) newUrl = currentPubFiles.pdfUrl;
+                         else if (storagePath === STORAGE_PATH_ABSTRACTS && fileInput === abstractArPdfInput) newUrl = currentPubFiles.abstracts.ar.url;
+                         else if (storagePath === STORAGE_PATH_ABSTRACTS && fileInput === abstractEnPdfInput) newUrl = currentPubFiles.abstracts.en.url;
+                         else if (storagePath === STORAGE_PATH_ABSTRACTS && fileInput === abstractItPdfInput) newUrl = currentPubFiles.abstracts.it.url;
                     }
                     return { url: newUrl, fileName: newFileName };
                 };
@@ -1906,16 +1920,19 @@
                     isCurrentIssue,
                     timestamp: new Date().toISOString()
                 };
-
+                
+                // If this is set as the current issue, unset previous current issues
                 if (isCurrentIssue) {
                     const currentIssueQuery = query(collection(db, PUBLIC_PUB_COLLECTION), where("isCurrentIssue", "==", true));
                     const currentIssuesSnapshot = await getDocs(currentIssueQuery);
                     for (const docToUnset of currentIssuesSnapshot.docs) {
+                        // Only unset if it's a different document than the one being edited/added
                         if (docToUnset.id !== editingPublicationId) {
                             await updateDoc(doc(db, PUBLIC_PUB_COLLECTION, docToUnset.id), { isCurrentIssue: false });
                         }
                     }
                 }
+
 
                 if (editingPublicationId) {
                     await updateDoc(doc(db, PUBLIC_PUB_COLLECTION, editingPublicationId), publicationData);
