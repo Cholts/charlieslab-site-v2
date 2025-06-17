@@ -416,9 +416,9 @@
 
     <!-- Header Section -->
     <header class="header-bg py-4 px-6 shadow-sm">
-        <div class="container flex flex-col items-center gap-4">
+        <div class="container flex flex-col gap-4">
             <!-- Top Row: Logo, Search Bar, and Language Buttons -->
-            <div class="flex flex-col md:flex-row items-center justify-between w-full gap-4 mb-4">
+            <div class="flex flex-col md:flex-row items-center justify-between w-full gap-4">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <img id="mainLogo" src="https://placehold.co/200x90/e0e2e5/3f4245?text=Header+Logo" alt="Quaderni di Archeologia della Libya Logo" class="header-logo">
@@ -436,14 +436,14 @@
                     </select>
                 </div>
                 <!-- Language Buttons -->
-                <div class="flex space-x-2">
+                <div class="flex space-x-2 mt-4 md:mt-0"> <!-- Added mt-4 for mobile spacing -->
                     <button class="lang-button" data-lang="en">ENG</button>
                     <button class="lang-button" data-lang="it">ITA</button>
                 </div>
             </div>
            
             <!-- Bottom Row: Navigation buttons -->
-            <nav class="flex flex-wrap justify-center items-center space-x-2 md:space-x-4 w-full">
+            <nav class="flex flex-wrap justify-center items-center space-x-2 md:space-x-4 w-full pt-4 md:pt-0"> <!-- Added pt-4 for mobile spacing -->
                 <button class="nav-button view-button" data-view="aboutUs" data-lang-key="navAboutUs">About Us</button>
                 <button class="nav-button view-button" data-view="editorialBoard" data-lang-key="navEditorialBoard">Editorial Board</button>
                 <button class="nav-button view-button" data-view="currentIssue" data-lang-key="navCurrentIssue">Current Issue</button>
@@ -883,8 +883,6 @@
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         // Firebase Configuration and Auth Token (Provided by Canvas Environment or Fallback)
-        // **IMPORTANT**: For local testing, ensure 'admin@example.com' with password 'password123'
-        // is set up in your Firebase Authentication. For a real app, use secure credentials.
         const hardcodedFirebaseConfig = {
             apiKey: "AIzaSyDrOjIfbI2ttZF_Dp8JSRNpl_eL8XU4JGk",
             authDomain: "quadernilibyawebsite.firebaseapp.com",
@@ -896,6 +894,7 @@
         };
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : hardcodedFirebaseConfig.projectId;
+        // Ensure firebaseConfig is parsed if it's a string from the environment
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : hardcodedFirebaseConfig;
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
@@ -1022,7 +1021,7 @@
                 contributor2LogoLabel: "Upload Fondazione MEDA Logo:", updateContributorLogosButton: "Update Contributor Logos",
                 copyrightText: "Quaderni di Archeologia della Libya. All rights reserved.", contactUsLabel: "Contact Us:",
                 emailLabelShort: "Email:", phoneLabelShort: "Phone:", selectedLabel: "Selected", currentLabel: "Current",
-                currentLabelShort: "Current", noCustomHeaderLogo: "No custom header logo.", noCustomFooterLogo: "No custom footer logo.",
+                currentLabelShort: "Corrente", noCustomHeaderLogo: "No custom header logo.", noCustomFooterLogo: "No custom footer logo.",
                 noLERMALogo: "No L'ERMA logo.", noMEDALogo: "No MEDA logo.", fileUploadFailed: "File upload failed: ",
                 checkStorageRules: "Check Firebase Storage rules.", firebaseInitError: "An error occurred during Firebase initialization. Please check your console for details and ensure your Firebase config is correct.",
                 viewNotFound: "View not found.", logoutSuccessful: "Logout successful!", logoutFailed: "Logout failed: ",
@@ -1079,7 +1078,7 @@
                 editorialGuidelinesTitle: "Linee Guida Editoriali", articlesSubmittedTo: "Gli articoli devono essere inviati a:",
                 submissionProcedureTitle: "Procedura di Sottomissione:", submissionProcedure1: "I contributi devono essere inviati in formato digitale .doc (Microsoft Word) come allegato e-mail.",
                 submissionProcedure2: "I contenuti saranno esaminati da almeno due lettori anonimi e, se necessario, restituiti all'autore per eventuali correzioni e modifiche.",
-                submissionProcedure3: "Solo un set di bozze sarà inviato agli autori che dovranno correggerle e restituirle entro la scadenza fissata dagli editori.",
+                submissionProcedure3: "Un solo set di bozze sarà inviato agli autori che dovranno correggerle e restituirle entro la scadenza fissata dagli editori.",
                 submissionProcedure4: "Per quanto riguarda le illustrazioni, un file contenente didascalie e crediti fotografici deve essere inviato separatamente. Il testo deve essere accompagnato da una copia digitale delle immagini da pubblicare (si prega di usare WeTransfer se le immagini sono troppo pesanti per essere inviate come allegati e-mail).",
                 submissionProcedure5: "Le immagini devono essere in formato JPG o TIFF e con una risoluzione minima di 300 dpi (definizione pixel). Tutte le immagini inviate per la pubblicazione devono essere conformi alle norme sul copyright e deve esserci un accordo (o un modulo di liberatoria) sulla riproduzione dell'immagine da parte del titolare del copyright prima della pubblicazione. L'autore è l'unico responsabile dell'ottenimento di tali permessi. Nessuna immagine senza tali documenti di accompagnamento sarà pubblicata.",
                 articleRequirementsTitle: "Requisiti dell'Articolo:", articleRequirements1: "Un abstract di circa 500 caratteri / 100 parole nella lingua del testo e in inglese.",
@@ -1161,7 +1160,7 @@
                     } else if (element.tagName === 'OPTION') {
                         element.textContent = translations[lang][key];
                     } else {
-                        element.innerHTML = translations[lang][key];
+                        element.innerHTML = translations[lang][key]; // Corrected line to use innerHTML
                     }
                 }
             });
@@ -1179,9 +1178,13 @@
         // Initialize Firebase App and Authentication
         async function initializeFirebase() {
             try {
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
+                // Ensure firebaseConfig is an object
+                const config = typeof firebaseConfig === 'string' ? JSON.parse(firebaseConfig) : firebaseConfig;
+                console.log("Firebase config being used:", config); // Debugging
+
+                app = initializeApp(config); // Initialize app instance
+                db = getFirestore(app);             
+                auth = getAuth(app);               
                 storage = getStorage(app);
 
                 // Authenticate based on available token or anonymously
@@ -1317,7 +1320,8 @@
         // Function to update UI based on authentication status (Admin vs Public)
         function updateAuthUI() {
             const user = auth.currentUser;
-            const isAdmin = user && user.email === 'admin@example.com';
+            // This is the hardcoded admin email check. Change this if your admin email changes.
+            const isAdmin = user && user.email === 'charles.schweb@lerma.it'; 
             // console.log("updateAuthUI called. User is admin:", isAdmin, "Current view:", currentView);
 
             // Toggle visibility of footer admin login button and dashboard sub-sections
@@ -1337,7 +1341,7 @@
             e.preventDefault();
             showLoadingSpinner();
             const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPassword').value; // Default: password123
+            const password = document.getElementById('adminPassword').value; 
             const loginErrorMessage = document.getElementById('loginErrorMessage');
             loginErrorMessage.textContent = ''; // Clear previous error
 
@@ -1376,7 +1380,8 @@
             listenForSiteLogos();
 
             const user = auth.currentUser;
-            const isAdmin = user && user.email === 'admin@example.com';
+            // This is the hardcoded admin email check. Change this if your admin email changes.
+            const isAdmin = user && user.email === 'charles.schweb@lerma.it'; 
             if (isAdmin) {
                 listenForAdminPublications();
                 listenForAdminNews();
@@ -1519,7 +1524,7 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            if (!user || user.email !== 'admin@example.com') {
+            if (!user || user.email !== 'charles.schweb@lerma.it') { 
                 showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error");
                 hideLoadingSpinner();
                 return;
@@ -1572,7 +1577,7 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            if (!user || user.email !== 'admin@example.com') {
+            if (!user || user.email !== 'charles.schweb@lerma.it') { 
                 showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error");
                 hideLoadingSpinner();
                 return;
@@ -1853,7 +1858,7 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            if (!user || user.email !== 'admin@example.com') {
+            if (!user || user.email !== 'charles.schweb@lerma.it') { 
                 showMessageModal("permissionDenied", "noPermissionAddEditPublications", "error");
                 hideLoadingSpinner();
                 return;
@@ -2105,7 +2110,7 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            if (!user || user.email !== 'admin@example.com') {
+            if (!user || user.email !== 'charles.schweb@lerma.it') { 
                 showMessageModal("permissionDenied", "noPermissionAddNews", "error");
                 hideLoadingSpinner();
                 return;
