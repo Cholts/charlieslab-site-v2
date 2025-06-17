@@ -1126,13 +1126,13 @@
                 emailLabelShort: "Email:", phoneLabelShort: "Telefono:", selectedLabel: "Selezionato", currentLabel: "Attuale",
                 currentLabelShort: "Corrente", noCustomHeaderLogo: "Nessun logo intestazione personalizzato.", noCustomFooterLogo: "Nessun logo piè di pagina personalizzato.",
                 noLERMALogo: "Nessun logo L'ERMA.", noMEDALogo: "Nessun logo MEDA.", fileUploadFailed: "Caricamento file fallito: ",
-                checkStorageRules: "Controlla le regole di Firebase Storage.", firebaseInitError: "Si è verificato un errore durante l'inizializzazione di Firebase. Si prega di controllare la console per i dettagli e assicurarsi che la configurazione di Firebase sia corretta.",
+                checkStorageRules: "Controlla le regole di Firebase Storage.", firebaseInitError: "An error occurred during Firebase initialization. Please check your console for details and ensure your Firebase config is correct.",
                 viewNotFound: "Vista non trovata.", logoutSuccessful: "Logout riuscito!", logoutFailed: "Logout fallito: ",
                 invalidCredentials: "Credenziali non valide. Riprova.", tooManyLoginAttempts: "Troppi tentativi di accesso. Riprova più tardi.",
                 adminLoginSuccessful: "Accesso admin riuscito!", errorLoadingPublications: "Errore caricamento pubblicazioni. Controlla le regole di Firebase.",
                 errorLoadingCurrentIssue: "Errore caricamento numero corrente.", errorLoadingNews: "Errore caricamento notizie.",
-                errorLoadingAdminPublications: "Errore caricamento pubblicazioni admin.", noPermissionAddEditPublications: "Non hai il permesso di aggiungere/modificare pubblicazioni.",
-                fillAllRequiredFields: "Compila tutti i campi obbligatori.", errorSavingPublication: "Errore salvataggio pubblicazione: ",
+                errorLoadingAdminPublications: "Errore caricamento pubblicazioni admin.", noPermissionAddEditPublications: "You do not have permission to add/edit publications.",
+                fillAllRequiredFields: "Please fill all required fields.", errorSavingPublication: "Errore salvataggio pubblicazione: ",
                 publicationUpdated: "Pubblicazione aggiornata con successo!", publicationAdded: "Pubblicazione aggiunta con successo!",
                 publicationNotFoundForEdit: "Pubblicazione non trovata per modifica.", errorLoadingPublicationForEdit: "Errore caricamento pubblicazione per modifica: ",
                 publicationNotFoundForDeletion: "Pubblicazione non trovata per eliminazione.", errorDeletingPublication: "Errore eliminazione pubblicazione: ",
@@ -1143,10 +1143,10 @@
                 errorLoadingAdminNews: "Errore caricamento notizie admin.", siteLogosNotFound: "Loghi sito non trovati nel database. Uso predefiniti.",
                 couldNotLoadLogos: "Impossibile caricare i loghi del sito.", siteLogosUpdated: "Loghi sito aggiornati con successo!",
                 errorUpdatingLogos: "Errore aggiornamento loghi sito: ", contributorLogosUpdated: "Loghi contributori aggiornati con successo!",
-                errorUpdatingContributorLogos: "Errore aggiornamento loghi contributori: ", noPermissionUpdateSiteSettings: "Non hai il permesso di aggiornare le impostazioni del sito.",
-                yesButton: "Sì", noButton: "No", okButton: "OK", editButton: "Modifica", deleteButton: "Elimina",
-                noArabicAbstract: "Nessun testo abstract arabo disponibile.", noEnglishAbstract: "Nessun testo abstract inglese disponibile.",
-                noItalianAbstract: "Nessun testo abstract italiano disponibile."
+                errorUpdatingContributorLogos: "Errore aggiornamento loghi contributori: ", noPermissionUpdateSiteSettings: "You do not have permission to update site settings.",
+                yesButton: "Yes", noButton: "No", okButton: "OK", editButton: "Edit", deleteButton: "Delete",
+                noArabicAbstract: "No Arabic abstract text available.", noEnglishAbstract: "No English abstract text available.",
+                noItalianAbstract: "No Italian abstract text available."
             }
         };
 
@@ -1367,7 +1367,7 @@
             const user = auth.currentUser;
             const ADMIN_EMAIL = 'charles.schweb@lerma.it';
             const isAdmin = user && user.email === ADMIN_EMAIL; 
-            if (isAdmin) {
+            if (isAdmin) { // Only attach admin-specific listeners if logged in as admin
                 listenForAdminPublications();
                 listenForAdminNews();
             } else {
@@ -1531,8 +1531,8 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            const ADMIN_EMAIL = 'charles.schweb@lerma.it';
-            if (!user || user.email !== ADMIN_EMAIL) { 
+            // No specific admin email check here, just ensure user is authenticated
+            if (!user) { 
                 showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error");
                 hideLoadingSpinner();
                 return;
@@ -1550,12 +1550,10 @@
                         await deleteFile(currentHeaderLogo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newHeaderLogo = await uploadFile(headerFile, STORAGE_PATH_LOGOS);
-                } else if (e.submitter && e.submitter.id === 'submitLogoForm' && !headerFile && currentHeaderLogo.url !== DEFAULT_HEADER_LOGO_URL) {
-                    // If no new file selected for header and it was a custom one, retain it
-                    newHeaderLogo = { ...currentHeaderLogo };
-                } else if (e.submitter && e.submitter.id === 'submitLogoForm' && !headerFile && currentHeaderLogo.url === DEFAULT_HEADER_LOGO_URL) {
-                    // If no new file selected and it's currently a default, set to empty for removal or keep default if intended
-                    newHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' };
+                } else if (!headerFile && currentHeaderLogo.fileName) { // If no new file selected, but there was a current custom one
+                    newHeaderLogo = { ...currentHeaderLogo }; // Retain current
+                } else { // No new file and no current custom one (it was default or empty)
+                    newHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; // Revert to default placeholder for header
                 }
 
                 if (footerFile) {
@@ -1563,12 +1561,10 @@
                         await deleteFile(currentFooterLogo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newFooterLogo = await uploadFile(footerFile, STORAGE_PATH_LOGOS);
-                } else if (e.submitter && e.submitter.id === 'submitLogoForm' && !footerFile && currentFooterLogo.url !== DEFAULT_FOOTER_LOGO_URL) {
-                    // If no new file selected for footer and it was a custom one, retain it
-                    newFooterLogo = { ...currentFooterLogo };
-                } else if (e.submitter && e.submitter.id === 'submitLogoForm' && !footerFile && currentFooterLogo.url === DEFAULT_FOOTER_LOGO_URL) {
-                    // If no new file selected and it's currently a default, set to empty for removal or keep default if intended
-                    newFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
+                } else if (!footerFile && currentFooterLogo.fileName) { // If no new file selected, but there was a current custom one
+                    newFooterLogo = { ...currentFooterLogo }; // Retain current
+                } else { // No new file and no current custom one (it was default or empty)
+                    newFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' }; // Revert to default placeholder for footer
                 }
 
 
@@ -1599,8 +1595,8 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            const ADMIN_EMAIL = 'charles.schweb@lerma.it';
-            if (!user || user.email !== ADMIN_EMAIL) { 
+            // No specific admin email check here, just ensure user is authenticated
+            if (!user) { 
                 showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error");
                 hideLoadingSpinner();
                 return;
@@ -1618,11 +1614,11 @@
                         await deleteFile(currentContributor1Logo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newContributor1Logo = await uploadFile(contributor1File, STORAGE_PATH_LOGOS);
-                } else if (currentContributor1Logo.fileName && !contributor1File) {
+                } else if (!contributor1File && currentContributor1Logo.fileName) {
                     // If no new file, but there was an old custom one, keep it
                     newContributor1Logo = { ...currentContributor1Logo };
                 } else {
-                    // If no new file and no old custom file, ensure it's cleared
+                    // If no new file and no old custom file, ensure it's cleared (empty string)
                     newContributor1Logo = { url: '', fileName: '' };
                 }
 
@@ -1631,11 +1627,11 @@
                         await deleteFile(currentContributor2Logo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newContributor2Logo = await uploadFile(contributor2File, STORAGE_PATH_LOGOS);
-                } else if (currentContributor2Logo.fileName && !contributor2File) {
+                } else if (!contributor2File && currentContributor2Logo.fileName) {
                      // If no new file, but there was an old custom one, keep it
                     newContributor2Logo = { ...currentContributor2Logo };
                 } else {
-                    // If no new file and no old custom file, ensure it's cleared
+                    // If no new file and no old custom file, ensure it's cleared (empty string)
                     newContributor2Logo = { url: '', fileName: '' };
                 }
 
@@ -1894,8 +1890,8 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            const ADMIN_EMAIL = 'charles.schweb@lerma.it';
-            if (!user || user.email !== ADMIN_EMAIL) { 
+            // Removed specific ADMIN_EMAIL check. Now simply checks if user is authenticated.
+            if (!user) { 
                 showMessageModal("permissionDenied", "noPermissionAddEditPublications", "error");
                 hideLoadingSpinner();
                 return;
@@ -2157,8 +2153,8 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            const ADMIN_EMAIL = 'charles.schweb@lerma.it';
-            if (!user || user.email !== ADMIN_EMAIL) { 
+            // Removed specific ADMIN_EMAIL check. Now simply checks if user is authenticated.
+            if (!user) { 
                 showMessageModal("permissionDenied", "noPermissionAddNews", "error");
                 hideLoadingSpinner();
                 return;
