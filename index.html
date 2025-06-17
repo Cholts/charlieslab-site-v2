@@ -654,19 +654,19 @@
                 <form id="addPublicationForm" class="space-y-4">
                     <div>
                         <label for="bookTitle" class="block text-sm font-semibold mb-1" data-lang-key="titleLabel">Title:</label>
-                        <input type="text" id="bookTitle" class="admin-input w-full" required>
+                        <input type="text" id="bookTitle" class="admin-input w-full">
                     </div>
                     <div>
                         <label for="bookAuthors" class="block text-sm font-semibold mb-1" data-lang-key="authorsLabel">Authors (comma-separated):</label>
-                        <input type="text" id="bookAuthors" class="admin-input w-full" required>
+                        <input type="text" id="bookAuthors" class="admin-input w-full">
                     </div>
                      <div>
                         <label for="bookYear" class="block text-sm font-semibold mb-1" data-lang-key="publicationYearLabel">Publication Year:</label>
-                        <input type="number" id="bookYear" class="admin-input w-full" min="1900" max="2100" required>
+                        <input type="number" id="bookYear" class="admin-input w-full" min="1900" max="2100">
                     </div>
                     <div>
                         <label for="bookDescription" class="block text-sm font-semibold mb-1" data-lang-key="descriptionLabel">Description:</label>
-                        <textarea id="bookDescription" rows="3" class="admin-input w-full" required></textarea>
+                        <textarea id="bookDescription" rows="3" class="admin-input w-full"></textarea>
                     </div>
                     <div>
                         <label for="bookISBN" class="block text-sm font-semibold mb-1" data-lang-key="isbnLabel">ISBN:</label>
@@ -866,8 +866,9 @@
             <div class="text-center md:text-right space-y-2">
                 <p class="font-bold" data-lang-key="contributorsLabel">Contributors:</p>
                 <div class="flex justify-center md:justify-end items-center gap-4">
-                    <img id="contributor1Logo" src="https://placehold.co/100x40/e0e2e5/3f4245?text=L%27ERMA" alt="L'ERMA di Bretschneider Logo" class="h-10">
-                    <img id="contributor2Logo" src="https://placehold.co/100x40/e0e2e5/3f4245?text=MEDA" alt="Fondazione MEDA Logo" class="h-10">
+                    <!-- These will be populated by JS if logos are uploaded via admin -->
+                    <div id="contributor1LogoContainer" class="h-10 flex items-center justify-center"></div>
+                    <div id="contributor2LogoContainer" class="h-10 flex items-center justify-center"></div>
                 </div>
                 <button id="adminLoginBtnFooter" class="nav-button bg-transparent hover:bg-gray-700 border border-white text-white mt-4" data-lang-key="adminLoginButton">Admin Login</button>
             </div>
@@ -898,11 +899,11 @@
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : hardcodedFirebaseConfig;
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-        // Default Logo Paths (Placeholders if not set by admin)
+        // Default Logo Paths (Placeholders if not set by admin) - Now empty for contributor logos
         const DEFAULT_HEADER_LOGO_URL = 'https://placehold.co/200x90/e0e2e5/3f4245?text=Header+Logo';
         const DEFAULT_FOOTER_LOGO_URL = 'https://placehold.co/150x60/e0e2e5/3f4245?text=Footer+Logo';
-        const DEFAULT_CONTRIB1_LOGO_URL = 'https://placehold.co/100x40/e0e2e5/3f4245?text=L%27ERMA';
-        const DEFAULT_CONTRIB2_LOGO_URL = 'https://placehold.co/100x40/e0e2e5/3f4245?text=MEDA';
+        const DEFAULT_CONTRIB1_LOGO_URL = ''; // Empty by default, will only show if uploaded
+        const DEFAULT_CONTRIB2_LOGO_URL = ''; // Empty by default, will only show if uploaded
 
         const SITE_SETTINGS_DOC_ID = 'siteSettings';
 
@@ -932,7 +933,7 @@
         // Paths to Firestore collections and Storage
         const PUBLIC_PUB_COLLECTION = `artifacts/${appId}/public/data/publications`;
         const PUBLIC_NEWS_COLLECTION = `artifacts/${appId}/public/data/news`;
-        const PUBLIC_SETTINGS_COLLECTION = `artifacts/${appId}/public/data/settings`;
+        const PUBLIC_SETTINGS_COLLECTION = `artifacts/${appId}/public/data/settings`; // This is the site_settings collection from Firestore Rules
         const STORAGE_PATH_COVERS = `artifacts/${appId}/public/files/covers`;
         const STORAGE_PATH_PDFS = `artifacts/${appId}/public/files/pdfs`;
         const STORAGE_PATH_ABSTRACTS = `artifacts/${appId}/public/files/abstracts`;
@@ -1066,7 +1067,7 @@
                 aboutUsHeading: "Chi Siamo Quaderni di Archeologia della Libya",
                 aboutUsPara1: "Benvenuti nel sito ufficiale di <strong>Quaderni di Archeologia della Libya</strong>, una prestigiosa rivista accademica dedicata alla ricerca archeologica in Libia. Avviata nel 1950, questa stimata serie documenta i significativi contributi delle missioni archeologiche italiane nella regione, promuovendo una comprensione più profonda della sua ricca storia antica.",
                 aboutUsPara2: "Dopo una breve pausa, la rivista ha ripreso con orgoglio la pubblicazione nel 2018 con una nuova serie, ristabilendosi come piattaforma scientifica di spicco. Forniamo un luogo essenziale per gli studiosi interessati all'archeologia e alla storia della Libia e del Maghreb più ampio, garantendo contenuti di alta qualità e sottoposti a revisione paritaria.",
-                aboutUsPara3: "I nostri volumi adottano un approccio multidisciplinare, presentando articoli su epigrafia, storia antica e coloniale, storia dell'archeologia e studi territoriali. I contributi sono pubblicati nelle principali lingue europee, accompagnati da riassunti completi in inglese e arabo, per promuovere lo scambio accademico e la collaborazione internazionale.",
+                aboutUsPara3: "I nostri volumi adottano un approccio multidisciplinare, presentando articoli su epigrafia, storia antica e coloniale, storia dell'archeologia, e studi territoriali. I contributi sono pubblicati nelle principali lingue europee, accompagnati da riassunti completi in inglese e arabo, per promuovere lo scambio accademico e la collaborazione internazionale.",
                 aboutUsPara4: "Questo sito web funge da risorsa dedicata alla serie, gestita da L'Erma di Bretschneider, una rinomata casa editrice accademica di Roma. Ci impegniamo a mantenere i più alti standard di eccellenza accademica e a garantire la continua diffusione globale della ricerca innovativa presentata nei \"Quaderni di Archeologia della Libya.\"",
                 currentPublicationsHeading: "Pubblicazioni Correnti", editorialBoardHeading: "Incontra il Comitato Editoriale",
                 editorialBoardIntro: "La nostra rivista è guidata da un illustre gruppo di studiosi ed esperti di archeologia libica e settori correlati. La loro competenza garantisce l'alta qualità e il rigore accademico delle nostre pubblicazioni.",
@@ -1081,7 +1082,7 @@
                 submissionProcedure3: "Un solo set di bozze sarà inviato agli autori che dovranno correggerle e restituirle entro la scadenza fissata dagli editori.",
                 submissionProcedure4: "Per quanto riguarda le illustrazioni, un file contenente didascalie e crediti fotografici deve essere inviato separatamente. Il testo deve essere accompagnato da una copia digitale delle immagini da pubblicare (si prega di usare WeTransfer se le immagini sono troppo pesanti per essere inviate come allegati e-mail).",
                 submissionProcedure5: "Le immagini devono essere in formato JPG o TIFF e con una risoluzione minima di 300 dpi (definizione pixel). Tutte le immagini inviate per la pubblicazione devono essere conformi alle norme sul copyright e deve esserci un accordo (o un modulo di liberatoria) sulla riproduzione dell'immagine da parte del titolare del copyright prima della pubblicazione. L'autore è l'unico responsabile dell'ottenimento di tali permessi. Nessuna immagine senza tali documenti di accompagnamento sarà pubblicata.",
-                articleRequirementsTitle: "Requisiti dell'Articolo:", articleRequirements1: "Un abstract di circa 500 caratteri / 100 parole nella lingua del testo e in inglese.",
+                articleRequirementsTitle: "Requisiti dell'Articolo:", articleRequirements1: "Un abstract di ca. 500 caratteri / 100 parole nella lingua del testo e in inglese.",
                 articleRequirements2: "Titolo in inglese.", articleRequirements3: "5 Parole Chiave in italiano e inglese.",
                 articleRequirements4: "Note a piè di pagina.", articleRequirements5: "Indirizzo e e-mail dell'autore.",
                 articleRequirements6: "Affiliazione istituzionale dell'autore.", formattingGuidelinesTitle: "Linee Guida di Formattazione:",
@@ -1186,26 +1187,19 @@
                 auth = getAuth(app);               
                 storage = getStorage(app);
 
-                // Authenticate based on available token or anonymously
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                // We will only sign in when explicitly logging in.
+                // The onAuthStateChanged listener will handle initial state (logged in or not)
+                // without forcing an anonymous login on page load.
 
                 // Listen for authentication state changes
                 onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        document.getElementById('loggedInUserEmail').textContent = user.email || 'Anonymous User';
-                    } else {
-                        userId = null;
-                        document.getElementById('loggedInUserEmail').textContent = '';
-                    }
-                    // Crucial: Update UI based on auth state after it's determined
-                    updateAuthUI();
+                    userId = user ? user.uid : null; 
+                    // Update the displayed email for logged-in user or clear it
+                    document.getElementById('loggedInUserEmail').textContent = user ? (user.email || 'Anonymous User') : '';
                     
+                    updateAuthUI();
                     // Setup listeners ONLY after initial auth state is determined
+                    // and db is initialized.
                     if (db) { 
                         setupListeners(); 
                     }
@@ -1459,8 +1453,30 @@
         function updateSiteLogosUI() {
             document.getElementById('mainLogo').src = currentHeaderLogo.url;
             document.getElementById('footerLogo').src = currentFooterLogo.url;
-            document.getElementById('contributor1Logo').src = currentContributor1Logo.url;
-            document.getElementById('contributor2Logo').src = currentContributor2Logo.url;
+            
+            // Handle Contributor Logos dynamically
+            const contributor1Container = document.getElementById('contributor1LogoContainer');
+            const contributor2Container = document.getElementById('contributor2LogoContainer');
+
+            // Clear previous images
+            contributor1Container.innerHTML = '';
+            contributor2Container.innerHTML = '';
+
+            if (currentContributor1Logo.url) {
+                const img1 = document.createElement('img');
+                img1.src = currentContributor1Logo.url;
+                img1.alt = "L'ERMA di Bretschneider Logo";
+                img1.className = 'h-10'; // Apply Tailwind height class
+                contributor1Container.appendChild(img1);
+            }
+
+            if (currentContributor2Logo.url) {
+                const img2 = document.createElement('img');
+                img2.src = currentContributor2Logo.url;
+                img2.alt = "Fondazione MEDA Logo";
+                img2.className = 'h-10'; // Apply Tailwind height class
+                contributor2Container.appendChild(img2);
+            }
 
             // Update admin settings preview if on that page
             const adminPreviews = {
@@ -1498,8 +1514,9 @@
             } else {
                 fileNameDisplayElement.textContent = currentLogoState.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentLogoState.fileName)}` : translations[currentLanguage][noMsgKey];
                 if (previewImgElement) {
+                    // Only show preview if there's a current URL that's not a default placeholder
                     previewImgElement.src = currentLogoState.url;
-                    previewImgElement.style.display = currentLogoState.url && currentLogoState.url !== defaultUrl ? 'block' : 'none';
+                    previewImgElement.style.display = (currentLogoState.url && currentLogoState.url !== defaultUrl) ? 'block' : 'none';
                 }
             }
         }
@@ -1533,13 +1550,27 @@
                         await deleteFile(currentHeaderLogo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newHeaderLogo = await uploadFile(headerFile, STORAGE_PATH_LOGOS);
+                } else if (e.submitter && e.submitter.id === 'submitLogoForm' && !headerFile && currentHeaderLogo.url !== DEFAULT_HEADER_LOGO_URL) {
+                    // If no new file selected for header and it was a custom one, retain it
+                    newHeaderLogo = { ...currentHeaderLogo };
+                } else if (e.submitter && e.submitter.id === 'submitLogoForm' && !headerFile && currentHeaderLogo.url === DEFAULT_HEADER_LOGO_URL) {
+                    // If no new file selected and it's currently a default, set to empty for removal or keep default if intended
+                    newHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' };
                 }
+
                 if (footerFile) {
                     if (currentFooterLogo.fileName && currentFooterLogo.url !== DEFAULT_FOOTER_LOGO_URL) {
                         await deleteFile(currentFooterLogo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newFooterLogo = await uploadFile(footerFile, STORAGE_PATH_LOGOS);
+                } else if (e.submitter && e.submitter.id === 'submitLogoForm' && !footerFile && currentFooterLogo.url !== DEFAULT_FOOTER_LOGO_URL) {
+                    // If no new file selected for footer and it was a custom one, retain it
+                    newFooterLogo = { ...currentFooterLogo };
+                } else if (e.submitter && e.submitter.id === 'submitLogoForm' && !footerFile && currentFooterLogo.url === DEFAULT_FOOTER_LOGO_URL) {
+                    // If no new file selected and it's currently a default, set to empty for removal or keep default if intended
+                    newFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
                 }
+
 
                 await setDoc(doc(db, PUBLIC_SETTINGS_COLLECTION, SITE_SETTINGS_DOC_ID), {
                     headerLogoUrl: newHeaderLogo.url,
@@ -1587,12 +1618,25 @@
                         await deleteFile(currentContributor1Logo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newContributor1Logo = await uploadFile(contributor1File, STORAGE_PATH_LOGOS);
+                } else if (currentContributor1Logo.fileName && !contributor1File) {
+                    // If no new file, but there was an old custom one, keep it
+                    newContributor1Logo = { ...currentContributor1Logo };
+                } else {
+                    // If no new file and no old custom file, ensure it's cleared
+                    newContributor1Logo = { url: '', fileName: '' };
                 }
+
                 if (contributor2File) {
                     if (currentContributor2Logo.fileName && currentContributor2Logo.url !== DEFAULT_CONTRIB2_LOGO_URL) {
                         await deleteFile(currentContributor2Logo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newContributor2Logo = await uploadFile(contributor2File, STORAGE_PATH_LOGOS);
+                } else if (currentContributor2Logo.fileName && !contributor2File) {
+                     // If no new file, but there was an old custom one, keep it
+                    newContributor2Logo = { ...currentContributor2Logo };
+                } else {
+                    // If no new file and no old custom file, ensure it's cleared
+                    newContributor2Logo = { url: '', fileName: '' };
                 }
 
                 await setDoc(doc(db, PUBLIC_SETTINGS_COLLECTION, SITE_SETTINGS_DOC_ID), {
@@ -1712,9 +1756,9 @@
             const sortBy = document.getElementById('sortPublications').value;
 
             let filteredPublications = publications.filter(pub => {
-                const titleMatch = pub.title.toLowerCase().includes(searchTerm);
-                const authorsMatch = pub.authors.toLowerCase().includes(searchTerm);
-                const yearMatch = String(pub.year).includes(searchTerm);
+                const titleMatch = (pub.title || '').toLowerCase().includes(searchTerm);
+                const authorsMatch = (pub.authors || '').toLowerCase().includes(searchTerm);
+                const yearMatch = String(pub.year || '').includes(searchTerm);
                 const descriptionMatch = (pub.description || '').toLowerCase().includes(searchTerm);
                 const isbnMatch = (pub.isbn || '').toLowerCase().includes(searchTerm);
                 const issnMatch = (pub.issn || '').toLowerCase().includes(searchTerm);
@@ -1728,17 +1772,17 @@
             });
 
             if (sortBy === 'year-desc') {
-                filteredPublications.sort((a, b) => b.year - a.year);
+                filteredPublications.sort((a, b) => (b.year || 0) - (a.year || 0)); // Handle null/undefined years
             } else if (sortBy === 'year-asc') {
-                filteredPublications.sort((a, b) => a.year - b.year);
+                filteredPublications.sort((a, b) => (a.year || 0) - (b.year || 0));
             } else if (sortBy === 'title-asc') {
-                filteredPublications.sort((a, b) => a.title.localeCompare(b.title));
+                filteredPublications.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
             } else if (sortBy === 'title-desc') {
-                filteredPublications.sort((a, b) => b.title.localeCompare(a.title));
+                filteredPublications.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
             } else if (sortBy === 'author-asc') {
-                filteredPublications.sort((a, b) => a.authors.localeCompare(b.authors));
+                filteredPublications.sort((a, b) => (a.authors || '').localeCompare(b.authors || ''));
             } else if (sortBy === 'author-desc') {
-                filteredPublications.sort((a, b) => b.authors.localeCompare(a.authors));
+                filteredPublications.sort((a, b) => (b.authors || '').localeCompare(a.authors || ''));
             }
 
             if (filteredPublications.length === 0) {
@@ -1750,10 +1794,10 @@
                 const bookCard = document.createElement('div');
                 bookCard.className = 'publication-card p-4 flex flex-col items-center text-center';
                 bookCard.innerHTML = `
-                    <img src="${book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image'}" alt="${book.title} Cover" class="cover-image rounded-md mb-4">
-                    <h3 class="text-xl font-bold mb-2 text-gray-800">${book.title}</h3>
-                    <p class="text-gray-700 mb-1">${book.authors}</p>
-                    <p class="text-gray-600 text-sm font-medium">${book.year}</p>
+                    <img src="${book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image'}" alt="${(book.title || 'No Title')} Cover" class="cover-image rounded-md mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">${book.title || translations[currentLanguage].noTitle}</h3>
+                    <p class="text-gray-700 mb-1">${book.authors || translations[currentLanguage].noAuthors}</p>
+                    <p class="text-gray-600 text-sm font-medium">${book.year || translations[currentLanguage].noYear}</p>
                     <p class="text-gray-700 text-sm mt-2 flex-grow overflow-hidden line-clamp-3">${book.description || translations[currentLanguage].noDescription}</p>
                     <button class="nav-button text-sm mt-4 view-publication-details" data-id="${book.id}" data-lang-key="viewDetailsButton">${translations[currentLanguage].viewDetailsButton}</button>
                 `;
@@ -1794,9 +1838,9 @@
                     row.className = 'admin-table-row';
                     const isCurrentIssueIndicator = book.isCurrentIssue ? `<span class="ml-2 px-2 py-1 bg-blue-400 text-white text-xs font-semibold rounded-full" data-lang-key="currentLabelShort">${translations[currentLanguage].currentLabelShort}</span>` : '';
                     row.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${book.title}${isCurrentIssueIndicator}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${book.authors}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${book.year}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${book.title || translations[currentLanguage].noTitle}${isCurrentIssueIndicator}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${book.authors || translations[currentLanguage].noAuthors}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${book.year || translations[currentLanguage].noYear}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex space-x-2">
                             <button class="text-blue-600 hover:text-blue-800 edit-publication-button admin-button" data-id="${book.id}" data-lang-key="editButton">${translations[currentLanguage].editButton}</button>
                             <button class="text-red-600 hover:text-red-800 delete-publication-button admin-button" data-id="${book.id}" data-lang-key="deleteButton">${translations[currentLanguage].deleteButton}</button>
@@ -1857,9 +1901,10 @@
                 return;
             }
 
+            // All fields are optional at frontend level, will store as empty string if blank
             const title = bookTitleInput.value.trim();
             const authors = bookAuthorsInput.value.trim();
-            const year = parseInt(bookYearInput.value, 10);
+            const year = bookYearInput.value ? parseInt(bookYearInput.value, 10) : null; // Save as null if empty
             const description = bookDescriptionInput.value.trim();
             const isbn = bookISBNInput.value.trim();
             const issn = bookISSNInput.value.trim();
@@ -1868,33 +1913,34 @@
             const abstractItText = abstractItTextInput.value.trim();
             const isCurrentIssue = bookIsCurrentIssueCheckbox.checked;
 
-            if (!title || !authors || !year || !description) {
-                showMessageModal("errorMessage", "fillAllRequiredFields", "error");
-                hideLoadingSpinner();
-                return;
+            // Minimal validation for user experience, but won't block empty save
+            if (!title && !authors && !year && !description) {
+                // If ALL core fields are empty, maybe show a soft warning, but don't prevent save if user insists
+                // For now, allow saving completely empty if needed.
             }
 
             try {
                 // Handle file uploads and deletions for updates
                 const uploadAndUpdateFile = async (fileInput, currentFileName, storagePath) => {
                     let newFileName = currentFileName;
-                    let newUrl = null; // Initialize as null or empty string for new uploads
+                    let newUrl = null; 
 
                     if (fileInput.files[0]) {
-                        if (currentFileName) { // If there was an old file, delete it
+                        if (currentFileName) { 
                             await deleteFile(currentFileName, storagePath);
                         }
                         const uploadResult = await uploadFile(fileInput.files[0], storagePath);
                         newFileName = uploadResult.fileName;
                         newUrl = uploadResult.url;
-                    } else { // If no new file selected, retain old URL/filename from currentPubFiles
-                        // This applies to scenarios where no new file is uploaded for a specific field,
-                        // and we need to keep the existing one.
+                    } else { 
+                         // If no new file selected, retain old URL/filename from currentPubFiles state
+                         // This is crucial for edits where files are not re-selected
                          if (storagePath === STORAGE_PATH_COVERS) newUrl = currentPubFiles.coverUrl;
                          else if (storagePath === STORAGE_PATH_PDFS) newUrl = currentPubFiles.pdfUrl;
                          else if (storagePath === STORAGE_PATH_ABSTRACTS && fileInput === abstractArPdfInput) newUrl = currentPubFiles.abstracts.ar.url;
                          else if (storagePath === STORAGE_PATH_ABSTRACTS && fileInput === abstractEnPdfInput) newUrl = currentPubFiles.abstracts.en.url;
                          else if (storagePath === STORAGE_PATH_ABSTRACTS && fileInput === abstractItPdfInput) newUrl = currentPubFiles.abstracts.it.url;
+                         newFileName = currentFileName; // Retain current file name if no new file
                     }
                     return { url: newUrl, fileName: newFileName };
                 };
@@ -1907,14 +1953,21 @@
 
                 // Prepare data for Firestore
                 const publicationData = {
-                    title, authors, year, description, isbn, issn,
+                    title: title || '', // Ensure empty string if blank for display purposes
+                    authors: authors || '',
+                    year: year, // Can be null
+                    description: description || '',
+                    isbn: isbn || '',
+                    issn: issn || '',
                     abstracts: {
-                        ar: { text: abstractArText, url: abstractArResult.url, fileName: abstractArResult.fileName },
-                        en: { text: abstractEnText, url: abstractEnResult.url, fileName: abstractEnResult.fileName },
-                        it: { text: abstractItText, url: abstractItResult.url, fileName: abstractItResult.fileName }
+                        ar: { text: abstractArText || '', url: abstractArResult.url || '', fileName: abstractArResult.fileName || '' },
+                        en: { text: abstractEnText || '', url: abstractEnResult.url || '', fileName: abstractEnResult.fileName || '' },
+                        it: { text: abstractItText || '', url: abstractItResult.url || '', fileName: abstractItResult.fileName || '' }
                     },
-                    coverImageUrl: coverResult.url, coverImageFileName: coverResult.fileName,
-                    pdfUrl: pdfResult.url, pdfFileName: pdfResult.fileName,
+                    coverImageUrl: coverResult.url || '', 
+                    coverImageFileName: coverResult.fileName || '',
+                    pdfUrl: pdfResult.url || '', 
+                    pdfFileName: pdfResult.fileName || '',
                     isCurrentIssue,
                     timestamp: new Date().toISOString()
                 };
@@ -1930,7 +1983,6 @@
                         }
                     }
                 }
-
 
                 if (editingPublicationId) {
                     await updateDoc(doc(db, PUBLIC_PUB_COLLECTION, editingPublicationId), publicationData);
@@ -1989,10 +2041,11 @@
                     const data = docSnap.data();
                     editingPublicationId = publicationId;
 
-                    bookTitleInput.value = data.title;
-                    bookAuthorsInput.value = data.authors;
-                    bookYearInput.value = data.year;
-                    bookDescriptionInput.value = data.description;
+                    // Populate fields, using empty string for null/undefined
+                    bookTitleInput.value = data.title || '';
+                    bookAuthorsInput.value = data.authors || '';
+                    bookYearInput.value = data.year !== null && data.year !== undefined ? data.year : ''; // Preserve 0 if it's a valid year
+                    bookDescriptionInput.value = data.description || '';
                     bookISBNInput.value = data.isbn || '';
                     bookISSNInput.value = data.issn || '';
                     abstractArTextInput.value = data.abstracts?.ar?.text || '';
@@ -2054,6 +2107,7 @@
                             const docSnap = await getDoc(docRef);
                             if (docSnap.exists()) {
                                 const data = docSnap.data();
+                                // Delete associated files
                                 await deleteFile(data.coverImageFileName, STORAGE_PATH_COVERS);
                                 await deleteFile(data.pdfFileName, STORAGE_PATH_PDFS);
                                 await deleteFile(data.abstracts?.ar?.fileName, STORAGE_PATH_ABSTRACTS);
@@ -2123,7 +2177,16 @@
                     const uploadResult = await uploadFile(newsImageInput.files[0], STORAGE_PATH_NEWS_IMAGES);
                     imageUrl = uploadResult.url;
                     imageFileName = uploadResult.fileName;
+                } else if (currentNewsImage.fileName && !newsImageInput.files[0]) {
+                    // If no new file selected, but there was an old custom one, keep it
+                    imageUrl = currentNewsImage.url;
+                    imageFileName = currentNewsImage.fileName;
+                } else {
+                    // If no new file and no old custom file, ensure it's cleared
+                    imageUrl = '';
+                    imageFileName = '';
                 }
+
 
                 const newsData = {
                     title: newsTitle,
@@ -2177,8 +2240,8 @@
                     const data = docSnap.data();
                     editingNewsItemId = newsItemId;
 
-                    newsTitleInput.value = data.title;
-                    newsDescriptionInput.value = data.description;
+                    newsTitleInput.value = data.title || '';
+                    newsDescriptionInput.value = data.description || '';
 
                     currentNewsImage.url = data.imageUrl || '';
                     currentNewsImage.fileName = data.imageFileName || '';
@@ -2251,7 +2314,7 @@
                     const row = adminNewsListBody.insertRow();
                     row.className = 'admin-table-row';
                     row.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${news.title}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${news.title || translations[currentLanguage].noTitle}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${new Date(news.timestamp).toLocaleDateString(currentLanguage === 'it' ? 'it-IT' : 'en-US')}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex space-x-2">
                             <button class="text-blue-600 hover:text-blue-800 edit-news-button admin-button" data-id="${news.id}" data-lang-key="editButton">${translations[currentLanguage].editButton}</button>
@@ -2332,9 +2395,9 @@
 
         function showPublicationDetailsModal(book) {
             document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image';
-            document.getElementById('detailTitle').textContent = book.title;
-            document.getElementById('detailAuthors').textContent = book.authors;
-            document.getElementById('detailYear').textContent = book.year;
+            document.getElementById('detailTitle').textContent = book.title || translations[currentLanguage].noTitle;
+            document.getElementById('detailAuthors').textContent = book.authors || translations[currentLanguage].noAuthors;
+            document.getElementById('detailYear').textContent = book.year || translations[currentLanguage].noYear;
             document.getElementById('detailDescription').textContent = book.description || translations[currentLanguage].noDescription;
             
             document.getElementById('detailISBN').textContent = book.isbn || 'N/A';
