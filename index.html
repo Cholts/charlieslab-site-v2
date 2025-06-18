@@ -1050,7 +1050,7 @@
                 publicationNotFoundForDeletion: "Publication not found for deletion.", errorDeletingPublication: "Error deleting publication: ",
                 noPermissionAddNews: "You do not have permission to add news items.", newsItemUpdated: "News item updated successfully!",
                 newsItemAdded: "News item added successfully!", errorSavingNewsItem: "Error saving news item: ",
-                newsItemNotFoundForEdit: "News item not found for editing.", errorLoadingNewsItemForEdit: "Error loading news item for editing: ",
+                newsItemNotFoundForEdit: "News item not found for editing.", errorLoadingNewsItemForEdit: "Error loading news item for edit: ",
                 newsItemNotFoundForDeletion: "News item not found for deletion.", errorDeletingNewsItem: "Error deleting news item: ",
                 errorLoadingAdminNews: "Error loading admin news.", siteLogosNotFound: "Site logos not found in database. Using defaults.",
                 couldNotLoadLogos: "Could not load site logos.", siteLogosUpdated: "Site logos updated successfully!",
@@ -1168,6 +1168,7 @@
 
         // Function to apply translations
         function applyTranslations(lang) {
+            console.log(`[Translations] Applying translations for language: ${lang}`);
             const elements = document.querySelectorAll('[data-lang-key]');
             elements.forEach(element => {
                 const key = element.dataset.langKey;
@@ -1190,10 +1191,12 @@
             });
             currentLanguage = lang;
             localStorage.setItem('siteLanguage', lang);
+            console.log(`[Translations] Current language set to: ${currentLanguage}`);
         }
 
         // Initialize Firebase App and Authentication
         async function initializeFirebase() {
+            console.log("[Firebase Init] Starting Firebase initialization...");
             try {
                 // Ensure firebaseConfig is an object
                 const config = typeof firebaseConfig === 'string' ? JSON.parse(firebaseConfig) : firebaseConfig;
@@ -1202,19 +1205,41 @@
                 db = getFirestore(app);             
                 auth = getAuth(app);               
                 storage = getStorage(app);
+                console.log("[Firebase Init] Firebase services initialized successfully.");
 
                 // Listen for authentication state changes
-                onAuthStateChanged(auth, (user) => {
+                onAuthStateChanged(auth, async (user) => {
                     userId = user ? user.uid : null; 
+                    console.log(`[Auth State] User ID: ${userId}, Email: ${user ? user.email : 'N/A'}, Is Admin: ${user && user.email === 'charles.schweb@lerma.it'}`);
+
+                    // Attempt to sign in anonymously if no user is present and no custom token
+                    if (!user && !initialAuthToken) {
+                        try {
+                            await signInAnonymously(auth);
+                            console.log("[Auth State] Signed in anonymously.");
+                        } catch (anonError) {
+                            console.error("[Auth State] Anonymous sign-in failed:", anonError);
+                        }
+                    } else if (initialAuthToken && !user) {
+                         try {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                            console.log("[Auth State] Signed in with custom token.");
+                        } catch (tokenError) {
+                            console.error("[Auth State] Custom token sign-in failed:", tokenError);
+                        }
+                    }
+
+
                     // Update the displayed email for logged-in user or clear it
                     document.getElementById('loggedInUserEmail').textContent = user ? (user.email || 'Anonymous User') : '';
                     
                     updateAuthUI();
                     // Setup listeners ONLY after Firebase is fully initialized and auth state is known
                     setupListeners(); 
+                    console.log("[Firebase Init] Firebase initialization complete and listeners setup initiated.");
                 });
             } catch (error) {
-                console.error("Firebase init error:", error);
+                console.error("[Firebase Init] Firebase init error:", error);
                 showMessageModal("errorMessage", "firebaseInitError", "error");
             }
         }
@@ -1234,6 +1259,7 @@
         };
 
         function showView(viewId) {
+            console.log(`[View Switch] Attempting to show view: ${viewId}`);
             // Hide all main views first
             Object.values(views).forEach(view => view.classList.add('hidden'));
 
@@ -1241,22 +1267,26 @@
             if (targetView) {
                 targetView.classList.remove('hidden');
                 currentView = viewId;
+                console.log(`[View Switch] Successfully switched to view: ${currentView}`);
 
                 // Apply admin-specific background
                 document.body.classList.toggle('admin-bg', viewId === 'adminLogin' || viewId === 'adminDashboard');
 
-                // Trigger specific listeners/initializations for certain views
-                // These are now handled by setupListeners and will be triggered by onAuthStateChanged
-                // No need to explicitly call them here.
+                // Trigger specific display functions for views that need dynamic content
+                // These are now primarily handled by the onSnapshot in setupListeners,
+                // but direct calls ensure immediate update if view changes while data is static
                 if (viewId === 'adminDashboard') {
                     // Default to publications management when entering dashboard
                     document.getElementById('adminManagePublications').classList.remove('hidden');
                     document.getElementById('adminManageNews').classList.add('hidden');
                     document.getElementById('adminManageSiteSettings').classList.add('hidden');
                     resetAddPublicationForm(); // Clear form when navigating to pubs management
+                    listenForAdminPublications(); // Ensure the admin publications list is updated
                 }
-
+                
                 // Re-display publications and news when switching views to ensure current data/filters
+                // These calls ensure that if user navigates away and comes back, the data is refreshed
+                // based on the current `allPublications` array (which is kept live by the `onSnapshot`)
                 if (viewId === 'aboutUs') {
                     displayPublications(allPublications, 'publicationsList', 'non-archival');
                 } else if (viewId === 'archivalVolumes') {
@@ -1265,11 +1295,10 @@
                     listenForCurrentIssue();
                 } else if (viewId === 'newsEvents') {
                     listenForNews();
-                } else if (viewId === 'adminDashboard') {
-                    listenForAdminPublications(); // Ensure admin list is current
                 }
+
             } else {
-                console.warn("View not found:", viewId);
+                console.warn("[View Switch] View not found:", viewId);
                 showMessageModal("errorMessage", "viewNotFound", "error");
             }
         }
@@ -1297,7 +1326,7 @@
                 showMessageModal("successMessage", "logoutSuccessful", "success");
                 showView('aboutUs'); // Redirect to public home on logout
             } catch (error) {
-                console.error("Error logging out:", error);
+                console.error("[Auth] Error logging out:", error);
                 showMessageModal("errorMessage", "logoutFailed" + error.message, "error");
             }
         });
@@ -1329,18 +1358,23 @@
             const user = auth.currentUser;
             const ADMIN_EMAIL = 'charles.schweb@lerma.it'; 
             const isAdmin = user && user.email === ADMIN_EMAIL; 
+            console.log(`[Auth] updateAuthUI called. Is Admin: ${isAdmin}, Current View: ${currentView}`);
 
             document.getElementById('adminLoginBtnFooter').classList.toggle('hidden', isAdmin);
             document.getElementById('adminLogoutBtn').classList.toggle('hidden', !isAdmin);
 
             if (isAdmin && currentView !== 'adminDashboard') {
+                console.log("[Auth] Admin detected, switching to adminDashboard.");
                 showView('adminDashboard');
             } else if (!isAdmin && currentView === 'adminDashboard') {
+                console.log("[Auth] Not admin, but currently on adminDashboard. Redirecting to aboutUs.");
                 showView('aboutUs'); 
             } else if (!user) { // If no user (anonymous), default to aboutUs
+                console.log("[Auth] No user (anonymous). Defaulting to aboutUs.");
                 showView('aboutUs');
             }
             // If user is not admin and currentView is already a public view, do nothing.
+            console.log(`[Auth] updateAuthUI finished. Effective View: ${currentView}`);
         }
 
         // --- Admin Login Form Handling ---
@@ -1351,15 +1385,17 @@
             const password = document.getElementById('adminPassword').value; 
             const loginErrorMessage = document.getElementById('loginErrorMessage');
             loginErrorMessage.textContent = ''; // Clear previous error
+            console.log(`[Auth] Attempting admin login for: ${email}`);
 
             try {
                 await signInWithEmailAndPassword(auth, email, password);
+                console.log("[Auth] Admin login successful.");
                 // Directly redirect to admin dashboard without showing a modal
                 showView('adminDashboard'); 
                 document.getElementById('adminEmail').value = '';
                 document.getElementById('adminPassword').value = '';
             } catch (error) {
-                console.error("Admin login error:", error);
+                console.error("[Auth] Admin login error:", error);
                 if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
                     loginErrorMessage.textContent = translations[currentLanguage].invalidCredentials;
                 } else if (error.code === 'auth/too-many-requests') {
@@ -1376,14 +1412,16 @@
 
         function setupListeners() {
             if (!db) {
-                console.error("Firestore not initialized, cannot set up listeners.");
+                console.error("[Listeners] Firestore not initialized, cannot set up listeners.");
                 return;
             }
+            console.log("[Listeners] Setting up Firestore listeners.");
 
             // Central listener for all publications
             onSnapshot(query(collection(db, PUBLIC_PUB_COLLECTION), orderBy("year", "desc")), (snapshot) => {
                 allPublications = [];
                 snapshot.forEach(doc => allPublications.push({ id: doc.id, ...doc.data() }));
+                console.log(`[Firestore Data] allPublications updated. Total: ${allPublications.length}`, allPublications);
                 
                 // Update all relevant views AFTER allPublications is populated
                 displayPublications(allPublications, 'publicationsList', 'non-archival'); // For About Us view
@@ -1391,7 +1429,7 @@
                 listenForCurrentIssue(); // Update Current Issue view based on latest data
                 listenForAdminPublications(); // Update Admin list
             }, (error) => {
-                console.error("Error listening to all publications:", error);
+                console.error("[Firestore Error] Error listening to all publications:", error);
                 showMessageModal("errorMessage", "errorLoadingPublications", "error");
             });
 
@@ -1402,9 +1440,11 @@
             const ADMIN_EMAIL = 'charles.schweb@lerma.it';
             const isAdmin = user && user.email === ADMIN_EMAIL; 
             if (!isAdmin) { // If not admin, clear admin tables (they will be repopulated if admin logs in later)
+                console.log("[Listeners] Not admin, clearing admin tables.");
                 document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noPublicationsToManage">${translations[currentLanguage].noPublicationsToManage}</td></tr>`;
                 document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noNewsToManage">${translations[currentLanguage].noNewsToManage}</td></tr>`;
             }
+            console.log("[Listeners] All primary listeners configured.");
         }
 
         function getOriginalFileNameFromUnique(uniqueFileName) {
@@ -1419,6 +1459,7 @@
 
         async function uploadFile(file, path) {
             if (!file) return { url: '', fileName: '' };
+            console.log(`[File Upload] Attempting to upload: ${file.name} to ${path}`);
 
             const uniqueFileName = `${Date.now()}_${file.name}`;
             const storageRef = ref(storage, `${path}/${uniqueFileName}`);
@@ -1426,24 +1467,26 @@
             try {
                 const snapshot = await uploadBytes(storageRef, file);
                 const downloadURL = await getDownloadURL(snapshot.ref);
+                console.log(`[File Upload] Successfully uploaded: ${file.name}, URL: ${downloadURL}`);
                 return { url: downloadURL, fileName: uniqueFileName };
             } catch (error) {
-                console.error("Error uploading file:", file.name, "to path:", path, error);
+                console.error("[File Upload] Error uploading file:", file.name, "to path:", path, error);
                 throw new Error(translations[currentLanguage].fileUploadFailed + file.name + ". " + translations[currentLanguage].checkStorageRules);
             }
         }
 
         async function deleteFile(uniqueFileName, path) {
             if (!uniqueFileName) return;
+            console.log(`[File Deletion] Attempting to delete: ${uniqueFileName} from ${path}`);
             try {
                 const fileRef = ref(storage, `${path}/${uniqueFileName}`);
                 await deleteObject(fileRef);
-                // console.log("Successfully deleted file:", uniqueFileName);
+                console.log("[File Deletion] Successfully deleted file:", uniqueFileName);
             } catch (error) {
                 if (error.code === 'storage/object-not-found') {
-                    console.warn(translations[currentLanguage].fileNotFoundInStorage + uniqueFileName);
+                    console.warn(`[File Deletion] ${translations[currentLanguage].fileNotFoundInStorage}: ${uniqueFileName}`);
                 } else {
-                    console.error(translations[currentLanguage].fileDeletionFailed + uniqueFileName, error);
+                    console.error(`[File Deletion] ${translations[currentLanguage].fileDeletionFailed}: ${uniqueFileName}`, error);
                 }
             }
         }
@@ -1451,19 +1494,21 @@
         // --- Site Logo Management ---
         function listenForSiteLogos() {
             const docRef = doc(db, PUBLIC_SETTINGS_COLLECTION, SITE_SETTINGS_DOC_ID);
+            console.log("[Site Settings] Setting up listener for site logos.");
             onSnapshot(docRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
+                    console.log("[Site Settings] Site settings data received:", data);
                     currentHeaderLogo.url = data.headerLogoUrl || DEFAULT_HEADER_LOGO_URL;
                     currentHeaderLogo.fileName = data.headerLogoFileName || '';
                     currentFooterLogo.url = data.footerLogoUrl || DEFAULT_FOOTER_LOGO_URL;
                     currentFooterLogo.fileName = data.footerLogoFileName || '';
-                    // Use actual default URLs if the Firestore field is explicitly empty or missing
                     currentContributor1Logo.url = data.contributor1LogoUrl || DEFAULT_CONTRIB1_LOGO_URL;
                     currentContributor1Logo.fileName = data.contributor1LogoFileName || '';
                     currentContributor2Logo.url = data.contributor2LogoUrl || DEFAULT_CONTRIB2_LOGO_URL;
                     currentContributor2Logo.fileName = data.contributor2LogoFileName || '';
                 } else {
+                    console.log("[Site Settings] No site settings document found. Using default logos.");
                     // If no settings doc, use default URLs and empty fileNames
                     currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' };
                     currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
@@ -1472,7 +1517,7 @@
                 }
                 updateSiteLogosUI();
             }, (error) => {
-                console.error("Error listening for site logos:", error);
+                console.error("[Site Settings] Error listening for site logos:", error);
                 // Fallback to defaults if there's an error fetching
                 currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' };
                 currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
@@ -1484,6 +1529,7 @@
         }
 
         function updateSiteLogosUI() {
+            console.log("[Site Settings] Updating site logos UI.");
             document.getElementById('mainLogo').src = currentHeaderLogo.url;
             document.getElementById('footerLogo').src = currentFooterLogo.url;
             
@@ -1520,6 +1566,7 @@
         }
 
         function loadSiteLogosForAdmin() {
+            console.log("[Site Settings] Loading site logos for admin view.");
             updateSiteLogosUI();
         }
 
@@ -1552,12 +1599,12 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            // No specific admin email check here, just ensure user is authenticated
             if (!user) { 
                 showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error");
                 hideLoadingSpinner();
                 return;
             }
+            console.log("[Site Settings] Submitting main logo update form.");
 
             const headerFile = document.getElementById('headerLogoUpload').files[0];
             const footerFile = document.getElementById('footerLogoUpload').files[0];
@@ -1571,10 +1618,10 @@
                         await deleteFile(currentHeaderLogo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newHeaderLogo = await uploadFile(headerFile, STORAGE_PATH_LOGOS);
-                } else if (!headerFile && currentHeaderLogo.fileName) { // If no new file selected, but there was a current custom one
-                    newHeaderLogo = { ...currentHeaderLogo }; // Retain current
-                } else { // No new file and no current custom one (it was default or empty)
-                    newHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; // Revert to default placeholder for header
+                } else if (!headerFile && currentHeaderLogo.fileName) { 
+                    newHeaderLogo = { ...currentHeaderLogo }; 
+                } else { 
+                    newHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; 
                 }
 
                 if (footerFile) {
@@ -1582,10 +1629,10 @@
                         await deleteFile(currentFooterLogo.fileName, STORAGE_PATH_LOGOS);
                     }
                     newFooterLogo = await uploadFile(footerFile, STORAGE_PATH_LOGOS);
-                } else if (!footerFile && currentFooterLogo.fileName) { // If no new file selected, but there was a current custom one
-                    newFooterLogo = { ...currentFooterLogo }; // Retain current
-                } else { // No new file and no current custom one (it was default or empty)
-                    newFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' }; // Revert to default placeholder for footer
+                } else if (!footerFile && currentFooterLogo.fileName) { 
+                    newFooterLogo = { ...currentFooterLogo }; 
+                } else { 
+                    newFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' }; 
                 }
 
 
@@ -1603,9 +1650,10 @@
                 updateSiteLogosUI();
                 document.getElementById('headerLogoUpload').value = '';
                 document.getElementById('footerLogoUpload').value = '';
+                console.log("[Site Settings] Main logos updated in Firestore and UI.");
 
             } catch (error) {
-                console.error("Error updating site logos:", error);
+                console.error("[Site Settings] Error updating site logos:", error);
                 showMessageModal("errorMessage", "errorUpdatingLogos" + error.message, "error");
             } finally {
                 hideLoadingSpinner();
@@ -1616,12 +1664,12 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            // No specific admin email check here, just ensure user is authenticated
             if (!user) { 
                 showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error");
                 hideLoadingSpinner();
                 return;
             }
+            console.log("[Site Settings] Submitting contributor logo update form.");
 
             const contributor1File = document.getElementById('contributor1LogoUpload').files[0];
             const contributor2File = document.getElementById('contributor2LogoUpload').files[0];
@@ -1636,10 +1684,8 @@
                     }
                     newContributor1Logo = await uploadFile(contributor1File, STORAGE_PATH_LOGOS);
                 } else if (!contributor1File && currentContributor1Logo.fileName) {
-                    // If no new file, but there was an old custom one, keep it
                     newContributor1Logo = { ...currentContributor1Logo };
                 } else {
-                    // If no new file and no old custom file, ensure it's cleared (empty string)
                     newContributor1Logo = { url: '', fileName: '' }; // Set to empty string for db to know it's "unset"
                 }
 
@@ -1649,10 +1695,8 @@
                     }
                     newContributor2Logo = await uploadFile(contributor2File, STORAGE_PATH_LOGOS);
                 } else if (!contributor2File && currentContributor2Logo.fileName) {
-                     // If no new file, but there was an old custom one, keep it
                     newContributor2Logo = { ...currentContributor2Logo };
                 } else {
-                    // If no new file and no old custom file, ensure it's cleared (empty string)
                     newContributor2Logo = { url: '', fileName: '' }; // Set to empty string for db to know it's "unset"
                 }
 
@@ -1670,9 +1714,10 @@
                 updateSiteLogosUI();
                 document.getElementById('contributor1LogoUpload').value = '';
                 document.getElementById('contributor2LogoUpload').value = '';
+                console.log("[Site Settings] Contributor logos updated in Firestore and UI.");
 
             } catch (error) {
-                console.error("Error updating contributor logos:", error);
+                console.error("[Site Settings] Error updating contributor logos:", error);
                 showMessageModal("errorMessage", "errorUpdatingContributorLogos" + error.message, "error");
             } finally {
                 hideLoadingSpinner();
@@ -1681,8 +1726,12 @@
 
 
         function displayPublications(publications, containerId, filterType) {
+            console.log(`[Display Pubs] displayPublications called for container: ${containerId}, filterType: ${filterType}`);
             const container = document.getElementById(containerId);
-            if (!container) return; // Exit if container not found
+            if (!container) {
+                console.warn(`[Display Pubs] Container not found: ${containerId}`);
+                return;
+            }
 
             container.innerHTML = ''; // Clear previous books
 
@@ -1703,34 +1752,23 @@
                 let meetsFilterType = true;
                 if (filterType === 'non-archival') {
                     // Non-archival publications are those NOT marked as archival, AND NOT set as current issue
-                    // since current issue has its own display.
-                    meetsFilterType = !pub.isArchivalVolume && !pub.isCurrentIssue;
+                    meetsFilterType = !(pub.isArchivalVolume === true) && !(pub.isCurrentIssue === true);
+                    console.log(`[Display Pubs] Pub "${pub.title}" - isArchivalVolume: ${pub.isArchivalVolume}, isCurrentIssue: ${pub.isCurrentIssue}, Meets non-archival filter: ${meetsFilterType}`);
                 } else if (filterType === 'archival') {
-                    meetsFilterType = pub.isArchivalVolume;
+                    meetsFilterType = (pub.isArchivalVolume === true);
+                    console.log(`[Display Pubs] Pub "${pub.title}" - isArchivalVolume: ${pub.isArchivalVolume}, Meets archival filter: ${meetsFilterType}`);
                 }
                 
                 return (titleMatch || authorsMatch || yearMatch || descriptionMatch || isbnMatch || issnMatch ||
                        abstractArMatch || abstractEnMatch || abstractItMatch) && meetsFilterType;
             });
 
-            if (sortBy === 'year-desc') {
-                filteredPublications.sort((a, b) => (b.year || 0) - (a.year || 0)); // Handle null/undefined years
-            } else if (sortBy === 'year-asc') {
-                filteredPublications.sort((a, b) => (a.year || 0) - (b.year || 0));
-            } else if (sortBy === 'title-asc') {
-                filteredPublications.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
-            } else if (sortBy === 'title-desc') {
-                filteredPublications.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
-            } else if (sortBy === 'author-asc') {
-                filteredPublications.sort((a, b) => (a.authors || '').localeCompare(b.authors || ''));
-            } else if (sortBy === 'author-desc') {
-                filteredPublications.sort((a, b) => (b.authors || '').localeCompare(a.authors || ''));
-            }
+            console.log(`[Display Pubs] Filtered publications for ${containerId} (${filterType}):`, filteredPublications);
 
             if (filteredPublications.length === 0) {
-                // Determine which "no results" message to show
-                const noResultsKey = containerId === 'publicationsList' ? 'noPubsFound' : 'noSearchResults'; // Use more specific keys if available
+                const noResultsKey = containerId === 'publicationsList' ? 'noPubsFound' : 'noSearchResults'; 
                 container.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="${noResultsKey}">${translations[currentLanguage][noResultsKey]}</p>`;
+                console.log(`[Display Pubs] No filtered publications for ${containerId}. Displaying "No results" message.`);
                 return;
             }
 
@@ -1760,18 +1798,22 @@
                     }
                 });
             });
+            console.log(`[Display Pubs] Publications rendered for ${containerId}.`);
         }
 
         document.getElementById('publicationSearch').addEventListener('input', () => {
+            console.log(`[Search] Search term changed to: ${document.getElementById('publicationSearch').value}`);
             // Re-trigger display based on current view to apply search filter
             showView(currentView);
         });
         document.getElementById('sortPublications').addEventListener('change', () => {
+            console.log(`[Sort] Sort order changed to: ${document.getElementById('sortPublications').value}`);
             // Re-trigger display based on current view to apply sort
             showView(currentView);
         });
 
         function listenForCurrentIssue() {
+            console.log("[Current Issue] Checking for current issue.");
             // Filter allPublications to find the one marked as current issue
             const currentBook = allPublications.find(pub => pub.isCurrentIssue === true);
 
@@ -1783,6 +1825,7 @@
             currentIssuePublicationCard.classList.add('hidden');
 
             if (currentBook) {
+                console.log("[Current Issue] Found current issue:", currentBook);
                 currentIssueContentDiv.querySelector('p[data-lang-key="noCurrentIssue"]').classList.add('hidden'); // Hide the "No current issue" message
                 currentIssuePublicationCard.classList.remove('hidden');
                 
@@ -1806,20 +1849,21 @@
                 updateDownloadBtn('currentIssueDownloadAbstractItBtn', currentBook.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
 
             } else {
-                // This else block is for when there is no current issue.
-                // The "No current issue" message is already visible from the start of the function.
-                // The publication card is already hidden.
+                console.log("[Current Issue] No current issue found.");
             }
         }
 
         function listenForNews() {
+            console.log("[News] Setting up listener for news items.");
             const q = query(collection(db, PUBLIC_NEWS_COLLECTION), orderBy("timestamp", "desc"));
             onSnapshot(q, (snapshot) => {
                 const newsFeedDiv = document.getElementById('newsFeed');
                 newsFeedDiv.innerHTML = '';
+                console.log(`[News] News snapshot received. Number of documents: ${snapshot.size}`);
 
                 if (snapshot.empty) {
                     newsFeedDiv.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="noNewsUpdates">${translations[currentLanguage].noNewsUpdates}</p>`;
+                    console.log("[News] No news items found.");
                     return;
                 }
 
@@ -1835,20 +1879,22 @@
                     `;
                     newsFeedDiv.innerHTML += newsItemHtml;
                 });
+                console.log("[News] News items rendered.");
             }, (error) => {
-                console.error("Error listening to news:", error);
+                console.error("[News Error] Error listening to news:", error);
                 showMessageModal("errorMessage", "errorLoadingNews", "error");
             });
         }
 
 
         function listenForAdminPublications() {
-            // This function is now mostly for rendering the admin table based on the globally updated allPublications
+            console.log("[Admin Pubs] Updating admin publications list.");
             const adminPublicationsListBody = document.getElementById('adminPublicationsList');
             adminPublicationsListBody.innerHTML = '';
 
             if (allPublications.length === 0) {
                 adminPublicationsListBody.innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noPublicationsToManage">${translations[currentLanguage].noPublicationsToManage}</td></tr>`;
+                console.log("[Admin Pubs] No publications in allPublications array to display in admin table.");
                 return;
             }
 
@@ -1868,6 +1914,7 @@
                     </td>
                 `;
             });
+            console.log(`[Admin Pubs] Admin table populated with ${allPublications.length} publications.`);
 
             document.querySelectorAll('.edit-publication-button').forEach(button => {
                 button.addEventListener('click', (e) => editPublication(e.target.dataset.id));
@@ -1912,17 +1959,16 @@
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            // Removed specific ADMIN_EMAIL check. Now simply checks if user is authenticated.
             if (!user) { 
                 showMessageModal("permissionDenied", "noPermissionAddEditPublications", "error");
                 hideLoadingSpinner();
                 return;
             }
+            console.log(`[Publication Form] Submitting publication form. Editing ID: ${editingPublicationId}`);
 
-            // All fields are optional at frontend level, will store as empty string if blank
             const title = bookTitleInput.value.trim();
             const authors = bookAuthorsInput.value.trim();
-            const year = bookYearInput.value ? parseInt(bookYearInput.value, 10) : null; // Save as null if empty
+            const year = bookYearInput.value ? parseInt(bookYearInput.value, 10) : null; 
             const description = bookDescriptionInput.value.trim();
             const isbn = bookISBNInput.value.trim();
             const issn = bookISSNInput.value.trim();
@@ -1930,10 +1976,9 @@
             const abstractEnText = abstractEnTextInput.value.trim();
             const abstractItText = abstractItTextInput.value.trim();
             const isCurrentIssue = bookIsCurrentIssueCheckbox.checked;
-            const isArchivalVolume = bookIsArchivalVolumeCheckbox.checked; // Get new archival status
+            const isArchivalVolume = bookIsArchivalVolumeCheckbox.checked; 
 
             try {
-                // Handle file uploads and deletions for updates
                 const uploadAndUpdateFile = async (fileInput, currentFileName, storagePath) => {
                     let newFileName = currentFileName;
                     let newUrl = null; 
@@ -1947,14 +1992,14 @@
                         newUrl = uploadResult.url;
                     } else { 
                          // If no new file selected, retain old URL/filename from currentPubFiles state
-                         // This is crucial for edits where files are not re-selected
                          if (storagePath === STORAGE_PATH_COVERS) newUrl = currentPubFiles.coverUrl;
                          else if (storagePath === STORAGE_PATH_PDFS) newUrl = currentPubFiles.pdfUrl;
                          else if (storagePath === STORAGE_PATH_ABSTRACTS && fileInput === abstractArPdfInput) newUrl = currentPubFiles.abstracts.ar.url;
                          else if (storagePath === STORAGE_PATH_ABSTRACTS && fileInput === abstractEnPdfInput) newUrl = currentPubFiles.abstracts.en.url;
                          else if (storagePath === STORAGE_PATH_ABSTRACTS && fileInput === abstractItPdfInput) newUrl = currentPubFiles.abstracts.it.url;
-                         newFileName = currentFileName; // Retain current file name if no new file
+                         newFileName = currentFileName; 
                     }
+                    console.log(`[Publication Form] File processing for ${fileInput.id}: newUrl=${newUrl}, newFileName=${newFileName}`);
                     return { url: newUrl, fileName: newFileName };
                 };
 
@@ -1966,9 +2011,9 @@
 
                 // Prepare data for Firestore
                 const publicationData = {
-                    title: title || '', // Ensure empty string if blank for display purposes
+                    title: title || '', 
                     authors: authors || '',
-                    year: year, // Can be null
+                    year: year, 
                     description: description || '',
                     isbn: isbn || '',
                     issn: issn || '',
@@ -1982,18 +2027,20 @@
                     pdfUrl: pdfResult.url || '', 
                     pdfFileName: pdfResult.fileName || '',
                     isCurrentIssue,
-                    isArchivalVolume, // Save new archival status
+                    isArchivalVolume, 
                     timestamp: new Date().toISOString()
                 };
+                console.log("[Publication Form] Prepared publication data:", publicationData);
                 
                 // If this is set as the current issue, unset previous current issues
                 if (isCurrentIssue) {
+                    console.log("[Publication Form] Setting as current issue. Unsetting previous current issues.");
                     const currentIssueQuery = query(collection(db, PUBLIC_PUB_COLLECTION), where("isCurrentIssue", "==", true));
                     const currentIssuesSnapshot = await getDocs(currentIssueQuery);
                     for (const docToUnset of currentIssuesSnapshot.docs) {
-                        // Only unset if it's a different document than the one being edited/added
                         if (docToUnset.id !== editingPublicationId) {
                             await updateDoc(doc(db, PUBLIC_PUB_COLLECTION, docToUnset.id), { isCurrentIssue: false });
+                            console.log(`[Publication Form] Unset current issue for document: ${docToUnset.id}`);
                         }
                     }
                 }
@@ -2001,13 +2048,15 @@
                 if (editingPublicationId) {
                     await updateDoc(doc(db, PUBLIC_PUB_COLLECTION, editingPublicationId), publicationData);
                     showMessageModal("successMessage", "publicationUpdated", "success");
+                    console.log(`[Publication Form] Publication updated successfully: ${editingPublicationId}`);
                 } else {
-                    await addDoc(collection(db, PUBLIC_PUB_COLLECTION), publicationData);
+                    const newDocRef = await addDoc(collection(db, PUBLIC_PUB_COLLECTION), publicationData);
                     showMessageModal("successMessage", "publicationAdded", "success");
+                    console.log(`[Publication Form] Publication added successfully with ID: ${newDocRef.id}`);
                 }
                 resetAddPublicationForm();
             } catch (error) {
-                console.error("Error saving publication:", error);
+                console.error("[Publication Form] Error saving publication:", error);
                 showMessageModal("errorMessage", "errorSavingPublication" + error.message, "error");
             } finally {
                 hideLoadingSpinner();
@@ -2016,6 +2065,7 @@
 
         // Reset form function for Add/Edit Publication
         function resetAddPublicationForm() {
+            console.log("[Publication Form] Resetting add/edit publication form.");
             document.getElementById('addPublicationForm').reset();
             editingPublicationId = null;
             adminFormTitle.textContent = translations[currentLanguage].addPublicationTitle;
@@ -2039,6 +2089,7 @@
                     it: { text: '', url: '', fileName: '' }
                 }
             };
+            console.log("[Publication Form] Form reset complete.");
         }
 
         cancelEditPublicationBtn.addEventListener('click', resetAddPublicationForm);
@@ -2047,18 +2098,20 @@
         // Edit Publication function
         async function editPublication(publicationId) {
             showLoadingSpinner();
+            console.log(`[Edit Pub] Attempting to edit publication with ID: ${publicationId}`);
             try {
                 const docRef = doc(db, PUBLIC_PUB_COLLECTION, publicationId);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
                     const data = docSnap.data();
+                    console.log("[Edit Pub] Found publication data for editing:", data);
                     editingPublicationId = publicationId;
 
                     // Populate fields, using empty string for null/undefined
                     bookTitleInput.value = data.title || '';
                     bookAuthorsInput.value = data.authors || '';
-                    bookYearInput.value = data.year !== null && data.year !== undefined ? data.year : ''; // Preserve 0 if it's a valid year
+                    bookYearInput.value = data.year !== null && data.year !== undefined ? data.year : ''; 
                     bookDescriptionInput.value = data.description || '';
                     bookISBNInput.value = data.isbn || '';
                     bookISSNInput.value = data.issn || '';
@@ -2066,7 +2119,7 @@
                     abstractEnTextInput.value = data.abstracts?.en?.text || '';
                     abstractItTextInput.value = data.abstracts?.it?.text || '';
                     bookIsCurrentIssueCheckbox.checked = data.isCurrentIssue || false;
-                    bookIsArchivalVolumeCheckbox.checked = data.isArchivalVolume || false; // Populate new checkbox
+                    bookIsArchivalVolumeCheckbox.checked = data.isArchivalVolume || false; 
 
                     currentPubFiles = {
                         coverUrl: data.coverImageUrl || '', coverFileName: data.coverImageFileName || '',
@@ -2077,6 +2130,7 @@
                             it: data.abstracts?.it || { text: '', url: '', fileName: '' }
                         }
                     };
+                    console.log("[Edit Pub] Current publication files state:", currentPubFiles);
 
                     uploadedCoverPreviewAdmin.src = currentPubFiles.coverUrl;
                     uploadedCoverPreviewAdmin.style.display = currentPubFiles.coverUrl ? 'block' : 'none';
@@ -2087,7 +2141,7 @@
                     abstractEnPdfFileNameDisplayAdmin.textContent = currentPubFiles.abstracts.en.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.en.fileName)}` : '';
                     abstractItPdfFileNameDisplayAdmin.textContent = currentPubFiles.abstracts.it.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.it.fileName)}` : '';
 
-                    bookCoverInput.value = ''; // Clear file input so user can choose new file
+                    bookCoverInput.value = ''; 
                     bookPdfInput.value = '';
                     abstractArPdfInput.value = '';
                     abstractEnPdfInput.value = '';
@@ -2098,11 +2152,13 @@
                     cancelEditPublicationBtn.classList.remove('hidden');
 
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                    console.log("[Edit Pub] Form populated for editing.");
                 } else {
+                    console.warn(`[Edit Pub] Publication not found for editing: ${publicationId}`);
                     showMessageModal("errorMessage", "publicationNotFoundForEdit", "error");
                 }
             } catch (error) {
-                console.error("Error editing publication:", error);
+                console.error("[Edit Pub] Error editing publication:", error);
                 showMessageModal("errorMessage", "errorLoadingPublicationForEdit" + error.message, "error");
             } finally {
                 hideLoadingSpinner();
@@ -2110,6 +2166,7 @@
         }
 
         function confirmDeletePublication(publicationId) {
+            console.log(`[Delete Pub] Confirming deletion for publication ID: ${publicationId}`);
             showMessageModal(
                 "confirmDelete",
                 "confirmDeleteMsg",
@@ -2122,6 +2179,7 @@
                             const docSnap = await getDoc(docRef);
                             if (docSnap.exists()) {
                                 const data = docSnap.data();
+                                console.log("[Delete Pub] Deleting associated files for publication:", data.title);
                                 // Delete associated files
                                 await deleteFile(data.coverImageFileName, STORAGE_PATH_COVERS);
                                 await deleteFile(data.pdfFileName, STORAGE_PATH_PDFS);
@@ -2131,11 +2189,13 @@
 
                                 await deleteDoc(docRef);
                                 showMessageModal("successMessage", "publicationDeleted", "success");
+                                console.log(`[Delete Pub] Publication successfully deleted: ${publicationId}`);
                             } else {
+                                console.warn(`[Delete Pub] Publication not found for deletion: ${publicationId}`);
                                 showMessageModal("errorMessage", "publicationNotFoundForDeletion", "error");
                             }
                         } catch (error) {
-                            console.error("Error deleting publication:", error);
+                            console.error("[Delete Pub] Error deleting publication:", error);
                             showMessageModal("errorMessage", "errorDeletingPublication" + error.message, "error");
                         } finally {
                             hideLoadingSpinner();
@@ -2155,6 +2215,7 @@
         const cancelEditNewsBtn = document.getElementById('cancelEditNewsBtn');
 
         function resetAddNewsItemForm() {
+            console.log("[News Form] Resetting add/edit news item form.");
             document.getElementById('addNewsItemForm').reset();
             newsTitleInput.value = '';
             newsDescriptionInput.value = '';
@@ -2166,18 +2227,19 @@
             editingNewsItemId = null;
             submitNewsBtn.textContent = translations[currentLanguage].addNewsItemButton;
             cancelEditNewsBtn.classList.add('hidden');
+            console.log("[News Form] Form reset complete.");
         }
 
         document.getElementById('addNewsItemForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             showLoadingSpinner();
             const user = auth.currentUser;
-            // Removed specific ADMIN_EMAIL check. Now simply checks if user is authenticated.
             if (!user) { 
                 showMessageModal("permissionDenied", "noPermissionAddNews", "error");
                 hideLoadingSpinner();
                 return;
             }
+            console.log(`[News Form] Submitting news item form. Editing ID: ${editingNewsItemId}`);
 
             const newsTitle = newsTitleInput.value.trim();
             const newsDescription = newsDescriptionInput.value.trim();
@@ -2186,21 +2248,20 @@
 
             try {
                 if (newsImageInput.files[0]) {
-                    if (currentNewsImage.fileName) { // If there was an old image, delete it
+                    if (currentNewsImage.fileName) { 
                         await deleteFile(currentNewsImage.fileName, STORAGE_PATH_NEWS_IMAGES);
                     }
                     const uploadResult = await uploadFile(newsImageInput.files[0], STORAGE_PATH_NEWS_IMAGES);
                     imageUrl = uploadResult.url;
                     imageFileName = uploadResult.fileName;
                 } else if (currentNewsImage.fileName && !newsImageInput.files[0]) {
-                    // If no new file selected, but there was an old custom one, keep it
                     imageUrl = currentNewsImage.url;
                     imageFileName = currentNewsImage.fileName;
                 } else {
-                    // If no new file and no old custom file, ensure it's cleared
                     imageUrl = '';
                     imageFileName = '';
                 }
+                console.log(`[News Form] Image processing: imageUrl=${imageUrl}, imageFileName=${imageFileName}`);
 
 
                 const newsData = {
@@ -2210,17 +2271,20 @@
                     imageFileName: imageFileName,
                     timestamp: new Date().toISOString()
                 };
+                console.log("[News Form] Prepared news data:", newsData);
 
                 if (editingNewsItemId) {
                     await updateDoc(doc(db, PUBLIC_NEWS_COLLECTION, editingNewsItemId), newsData);
                     showMessageModal("successMessage", "newsItemUpdated", "success");
+                    console.log(`[News Form] News item updated successfully: ${editingNewsItemId}`);
                 } else {
-                    await addDoc(collection(db, PUBLIC_NEWS_COLLECTION), newsData);
+                    const newDocRef = await addDoc(collection(db, PUBLIC_NEWS_COLLECTION), newsData);
                     showMessageModal("successMessage", "newsItemAdded", "success");
+                    console.log(`[News Form] News item added successfully with ID: ${newDocRef.id}`);
                 }
                 resetAddNewsItemForm();
             } catch (error) {
-                console.error("Error saving news item:", error);
+                console.error("[News Form] Error saving news item:", error);
                 showMessageModal("errorMessage", "errorSavingNewsItem" + error.message, "error");
             } finally {
                 hideLoadingSpinner();
@@ -2241,18 +2305,21 @@
                 previewImage.src = currentNewsImage.url;
                 previewImage.style.display = currentNewsImage.url ? 'block' : 'none';
             }
+            console.log("[News Form] News image input changed.");
         });
 
         cancelEditNewsBtn.addEventListener('click', resetAddNewsItemForm);
 
         async function editNewsItem(newsItemId) {
             showLoadingSpinner();
+            console.log(`[Edit News] Attempting to edit news item with ID: ${newsItemId}`);
             try {
                 const docRef = doc(db, PUBLIC_NEWS_COLLECTION, newsItemId);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
                     const data = docSnap.data();
+                    console.log("[Edit News] Found news item data for editing:", data);
                     editingNewsItemId = newsItemId;
 
                     newsTitleInput.value = data.title || '';
@@ -2265,17 +2332,19 @@
                     uploadedNewsImagePreviewAdmin.src = currentNewsImage.url;
                     uploadedNewsImagePreviewAdmin.style.display = currentNewsImage.url ? 'block' : 'none';
 
-                    newsImageInput.value = ''; // Clear file input
+                    newsImageInput.value = ''; 
 
                     submitNewsBtn.textContent = translations[currentLanguage].updateNewsItemButton;
                     cancelEditNewsBtn.classList.remove('hidden');
 
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                    console.log("[Edit News] Form populated for editing news item.");
                 } else {
+                    console.warn(`[Edit News] News item not found for editing: ${newsItemId}`);
                     showMessageModal("errorMessage", "newsItemNotFoundForEdit", "error");
                 }
             } catch (error) {
-                console.error("Error fetching news item for edit:", error);
+                console.error("[Edit News] Error fetching news item for edit:", error);
                 showMessageModal("errorMessage", "errorLoadingNewsItemForEdit" + error.message, "error");
             } finally {
                 hideLoadingSpinner();
@@ -2283,6 +2352,7 @@
         }
 
         function confirmDeleteNewsItem(newsItemId) {
+            console.log(`[Delete News] Confirming deletion for news item ID: ${newsItemId}`);
             showMessageModal(
                 "confirmDelete",
                 "confirmDeleteMsg",
@@ -2296,14 +2366,17 @@
 
                             if (newsDoc.exists()) {
                                 const data = newsDoc.data();
+                                console.log("[Delete News] Deleting associated image for news item:", data.title);
                                 await deleteFile(data.imageFileName, STORAGE_PATH_NEWS_IMAGES);
                                 await deleteDoc(newsRef);
                                 showMessageModal("successMessage", "newsItemDeleted", "success");
+                                console.log(`[Delete News] News item successfully deleted: ${newsItemId}`);
                             } else {
+                                console.warn(`[Delete News] News item not found for deletion: ${newsItemId}`);
                                 showMessageModal("errorMessage", "newsItemNotFoundForDeletion", "error");
                             }
                         } catch (error) {
-                            console.error("Error deleting news item:", error);
+                            console.error("[Delete News] Error deleting news item:", error);
                             showMessageModal("errorMessage", "errorDeletingNewsItem" + error.message, "error");
                         } finally {
                             hideLoadingSpinner();
@@ -2314,13 +2387,16 @@
         }
 
         function listenForAdminNews() {
+            console.log("[Admin News] Setting up listener for admin news items.");
             const q = query(collection(db, PUBLIC_NEWS_COLLECTION), orderBy("timestamp", "desc"));
             onSnapshot(q, (snapshot) => {
                 const adminNewsListBody = document.getElementById('adminNewsList');
                 adminNewsListBody.innerHTML = '';
+                console.log(`[Admin News] Admin news snapshot received. Number of documents: ${snapshot.size}`);
 
                 if (snapshot.empty) {
                     adminNewsListBody.innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noNewsToManage">${translations[currentLanguage].noNewsToManage}</td></tr>`;
+                    console.log("[Admin News] No news items to display in admin table.");
                     return;
                 }
 
@@ -2337,6 +2413,7 @@
                         </td>
                     `;
                 });
+                console.log(`[Admin News] Admin news table populated with ${snapshot.size} news items.`);
 
                 document.querySelectorAll('.edit-news-button').forEach(button => {
                     button.addEventListener('click', (e) => editNewsItem(e.target.dataset.id));
@@ -2345,7 +2422,7 @@
                     button.addEventListener('click', (e) => confirmDeleteNewsItem(e.target.dataset.id));
                 });
             }, (error) => {
-                console.error("Error listening to admin news:", error);
+                console.error("[Admin News Error] Error listening to admin news:", error);
                 showMessageModal("errorMessage", "errorLoadingAdminNews", "error");
             });
         }
@@ -2360,19 +2437,20 @@
         closeMessageModalElement.addEventListener('click', () => {
             messageModalElement.classList.remove('flex');
             messageModalElement.classList.add('hidden');
-            messageTextElement.textContent = ''; // Clear text on close
+            messageTextElement.textContent = ''; 
         });
         messageModalElement.addEventListener('click', (event) => {
             if (event.target === messageModalElement) {
                 messageModalElement.classList.remove('flex');
                 messageModalElement.classList.add('hidden');
-                messageTextElement.textContent = ''; // Clear text on outside click
+                messageTextElement.textContent = ''; 
             }
         });
 
         function showMessageModal(titleKey, messageKey, type = "alert", callback = null) {
+            console.log(`[Modal] Showing message modal: Title=${titleKey}, Message=${messageKey}, Type=${type}`);
             messageTextElement.innerHTML = `<strong>${translations[currentLanguage][titleKey]}</strong><br>${translations[currentLanguage][messageKey]}`;
-            modalButtonsElement.innerHTML = ''; // Clear previous buttons
+            modalButtonsElement.innerHTML = ''; 
 
             if (type === "confirm") {
                 const yesButton = document.createElement('button');
@@ -2409,6 +2487,7 @@
         });
 
         function showPublicationDetailsModal(book) {
+            console.log("[Details Modal] Showing publication details for:", book.title);
             document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image';
             document.getElementById('detailTitle').textContent = book.title || translations[currentLanguage].noTitle;
             document.getElementById('detailAuthors').textContent = book.authors || translations[currentLanguage].noAuthors;
@@ -2424,7 +2503,7 @@
 
             const updateDownloadBtn = (btnId, url, unavailableKey) => {
                 const btn = document.getElementById(btnId);
-                if (btn) { // Ensure button exists
+                if (btn) { 
                     btn.href = url || '#';
                     btn.classList.toggle('disabled', !url);
                     btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
@@ -2437,26 +2516,28 @@
 
             publicationDetailsModal.classList.remove('hidden');
             publicationDetailsModal.classList.add('flex');
+            console.log("[Details Modal] Publication details modal displayed.");
         }
 
         // --- Loading Spinner Functions ---
         const loadingSpinner = document.getElementById('loadingSpinner');
 
         function showLoadingSpinner() {
+            console.log("[Spinner] Showing loading spinner.");
             loadingSpinner.classList.remove('hidden');
         }
 
         function hideLoadingSpinner() {
+            console.log("[Spinner] Hiding loading spinner.");
             loadingSpinner.classList.add('hidden');
         }
 
         // --- Initial Load Logic ---
         window.onload = function() {
-            applyTranslations(currentLanguage); // Apply initial language
-            initializeFirebase(); // Initialize Firebase and set up auth listener
+            console.log("[App Init] Window loaded. Starting application initialization.");
+            applyTranslations(currentLanguage); 
+            initializeFirebase(); 
             document.getElementById('currentYear').textContent = new Date().getFullYear();
-            // The initial view will be set by updateAuthUI after Firebase auth state is known
-            // The Firebase onAuthStateChanged listener will call setupListeners and updateAuthUI.
         };
     </script>
 </body>
