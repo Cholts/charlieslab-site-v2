@@ -38,7 +38,7 @@
             border-bottom: 1px solid #c0c4c9; /* A finer line */
         }
         .header-logo {
-            max-height: 120px; /* Increased logo size */
+            max-height: 90px;
             width: auto;
             filter: none; /* No filter needed for lighter background */
         }
@@ -266,7 +266,7 @@
             border-top: 1px solid #b0b8c3;
         }
         .footer-logo {
-            max-height: 80px; /* Increased footer logo size */
+            max-height: 60px;
             width: auto;
             filter: none; /* No filter needed for lighter background */
         }
@@ -274,7 +274,7 @@
             color: #3b76a7; /* Professional blue for links */
         }
         .footer-link:hover {
-            color: #2e5a80; /* Darker blue on hover */
+            color: #2e5a80;
             text-decoration: underline;
         }
 
@@ -421,7 +421,7 @@
             <div class="flex flex-col md:flex-row items-center justify-between w-full gap-4">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <img id="mainLogo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee" alt="Quaderni di Archeologia della Libya Logo" class="header-logo">
+                    <img id="mainLogo" src="https://placehold.co/200x90/e0e2e5/3f4245?text=Header+Logo" alt="Quaderni di Archeologia della Libya Logo" class="header-logo">
                 </div>
                 <!-- Search bar and sort options -->
                 <div class="header-search-container flex flex-col sm:flex-row items-center gap-4 flex-grow md:max-w-xl lg:max-w-2xl">
@@ -503,7 +503,7 @@
         <!-- Current Issue View -->
         <section id="currentIssueView" class="view hidden section-content flex flex-col items-center">
             <h2 class="text-3xl text-center mb-6" data-lang-key="currentIssueHeading">Current Issue</h2>
-            <div class="text-center w-full max-w-3xl" id="currentIssueContent">
+            <div id="currentIssueContent" class="text-center w-full max-w-3xl">
                 <p class="text-gray-700 text-lg mb-4" data-lang-key="noCurrentIssue">No current issue set yet. Check back soon!</p>
                 <div id="currentIssuePublicationCard" class="publication-card p-6 flex flex-col items-center text-center shadow-lg transition duration-500 ease-out hidden">
                     <img id="currentIssueCover" src="" alt="Current Issue Cover" class="cover-image rounded-lg mb-6 shadow-xl" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/333333?text=No+Image';">
@@ -729,6 +729,10 @@
                         <input type="checkbox" id="bookIsCurrentIssue" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                         <label for="bookIsCurrentIssue" class="ml-2 block text-sm font-semibold" data-lang-key="setCurrentIssueLabel">Set as Current Issue</label>
                     </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="bookIsArchivalVolume" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <label for="bookIsArchivalVolume" class="ml-2 block text-sm font-semibold" data-lang-key="setArchivalVolumeLabel">Set as Archival Volume</label>
+                    </div>
 
                     <div class="flex justify-between gap-4">
                         <button type="submit" id="submitPublicationBtn" class="admin-button w-full bg-green-600 hover:bg-green-700" data-lang-key="addPublicationButton">Add Publication</button>
@@ -748,7 +752,7 @@
                             </tr>
                         </thead>
                         <tbody id="adminPublicationsList" class="divide-y divide-gray-300">
-                            <tr class="admin-table-row"><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noPublicationsToManage">${translations[currentLanguage].noPublicationsToManage}</td></tr>
+                            <tr class="admin-table-row"><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noPublicationsToManage">No publications to manage.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -851,7 +855,7 @@
         <div class="container flex flex-col md:flex-row items-center justify-between text-sm">
             <!-- Logo on the left -->
             <div class="flex items-center space-x-4 mb-4 md:mb-0">
-                <img id="mainLogo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee" alt="Quaderni di Archeologia della Libya Logo" class="footer-logo">
+                <img id="footerLogo" src="https://placehold.co/150x60/e0e2e5/3f4245?text=Footer+Logo" alt="Quaderni di Archeologia della Libya Logo" class="footer-logo">
                 <p>&copy; <span id="currentYear"></span> <span data-lang-key="copyrightText">Quaderni di Archeologia della Libya. All rights reserved.</span></p>
             </div>
             
@@ -866,13 +870,9 @@
             <div class="text-center md:text-right space-y-2">
                 <p class="font-bold" data-lang-key="contributorsLabel">Contributors:</p>
                 <div class="flex justify-center md:justify-end items-center gap-4">
-                    <!-- These will now load instantly from HTML, then be updated by JS if custom ones are set -->
-                    <div id="contributor1LogoContainer" class="h-16 flex items-center justify-center">
-                        <img id="contributor1Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20lerma.png?alt=media&token=f6966fec-902a-4e2a-b39e-a3ddb633e983" alt="L'ERMA di Bretschneider Logo" class="h-16">
-                    </div>
-                    <div id="contributor2LogoContainer" class="h-16 flex items-center justify-center">
-                        <img id="contributor2Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20meda%20ets%20max.jpg?alt=media&token=c2071e4e-bf59-4f06-b99b-4b739737f51b" alt="Fondazione MEDA Logo" class="h-16">
-                    </div>
+                    <!-- These will be populated by JS if logos are uploaded via admin -->
+                    <div id="contributor1LogoContainer" class="h-10 flex items-center justify-center"></div>
+                    <div id="contributor2LogoContainer" class="h-10 flex items-center justify-center"></div>
                 </div>
                 <button id="adminLoginBtnFooter" class="nav-button bg-transparent hover:bg-gray-700 border border-white text-white mt-4" data-lang-key="adminLoginButton">Admin Login</button>
             </div>
@@ -881,11 +881,11 @@
 
     <!-- Firebase SDK -->
     <script type="module">
-        // Firebase CDN Imports - Corrected syntax to use 'from' keyword
+        // Firebase CDN Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, onSnapshot, query, orderBy, where, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js"; // Corrected this line
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         // Firebase Configuration and Auth Token (Provided by Canvas Environment or Fallback)
         const hardcodedFirebaseConfig = {
@@ -904,11 +904,10 @@
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
         // Default Logo Paths (Placeholders if not set by admin) - Now empty for contributor logos
-        const DEFAULT_HEADER_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee';
-        const DEFAULT_FOOTER_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee';
-        // Updated default contributor logo URLs to actual image URLs from your Firebase Storage
-        const DEFAULT_CONTRIB1_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20lerma.png?alt=media&token=f6966fec-902a-4e2a-b39e-a3ddb633e983'; // L'ERMA logo
-        const DEFAULT_CONTRIB2_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20meda%20ets%20max.jpg?alt=media&token=c2071e4e-bf59-4f06-b99b-4b739737f51b'; // Fondazione MEDA logo
+        const DEFAULT_HEADER_LOGO_URL = 'https://placehold.co/200x90/e0e2e5/3f4245?text=Header+Logo';
+        const DEFAULT_FOOTER_LOGO_URL = 'https://placehold.co/150x60/e0e2e5/3f4245?text=Footer+Logo';
+        const DEFAULT_CONTRIB1_LOGO_URL = ''; // Empty by default, will only show if uploaded
+        const DEFAULT_CONTRIB2_LOGO_URL = ''; // Empty by default, will only show if uploaded
 
         const SITE_SETTINGS_DOC_ID = 'siteSettings';
 
@@ -944,6 +943,9 @@
         const STORAGE_PATH_ABSTRACTS = `artifacts/${appId}/public/files/abstracts`;
         const STORAGE_PATH_NEWS_IMAGES = `artifacts/${appId}/public/files/news`;
         const STORAGE_PATH_LOGOS = `artifacts/${appId}/public/files/logos`;
+
+        // Global variable to hold all fetched publications
+        let allPublications = [];
 
         // --- Translation Setup ---
         let currentLanguage = localStorage.getItem('siteLanguage') || 'en';
@@ -1015,7 +1017,8 @@
                 descriptionLabel: "Description:", coverImageLabel: "Cover Image (Optional):",
                 fullBookPdfLabel: "Full Book PDF (Optional - First 20 Pages):", arabicAbstractPdfLabel: "Arabic Abstract (PDF - Optional):",
                 englishAbstractPdfLabel: "English Abstract (PDF - Optional):", italianAbstractPdfLabel: "Italian Abstract (PDF - Optional):",
-                setCurrentIssueLabel: "Set as Current Issue", addPublicationButton: "Add Publication", updatePublicationButton: "Update Publication",
+                setCurrentIssueLabel: "Set as Current Issue", setArchivalVolumeLabel: "Set as Archival Volume", // New
+                addPublicationButton: "Add Publication", updatePublicationButton: "Update Publication",
                 cancelEditButton: "Cancel Edit", managePublicationsHeading: "Manage Existing Publications", tableHeaderTitle: "Title",
                 tableHeaderAuthors: "Authors", tableHeaderYear: "Year", tableHeaderActions: "Actions",
                 noPublicationsToManage: "No publications to manage.", addNewsItemTitle: "Add New News Item",
@@ -1039,13 +1042,17 @@
                 publicationUpdated: "Publication updated successfully!", publicationAdded: "Publication added successfully!",
                 publicationNotFoundForEdit: "Publication not found for editing.", errorLoadingPublicationForEdit: "Error loading publication for editing: ",
                 publicationNotFoundForDeletion: "Publication not found for deletion.", errorDeletingPublication: "Error deleting publication: ",
+                noPermissionAddNews: "You do not have permission to add news items.", newsItemUpdated: "News item updated successfully!",
+                newsItemAdded: "News item added successfully!", errorSavingNewsItem: "Error saving news item: ",
+                newsItemNotFoundForEdit: "News item not found for editing.", errorLoadingNewsItemForEdit: "Error loading news item for editing: ",
+                newsItemNotFoundForDeletion: "News item not found for deletion.", errorDeletingNewsItem: "Error deleting news item: ",
                 errorLoadingAdminNews: "Error loading admin news.", siteLogosNotFound: "Site logos not found in database. Using defaults.",
                 couldNotLoadLogos: "Could not load site logos.", siteLogosUpdated: "Site logos updated successfully!",
                 errorUpdatingLogos: "Error updating site logos: ", contributorLogosUpdated: "Contributor logos updated successfully!",
                 errorUpdatingContributorLogos: "Error updating contributor logos: ", noPermissionUpdateSiteSettings: "You do not have permission to update site settings.",
                 yesButton: "Yes", noButton: "No", okButton: "OK", editButton: "Edit", deleteButton: "Delete",
                 noArabicAbstract: "No Arabic abstract text available.", noEnglishAbstract: "No English abstract text available.",
-                noItalianAbstract: "No Italian abstract text available.", fileNotFoundInStorage: "File not found in storage: ", fileDeletionFailed: "File deletion failed: "
+                noItalianAbstract: "No Italian abstract text available."
             },
             it: {
                 pageTitle: "QAL - Pubblicazioni", navAboutUs: "Chi Siamo", navEditorialBoard: "Comitato Editoriale",
@@ -1079,9 +1086,9 @@
                 loadingArchivalVolumes: "Caricamento volumi di archivio...", editorialEthicsHeading: "Linee Guida Editoriali & Codice Etico",
                 editorialGuidelinesTitle: "Linee Guida Editoriali", articlesSubmittedTo: "Gli articoli devono essere inviati a:",
                 submissionProcedureTitle: "Procedura di Sottomissione:", submissionProcedure1: "I contributi devono essere inviati in formato digitale .doc (Microsoft Word) come allegato e-mail.",
-                submissionProcedure2: "I contenuti saranno esaminati da almeno due revisori anonimi e, se necessario, restituiti all'autore per eventuali correzioni e modifiche.",
+                submissionProcedure2: "I contenuti saranno esaminati da almeno due lettori anonimi e, se necessario, restituiti all'autore per eventuali correzioni e modifiche.",
                 submissionProcedure3: "Un solo set di bozze sarà inviato agli autori che dovranno correggerle e restituirle entro la scadenza fissata dagli editori.",
-                submissionProcedure4: "Con riguardo alle illustrazioni, un file contenente didascalie e crediti fotografici deve essere inviato separatamente. Il testo deve essere accompagnato da una copia digitale delle immagini da pubblicare (si prega di usare WeTransfer se le immagini sono troppo pesanti per essere inviate come allegati e-mail).",
+                submissionProcedure4: "Per quanto riguarda le illustrazioni, un file contenente didascalie e crediti fotografici deve essere inviato separatamente. Il testo deve essere accompagnato da una copia digitale delle immagini da pubblicare (si prega di usare WeTransfer se le immagini sono troppo pesanti per essere inviate come allegati e-mail).",
                 submissionProcedure5: "Le immagini devono essere in formato JPG o TIFF e con una risoluzione minima di 300 dpi (definizione pixel). Tutte le immagini inviate per la pubblicazione devono essere conformi alle norme sul copyright e deve esserci un accordo (o un modulo di liberatoria) sulla riproduzione dell'immagine da parte del titolare del copyright prima della pubblicazione. L'autore è l'unico responsabile dell'ottenimento di tali permessi. Nessuna immagine senza tali documenti di accompagnamento sarà pubblicata.",
                 articleRequirementsTitle: "Requisiti dell'Articolo:", articleRequirements1: "Un abstract di ca. 500 caratteri / 100 parole nella lingua del testo e in inglese.",
                 articleRequirements2: "Titolo in inglese.", articleRequirements3: "5 Parole Chiave in italiano e inglese.",
@@ -1113,7 +1120,8 @@
                 descriptionLabel: "Descrizione:", coverImageLabel: "Immagine di Copertina (Opzionale):",
                 fullBookPdfLabel: "PDF Completo del Libro (Opzionale - Prime 20 Pagine):", arabicAbstractPdfLabel: "Abstract Arabo (PDF - Opzionale):",
                 englishAbstractPdfLabel: "Abstract Inglese (PDF - Opzionale):", italianAbstractPdfLabel: "Abstract Italiano (PDF - Opzionale):",
-                setCurrentIssueLabel: "Imposta come Numero Corrente", addPublicationButton: "Aggiungi Pubblicazione", updatePublicationButton: "Aggiorna Pubblicazione",
+                setCurrentIssueLabel: "Imposta come Numero Corrente", setArchivalVolumeLabel: "Imposta come Volume di Archivio", // New
+                addPublicationButton: "Aggiungi Pubblicazione", updatePublicationButton: "Aggiorna Pubblicazione",
                 cancelEditButton: "Annulla Modifica", managePublicationsHeading: "Gestisci Pubblicazioni Esistenti", tableHeaderTitle: "Titolo",
                 tableHeaderAuthors: "Autori", tableHeaderYear: "Anno", tableHeaderActions: "Azioni",
                 noPublicationsToManage: "Nessuna pubblicazione da gestire.", addNewsItemTitle: "Aggiungi Nuova Notizia",
@@ -1132,18 +1140,22 @@
                 invalidCredentials: "Credenziali non valide. Riprova.", tooManyLoginAttempts: "Troppi tentativi di accesso. Riprova più tardi.",
                 adminLoginSuccessful: "Accesso admin riuscito!", errorLoadingPublications: "Errore caricamento pubblicazioni. Controlla le regole di Firebase.",
                 errorLoadingCurrentIssue: "Errore caricamento numero corrente.", errorLoadingNews: "Errore caricamento notizie.",
-                errorLoadingAdminPublications: "Errore caricamento pubblicazioni admin.", noPermissionAddEditPublications: "Non hai il permesso di aggiungere/modificare pubblicazioni.",
-                fillAllRequiredFields: "Compila tutti i campi richiesti.", errorSavingPublication: "Errore salvataggio pubblicazione: ",
+                errorLoadingAdminPublications: "Errore caricamento pubblicazioni admin.", noPermissionAddEditPublications: "You do not have permission to add/edit publications.",
+                fillAllRequiredFields: "Please fill all required fields.", errorSavingPublication: "Errore salvataggio pubblicazione: ",
                 publicationUpdated: "Pubblicazione aggiornata con successo!", publicationAdded: "Pubblicazione aggiunta con successo!",
                 publicationNotFoundForEdit: "Pubblicazione non trovata per modifica.", errorLoadingPublicationForEdit: "Errore caricamento pubblicazione per modifica: ",
                 publicationNotFoundForDeletion: "Pubblicazione non trovata per eliminazione.", errorDeletingPublication: "Errore eliminazione pubblicazione: ",
+                noPermissionAddNews: "Non hai il permesso di aggiungere notizie.", newsItemUpdated: "Notizia aggiornata con successo!",
+                newsItemAdded: "Notizia aggiunta con successo!", errorSavingNewsItem: "Errore salvataggio notizia: ",
+                newsItemNotFoundForEdit: "Notizia non trovata per modifica.", errorLoadingNewsItemForEdit: "Errore caricamento notizia per modifica: ",
+                newsItemNotFoundForDeletion: "Notizia non trovata per eliminazione.", errorDeletingNewsItem: "Errore eliminazione notizia: ",
                 errorLoadingAdminNews: "Errore caricamento notizie admin.", siteLogosNotFound: "Loghi sito non trovati nel database. Uso predefiniti.",
                 couldNotLoadLogos: "Impossibile caricare i loghi del sito.", siteLogosUpdated: "Loghi sito aggiornati con successo!",
                 errorUpdatingLogos: "Errore aggiornamento loghi sito: ", contributorLogosUpdated: "Loghi contributori aggiornati con successo!",
-                errorUpdatingContributorLogos: "Errore aggiornamento loghi contributori: ", noPermissionUpdateSiteSettings: "Non hai il permesso di aggiornare le impostazioni del sito.",
+                errorUpdatingContributorLogos: "Errore aggiornamento loghi contributori: ", noPermissionUpdateSiteSettings: "You do not have permission to update site settings.",
                 yesButton: "Yes", noButton: "No", okButton: "OK", editButton: "Edit", deleteButton: "Delete",
-                noArabicAbstract: "Nessun abstract arabo disponibile.", noEnglishAbstract: "Nessun abstract inglese disponibile.",
-                noItalianAbstract: "Nessun abstract italiano disponibile.", fileNotFoundInStorage: "File non trovato nello storage: ", fileDeletionFailed: "Eliminazione file fallita: "
+                noArabicAbstract: "No Arabic abstract text available.", noEnglishAbstract: "No English abstract text available.",
+                noItalianAbstract: "No Italian abstract text available."
             }
         };
 
@@ -1184,6 +1196,10 @@
                 auth = getAuth(app);               
                 storage = getStorage(app);
 
+                // We will only sign in when explicitly logging in.
+                // The onAuthStateChanged listener will handle initial state (logged in or not)
+                // without forcing an anonymous login on page load.
+
                 // Listen for authentication state changes
                 onAuthStateChanged(auth, (user) => {
                     userId = user ? user.uid : null; 
@@ -1191,8 +1207,11 @@
                     document.getElementById('loggedInUserEmail').textContent = user ? (user.email || 'Anonymous User') : '';
                     
                     updateAuthUI();
-                    // Setup listeners ONLY after Firebase is fully initialized and auth state is known
-                    setupListeners(); 
+                    // Setup listeners ONLY after initial auth state is determined
+                    // and db is initialized.
+                    if (db) { 
+                        setupListeners(); 
+                    }
                 });
             } catch (error) {
                 console.error("Firebase init error:", error);
@@ -1207,7 +1226,7 @@
             aboutUs: document.getElementById('aboutUsView'),
             editorialBoard: document.getElementById('editorialBoardView'),
             currentIssue: document.getElementById('currentIssueView'),
-            archivalVolumes: document.getElementById('archivalVolumesView'),
+            archivalVolumes: document.getElementById('archivalVolumesView'), // New View
             editorialAndEthics: document.getElementById('editorialAndEthicsView'),
             newsEvents: document.getElementById('newsEventsView'),
             adminLogin: document.getElementById('adminLoginView'),
@@ -1227,19 +1246,28 @@
                 document.body.classList.toggle('admin-bg', viewId === 'adminLogin' || viewId === 'adminDashboard');
 
                 // Trigger specific listeners/initializations for certain views
-                // These are now handled by setupListeners and will be triggered by onAuthStateChanged
-                // No need to explicitly call them here.
-                if (viewId === 'adminDashboard') {
+                if (viewId === 'currentIssue') {
+                    listenForCurrentIssue();
+                } else if (viewId === 'archivalVolumes') { // New View logic
+                    displayPublications(allPublications, 'archivalPublicationsList', 'archival');
+                } else if (viewId === 'aboutUs') { // aboutUs also lists publications
+                    displayPublications(allPublications, 'publicationsList', 'non-archival');
+                } else if (viewId === 'newsEvents') {
+                    listenForNews();
+                } else if (viewId === 'adminDashboard') {
                     // Default to publications management when entering dashboard
                     document.getElementById('adminManagePublications').classList.remove('hidden');
                     document.getElementById('adminManageNews').classList.add('hidden');
                     document.getElementById('adminManageSiteSettings').classList.add('hidden');
                     resetAddPublicationForm(); // Clear form when navigating to pubs management
+                    listenForAdminPublications(); // Ensure admin pubs list is active
                 }
             } else {
                 console.warn("View not found:", viewId);
                 showMessageModal("errorMessage", "viewNotFound", "error");
             }
+            // Re-apply translations for dynamic content and newly visible elements
+            applyTranslations(currentLanguage);
         }
 
         // --- Event Listeners for Navigation ---
@@ -1276,7 +1304,7 @@
             document.getElementById('adminManageNews').classList.add('hidden');
             document.getElementById('adminManageSiteSettings').classList.add('hidden');
             resetAddPublicationForm(); // Reset publication form
-            listenForAdminPublications(); // Ensure admin pubs list is active
+            listenForAdminPublications(); // Ensure publications list updates
         });
         document.getElementById('manageNewsBtn').addEventListener('click', () => {
             document.getElementById('adminManagePublications').classList.add('hidden');
@@ -1305,10 +1333,7 @@
                 showView('adminDashboard');
             } else if (!isAdmin && currentView === 'adminDashboard') {
                 showView('aboutUs'); 
-            } else if (!user) { // If no user (anonymous), default to aboutUs
-                showView('aboutUs');
             }
-            // If user is not admin and currentView is already a public view, do nothing.
         }
 
         // --- Admin Login Form Handling ---
@@ -1344,12 +1369,23 @@
 
         function setupListeners() {
             if (!db) {
-                console.error("Firestore not initialized, cannot set up listeners.");
                 return;
             }
 
-            listenForPublicPublications();
-            listenForCurrentIssue();
+            // Central listener for all publications
+            onSnapshot(query(collection(db, PUBLIC_PUB_COLLECTION), orderBy("year", "desc")), (snapshot) => {
+                allPublications = [];
+                snapshot.forEach(doc => allPublications.push({ id: doc.id, ...doc.data() }));
+                // Update all relevant views
+                displayPublications(allPublications, 'publicationsList', 'non-archival'); // For About Us view
+                displayPublications(allPublications, 'archivalPublicationsList', 'archival'); // For Archival Volumes view
+                listenForCurrentIssue(); // Update Current Issue view based on latest data
+                listenForAdminPublications(); // Update Admin list
+            }, (error) => {
+                console.error("Error listening to all publications:", error);
+                showMessageModal("errorMessage", "errorLoadingPublications", "error");
+            });
+
             listenForNews();
             listenForSiteLogos();
 
@@ -1357,10 +1393,9 @@
             const ADMIN_EMAIL = 'charles.schweb@lerma.it';
             const isAdmin = user && user.email === ADMIN_EMAIL; 
             if (isAdmin) { // Only attach admin-specific listeners if logged in as admin
-                listenForAdminPublications();
-                listenForAdminNews();
+                listenForAdminPublications(); // This is also handled by the central listener, but keeping this for explicit admin refresh
             } else {
-                // Clear admin tables if not admin and ensure default message
+                // Clear admin tables if not admin
                 document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noPublicationsToManage">${translations[currentLanguage].noPublicationsToManage}</td></tr>`;
                 document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noNewsToManage">${translations[currentLanguage].noNewsToManage}</td></tr>`;
             }
@@ -1417,26 +1452,23 @@
                     currentHeaderLogo.fileName = data.headerLogoFileName || '';
                     currentFooterLogo.url = data.footerLogoUrl || DEFAULT_FOOTER_LOGO_URL;
                     currentFooterLogo.fileName = data.footerLogoFileName || '';
-                    // Use actual default URLs if the Firestore field is explicitly empty or missing
                     currentContributor1Logo.url = data.contributor1LogoUrl || DEFAULT_CONTRIB1_LOGO_URL;
                     currentContributor1Logo.fileName = data.contributor1LogoFileName || '';
                     currentContributor2Logo.url = data.contributor2LogoUrl || DEFAULT_CONTRIB2_LOGO_URL;
                     currentContributor2Logo.fileName = data.contributor2LogoFileName || '';
                 } else {
-                    // If no settings doc, use default URLs and empty fileNames
-                    currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' };
-                    currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
-                    currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' };
-                    currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
+                    currentHeaderLogo.url = DEFAULT_HEADER_LOGO_URL;
+                    currentFooterLogo.url = DEFAULT_FOOTER_LOGO_URL;
+                    currentContributor1Logo.url = DEFAULT_CONTRIB1_LOGO_URL;
+                    currentContributor2Logo.url = DEFAULT_CONTRIB2_LOGO_URL;
                 }
                 updateSiteLogosUI();
             }, (error) => {
                 console.error("Error listening for site logos:", error);
-                // Fallback to defaults if there's an error fetching
-                currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' };
-                currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
-                currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' };
-                currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
+                currentHeaderLogo.url = DEFAULT_HEADER_LOGO_URL;
+                currentFooterLogo.url = DEFAULT_FOOTER_LOGO_URL;
+                currentContributor1Logo.url = DEFAULT_CONTRIB1_LOGO_URL;
+                currentContributor2Logo.url = DEFAULT_CONTRIB2_LOGO_URL;
                 updateSiteLogosUI();
                 showMessageModal("errorMessage", "couldNotLoadLogos", "error");
             });
@@ -1446,15 +1478,28 @@
             document.getElementById('mainLogo').src = currentHeaderLogo.url;
             document.getElementById('footerLogo').src = currentFooterLogo.url;
             
-            // Handle Contributor Logos dynamically (now updating existing img tags)
-            const img1 = document.getElementById('contributor1Logo');
-            const img2 = document.getElementById('contributor2Logo');
+            // Handle Contributor Logos dynamically
+            const contributor1Container = document.getElementById('contributor1LogoContainer');
+            const contributor2Container = document.getElementById('contributor2LogoContainer');
 
-            if (img1) {
+            // Clear previous images
+            contributor1Container.innerHTML = '';
+            contributor2Container.innerHTML = '';
+
+            if (currentContributor1Logo.url) {
+                const img1 = document.createElement('img');
                 img1.src = currentContributor1Logo.url;
+                img1.alt = "L'ERMA di Bretschneider Logo";
+                img1.className = 'h-10'; // Apply Tailwind height class
+                contributor1Container.appendChild(img1);
             }
-            if (img2) {
+
+            if (currentContributor2Logo.url) {
+                const img2 = document.createElement('img');
                 img2.src = currentContributor2Logo.url;
+                img2.alt = "Fondazione MEDA Logo";
+                img2.className = 'h-10'; // Apply Tailwind height class
+                contributor2Container.appendChild(img2);
             }
 
             // Update admin settings preview if on that page
@@ -1471,7 +1516,6 @@
                 const textEl = document.getElementById(textId);
                 if (imgEl && textEl) {
                     imgEl.src = current.url;
-                    // Display preview image if a custom one is set, or if it's a default, display as 'none' initially
                     imgEl.style.display = (current.url && current.url !== defaultUrl) ? 'block' : 'none';
                     textEl.textContent = current.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(current.fileName)}` : translations[currentLanguage][noMsgKey];
                 }
@@ -1599,7 +1643,7 @@
                     newContributor1Logo = { ...currentContributor1Logo };
                 } else {
                     // If no new file and no old custom file, ensure it's cleared (empty string)
-                    newContributor1Logo = { url: '', fileName: '' }; // Set to empty string for db to know it's "unset"
+                    newContributor1Logo = { url: '', fileName: '' };
                 }
 
                 if (contributor2File) {
@@ -1612,7 +1656,7 @@
                     newContributor2Logo = { ...currentContributor2Logo };
                 } else {
                     // If no new file and no old custom file, ensure it's cleared (empty string)
-                    newContributor2Logo = { url: '', fileName: '' }; // Set to empty string for db to know it's "unset"
+                    newContributor2Logo = { url: '', fileName: '' };
                 }
 
                 await setDoc(doc(db, PUBLIC_SETTINGS_COLLECTION, SITE_SETTINGS_DOC_ID), {
@@ -1638,18 +1682,96 @@
             }
         });
 
+        // publications will be filtered by the `displayPublications` function based on view
+        function displayPublications(publications, containerId, filterType) {
+            const container = document.getElementById(containerId);
+            if (!container) return; // Exit if container not found
 
-        function listenForPublicPublications() {
-            const q = query(collection(db, PUBLIC_PUB_COLLECTION), orderBy("year", "desc"));
-            onSnapshot(q, (snapshot) => {
-                const publications = [];
-                snapshot.forEach(doc => publications.push({ id: doc.id, ...doc.data() }));
-                displayPublications(publications);
-            }, (error) => {
-                console.error("Error listening to public publications:", error);
-                showMessageModal("errorMessage", "errorLoadingPublications", "error");
+            container.innerHTML = ''; // Clear previous books
+
+            const searchTerm = document.getElementById('publicationSearch').value.toLowerCase();
+            const sortBy = document.getElementById('sortPublications').value;
+
+            let filteredPublications = publications.filter(pub => {
+                const titleMatch = (pub.title || '').toLowerCase().includes(searchTerm);
+                const authorsMatch = (pub.authors || '').toLowerCase().includes(searchTerm);
+                const yearMatch = String(pub.year || '').includes(searchTerm);
+                const descriptionMatch = (pub.description || '').toLowerCase().includes(searchTerm);
+                const isbnMatch = (pub.isbn || '').toLowerCase().includes(searchTerm);
+                const issnMatch = (pub.issn || '').toLowerCase().includes(searchTerm);
+                const abstractArMatch = (pub.abstracts?.ar?.text || '').toLowerCase().includes(searchTerm);
+                const abstractEnMatch = (pub.abstracts?.en?.text || '').toLowerCase().includes(searchTerm);
+                const abstractItMatch = (pub.abstracts?.it?.text || '').toLowerCase().includes(searchTerm);
+
+                let meetsFilterType = true;
+                if (filterType === 'non-archival') {
+                    meetsFilterType = !pub.isArchivalVolume;
+                } else if (filterType === 'archival') {
+                    meetsFilterType = pub.isArchivalVolume;
+                }
+                // No filterType === 'current' here, as Current Issue has its own dedicated display logic.
+                
+                return (titleMatch || authorsMatch || yearMatch || descriptionMatch || isbnMatch || issnMatch ||
+                       abstractArMatch || abstractEnMatch || abstractItMatch) && meetsFilterType;
+            });
+
+            if (sortBy === 'year-desc') {
+                filteredPublications.sort((a, b) => (b.year || 0) - (a.year || 0)); // Handle null/undefined years
+            } else if (sortBy === 'year-asc') {
+                filteredPublications.sort((a, b) => (a.year || 0) - (b.year || 0));
+            } else if (sortBy === 'title-asc') {
+                filteredPublications.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+            } else if (sortBy === 'title-desc') {
+                filteredPublications.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
+            } else if (sortBy === 'author-asc') {
+                filteredPublications.sort((a, b) => (a.authors || '').localeCompare(b.authors || ''));
+            } else if (sortBy === 'author-desc') {
+                filteredPublications.sort((a, b) => (b.authors || '').localeCompare(a.authors || ''));
+            }
+
+            if (filteredPublications.length === 0) {
+                // Determine which "no results" message to show
+                const noResultsElementId = containerId === 'publicationsList' ? 'noPubsFound' : 'loadingArchivalVolumes'; // Re-using for simplicity, you can add a dedicated ID for archival no results.
+                container.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="${noResultsElementId}">${translations[currentLanguage][noResultsElementId]}</p>`;
+                return;
+            }
+
+            filteredPublications.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'publication-card p-4 flex flex-col items-center text-center';
+                bookCard.innerHTML = `
+                    <img src="${book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image'}" alt="${(book.title || 'No Title')} Cover" class="cover-image rounded-md mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">${book.title || translations[currentLanguage].noTitle}</h3>
+                    <p class="text-gray-700 mb-1">${book.authors || translations[currentLanguage].noAuthors}</p>
+                    <p class="text-gray-600 text-sm font-medium">${book.year || translations[currentLanguage].noYear}</p>
+                    <p class="text-gray-700 text-sm mt-2 flex-grow overflow-hidden line-clamp-3">${book.description || translations[currentLanguage].noDescription}</p>
+                    <button class="nav-button text-sm mt-4 view-publication-details" data-id="${book.id}" data-lang-key="viewDetailsButton">${translations[currentLanguage].viewDetailsButton}</button>
+                `;
+                container.appendChild(bookCard);
+            });
+
+            container.querySelectorAll('.view-publication-details').forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    const bookId = e.target.dataset.id;
+                    const docRef = doc(db, PUBLIC_PUB_COLLECTION, bookId);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        showPublicationDetailsModal(docSnap.data());
+                    } else {
+                        showMessageModal("errorMessage", "pubDetailsNotFound", "error");
+                    }
+                });
             });
         }
+
+        document.getElementById('publicationSearch').addEventListener('input', () => {
+            // Re-trigger display based on current view to apply search filter
+            showView(currentView);
+        });
+        document.getElementById('sortPublications').addEventListener('change', () => {
+            // Re-trigger display based on current view to apply sort
+            showView(currentView);
+        });
 
         function listenForCurrentIssue() {
             const q = query(collection(db, PUBLIC_PUB_COLLECTION), where("isCurrentIssue", "==", true));
@@ -1657,28 +1779,22 @@
                 const currentIssueContentDiv = document.getElementById('currentIssueContent');
                 const currentIssuePublicationCard = document.getElementById('currentIssuePublicationCard');
                 
-                // Hide the "No current issue" message and the card initially
-                currentIssueContentDiv.querySelector('p[data-lang-key="noCurrentIssue"]').classList.remove('hidden');
-                currentIssuePublicationCard.classList.add('hidden');
-
                 if (!snapshot.empty) {
                     const currentBook = snapshot.docs[0].data();
-                    currentIssueContentDiv.querySelector('p[data-lang-key="noCurrentIssue"]').classList.add('hidden'); // Hide the "No current issue" message
+                    currentIssueContentDiv.querySelector('p:not([id])').classList.add('hidden');
                     currentIssuePublicationCard.classList.remove('hidden');
                     
                     document.getElementById('currentIssueCover').src = currentBook.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image';
-                    document.getElementById('currentIssueTitle').textContent = currentBook.title || translations[currentLanguage].noTitle;
-                    document.getElementById('currentIssueAuthors').textContent = currentBook.authors || translations[currentLanguage].noAuthors;
-                    document.getElementById('currentIssueYear').textContent = currentBook.year || translations[currentLanguage].noYear;
-                    document.getElementById('currentIssueDescription').textContent = currentBook.description || translations[currentLanguage].noDescription;
+                    document.getElementById('currentIssueTitle').textContent = currentBook.title;
+                    document.getElementById('currentIssueAuthors').textContent = currentBook.authors;
+                    document.getElementById('currentIssueYear').textContent = currentBook.year;
+                    document.getElementById('currentIssueDescription').textContent = currentBook.description;
 
                     const updateDownloadBtn = (btnId, url, unavailableKey) => {
                         const btn = document.getElementById(btnId);
-                        if (btn) { // Ensure button exists before manipulating
-                            btn.href = url || '#';
-                            btn.classList.toggle('disabled', !url);
-                            btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
-                        }
+                        btn.href = url || '#';
+                        btn.classList.toggle('disabled', !url);
+                        btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
                     };
                     updateDownloadBtn('currentIssueDownloadPdfBtn', currentBook.pdfUrl, 'fullPdfUnavailable');
                     updateDownloadBtn('currentIssueDownloadAbstractArBtn', currentBook.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable');
@@ -1686,9 +1802,8 @@
                     updateDownloadBtn('currentIssueDownloadAbstractItBtn', currentBook.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
 
                 } else {
-                    // This else block is for when there is no current issue.
-                    // The "No current issue" message is already visible from the start of the function.
-                    // The publication card is already hidden.
+                    currentIssueContentDiv.querySelector('p:not([id])').classList.remove('hidden');
+                    currentIssuePublicationCard.classList.add('hidden');
                 }
             }, (error) => {
                 console.error("Error listening to current issue:", error);
@@ -1726,129 +1841,38 @@
         }
 
 
-        function displayPublications(publications) {
-            const publicationsListDiv = document.getElementById('publicationsList');
-            const archivalPublicationsListDiv = document.getElementById('archivalPublicationsList'); // For archival view
-            
-            // Clear both lists initially to prevent duplicate entries on re-render
-            publicationsListDiv.innerHTML = '';
-            archivalPublicationsListDiv.innerHTML = '';
-
-            if (!publications || publications.length === 0) {
-                publicationsListDiv.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="noPubsFound">${translations[currentLanguage].noPubsFound}</p>`;
-                archivalPublicationsListDiv.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="loadingArchivalVolumes">${translations[currentLanguage].noPubsFound}</p>`;
-                return;
-            }
-
-            const searchTerm = document.getElementById('publicationSearch').value.toLowerCase();
-            const sortBy = document.getElementById('sortPublications').value;
-
-            let filteredPublications = publications.filter(pub => {
-                const titleMatch = (pub.title || '').toLowerCase().includes(searchTerm);
-                const authorsMatch = (pub.authors || '').toLowerCase().includes(searchTerm);
-                const yearMatch = String(pub.year || '').includes(searchTerm);
-                const descriptionMatch = (pub.description || '').toLowerCase().includes(searchTerm);
-                const isbnMatch = (pub.isbn || '').toLowerCase().includes(searchTerm);
-                const issnMatch = (pub.issn || '').toLowerCase().includes(searchTerm);
-                const abstractArMatch = (pub.abstracts?.ar?.text || '').toLowerCase().includes(searchTerm);
-                const abstractEnMatch = (pub.abstracts?.en?.text || '').toLowerCase().includes(searchTerm);
-                const abstractItMatch = (pub.abstracts?.it?.text || '').toLowerCase().includes(searchTerm);
-
-
-                return titleMatch || authorsMatch || yearMatch || descriptionMatch || isbnMatch || issnMatch ||
-                       abstractArMatch || abstractEnMatch || abstractItMatch;
-            });
-
-            if (sortBy === 'year-desc') {
-                filteredPublications.sort((a, b) => (b.year || 0) - (a.year || 0)); // Handle null/undefined years
-            } else if (sortBy === 'year-asc') {
-                filteredPublications.sort((a, b) => (a.year || 0) - (b.year || 0));
-            } else if (sortBy === 'title-asc') {
-                filteredPublications.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
-            } else if (sortBy === 'title-desc') {
-                filteredPublications.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
-            } else if (sortBy === 'author-asc') {
-                filteredPublications.sort((a, b) => (a.authors || '').localeCompare(b.authors || ''));
-            } else if (sortBy === 'author-desc') {
-                filteredPublications.sort((a, b) => (b.authors || '').localeCompare(a.authors || ''));
-            }
-
-            if (filteredPublications.length === 0) {
-                publicationsListDiv.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="noSearchResults">${translations[currentLanguage].noSearchResults}</p>`;
-                archivalPublicationsListDiv.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="noSearchResults">${translations[currentLanguage].noSearchResults}</p>`;
-                return;
-            }
-
-            filteredPublications.forEach(book => {
-                const bookCardHtml = `
-                    <div class="publication-card p-4 flex flex-col items-center text-center">
-                        <img src="${book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image'}" alt="${(book.title || 'No Title')} Cover" class="cover-image rounded-md mb-4">
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">${book.title || translations[currentLanguage].noTitle}</h3>
-                        <p class="text-gray-700 mb-1">${book.authors || translations[currentLanguage].noAuthors}</p>
-                        <p class="text-gray-600 text-sm font-medium">${book.year || translations[currentLanguage].noYear}</p>
-                        <p class="text-gray-700 text-sm mt-2 flex-grow overflow-hidden line-clamp-3">${book.description || translations[currentLanguage].noDescription}</p>
-                        <button class="nav-button text-sm mt-4 view-publication-details" data-id="${book.id}" data-lang-key="viewDetailsButton">${translations[currentLanguage].viewDetailsButton}</button>
-                    </div>
-                `;
-                // Append to both lists, CSS will handle visibility based on the active view
-                publicationsListDiv.innerHTML += bookCardHtml;
-                archivalPublicationsListDiv.innerHTML += bookCardHtml;
-            });
-
-            // Re-attach event listeners after DOM update
-            document.querySelectorAll('.view-publication-details').forEach(button => {
-                button.addEventListener('click', async (e) => {
-                    const bookId = e.target.dataset.id;
-                    const docRef = doc(db, PUBLIC_PUB_COLLECTION, bookId);
-                    const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        showPublicationDetailsModal(docSnap.data());
-                    } else {
-                        showMessageModal("errorMessage", "pubDetailsNotFound", "error");
-                    }
-                });
-            });
-        }
-
-        document.getElementById('publicationSearch').addEventListener('input', () => listenForPublicPublications());
-        document.getElementById('sortPublications').addEventListener('change', () => listenForPublicPublications());
-
         function listenForAdminPublications() {
-            const q = query(collection(db, PUBLIC_PUB_COLLECTION), orderBy("timestamp", "desc"));
-            onSnapshot(q, (snapshot) => {
-                const adminPublicationsListBody = document.getElementById('adminPublicationsList');
-                adminPublicationsListBody.innerHTML = '';
+            // This function is now mostly for rendering the admin table based on the globally updated allPublications
+            const adminPublicationsListBody = document.getElementById('adminPublicationsList');
+            adminPublicationsListBody.innerHTML = '';
 
-                if (snapshot.empty) {
-                    adminPublicationsListBody.innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noPublicationsToManage">${translations[currentLanguage].noPublicationsToManage}</td></tr>`;
-                    return;
-                }
+            if (allPublications.length === 0) {
+                adminPublicationsListBody.innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noPublicationsToManage">${translations[currentLanguage].noPublicationsToManage}</td></tr>`;
+                return;
+            }
 
-                snapshot.forEach(doc => {
-                    const book = { id: doc.id, ...doc.data() };
-                    const row = adminPublicationsListBody.insertRow();
-                    row.className = 'admin-table-row';
-                    const isCurrentIssueIndicator = book.isCurrentIssue ? `<span class="ml-2 px-2 py-1 bg-blue-400 text-white text-xs font-semibold rounded-full" data-lang-key="currentLabelShort">${translations[currentLanguage].currentLabelShort}</span>` : '';
-                    row.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${book.title || translations[currentLanguage].noTitle}${isCurrentIssueIndicator}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${book.authors || translations[currentLanguage].noAuthors}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${book.year || translations[currentLanguage].noYear}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex space-x-2">
-                            <button class="text-blue-600 hover:text-blue-800 edit-publication-button admin-button" data-id="${book.id}" data-lang-key="editButton">${translations[currentLanguage].editButton}</button>
-                            <button class="text-red-600 hover:text-red-800 delete-publication-button admin-button" data-id="${book.id}" data-lang-key="deleteButton">${translations[currentLanguage].deleteButton}</button>
-                        </td>
-                    `;
-                });
+            allPublications.forEach(book => {
+                const row = adminPublicationsListBody.insertRow();
+                row.className = 'admin-table-row';
+                const isCurrentIssueIndicator = book.isCurrentIssue ? `<span class="ml-2 px-2 py-1 bg-blue-400 text-white text-xs font-semibold rounded-full" data-lang-key="currentLabelShort">${translations[currentLanguage].currentLabelShort}</span>` : '';
+                const isArchivalVolumeIndicator = book.isArchivalVolume ? `<span class="ml-2 px-2 py-1 bg-purple-400 text-white text-xs font-semibold rounded-full" data-lang-key="archivalLabelShort">${translations[currentLanguage].archivalLabelShort || 'Archival'}</span>` : ''; // Added archival indicator
 
-                document.querySelectorAll('.edit-publication-button').forEach(button => {
-                    button.addEventListener('click', (e) => editPublication(e.target.dataset.id));
-                });
-                document.querySelectorAll('.delete-publication-button').forEach(button => {
-                    button.addEventListener('click', (e) => confirmDeletePublication(e.target.dataset.id));
-                });
-            }, (error) => {
-                console.error("Error listening to admin publications:", error);
-                showMessageModal("errorMessage", "errorLoadingAdminPublications", "error");
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${book.title || translations[currentLanguage].noTitle}${isCurrentIssueIndicator}${isArchivalVolumeIndicator}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${book.authors || translations[currentLanguage].noAuthors}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${book.year || translations[currentLanguage].noYear}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex space-x-2">
+                        <button class="text-blue-600 hover:text-blue-800 edit-publication-button admin-button" data-id="${book.id}" data-lang-key="editButton">${translations[currentLanguage].editButton}</button>
+                        <button class="text-red-600 hover:text-red-800 delete-publication-button admin-button" data-id="${book.id}" data-lang-key="deleteButton">${translations[currentLanguage].deleteButton}</button>
+                    </td>
+                `;
+            });
+
+            document.querySelectorAll('.edit-publication-button').forEach(button => {
+                button.addEventListener('click', (e) => editPublication(e.target.dataset.id));
+            });
+            document.querySelectorAll('.delete-publication-button').forEach(button => {
+                button.addEventListener('click', (e) => confirmDeletePublication(e.target.dataset.id));
             });
         }
 
@@ -1864,6 +1888,7 @@
         const abstractEnTextInput = document.getElementById('abstractEnText');
         const abstractItTextInput = document.getElementById('abstractItText');
         const bookIsCurrentIssueCheckbox = document.getElementById('bookIsCurrentIssue');
+        const bookIsArchivalVolumeCheckbox = document.getElementById('bookIsArchivalVolume'); // New checkbox
         const bookCoverInput = document.getElementById('bookCover');
         const bookPdfInput = document.getElementById('bookPdf');
         const abstractArPdfInput = document.getElementById('abstractArPdf');
@@ -1904,12 +1929,7 @@
             const abstractEnText = abstractEnTextInput.value.trim();
             const abstractItText = abstractItTextInput.value.trim();
             const isCurrentIssue = bookIsCurrentIssueCheckbox.checked;
-
-            // Minimal validation for user experience, but won't block empty save
-            if (!title && !authors && !year && !description) {
-                // If ALL core fields are empty, maybe show a soft warning, but don't prevent save if user insists
-                // For now, allow saving completely empty if needed.
-            }
+            const isArchivalVolume = bookIsArchivalVolumeCheckbox.checked; // Get new archival status
 
             try {
                 // Handle file uploads and deletions for updates
@@ -1961,6 +1981,7 @@
                     pdfUrl: pdfResult.url || '', 
                     pdfFileName: pdfResult.fileName || '',
                     isCurrentIssue,
+                    isArchivalVolume, // Save new archival status
                     timestamp: new Date().toISOString()
                 };
                 
@@ -2044,6 +2065,7 @@
                     abstractEnTextInput.value = data.abstracts?.en?.text || '';
                     abstractItTextInput.value = data.abstracts?.it?.text || '';
                     bookIsCurrentIssueCheckbox.checked = data.isCurrentIssue || false;
+                    bookIsArchivalVolumeCheckbox.checked = data.isArchivalVolume || false; // Populate new checkbox
 
                     currentPubFiles = {
                         coverUrl: data.coverImageUrl || '', coverFileName: data.coverImageFileName || '',
@@ -2386,7 +2408,7 @@
         });
 
         function showPublicationDetailsModal(book) {
-            document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image';
+            document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image';
             document.getElementById('detailTitle').textContent = book.title || translations[currentLanguage].noTitle;
             document.getElementById('detailAuthors').textContent = book.authors || translations[currentLanguage].noAuthors;
             document.getElementById('detailYear').textContent = book.year || translations[currentLanguage].noYear;
@@ -2401,11 +2423,9 @@
 
             const updateDownloadBtn = (btnId, url, unavailableKey) => {
                 const btn = document.getElementById(btnId);
-                if (btn) { // Ensure button exists
-                    btn.href = url || '#';
-                    btn.classList.toggle('disabled', !url);
-                    btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
-                }
+                btn.href = url || '#';
+                btn.classList.toggle('disabled', !url);
+                btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
             };
             updateDownloadBtn('detailDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable');
             updateDownloadBtn('detailDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable');
@@ -2433,7 +2453,7 @@
             initializeFirebase(); // Initialize Firebase and set up auth listener
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             // The initial view will be set by updateAuthUI after Firebase auth state is known
-            // The Firebase onAuthStateChanged listener will call setupListeners and updateAuthUI.
+            // If anonymous/no user, it defaults to 'aboutUs'. If admin, it defaults to 'adminDashboard'.
         };
     </script>
 </body>
