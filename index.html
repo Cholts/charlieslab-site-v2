@@ -38,7 +38,7 @@
             border-bottom: 1px solid #c0c4c9; /* A finer line */
         }
         .header-logo {
-            max-height: 90px;
+            max-height: 120px; /* Increased logo size */
             width: auto;
             filter: none; /* No filter needed for lighter background */
         }
@@ -266,7 +266,7 @@
             border-top: 1px solid #b0b8c3;
         }
         .footer-logo {
-            max-height: 60px;
+            max-height: 80px; /* Increased footer logo size */
             width: auto;
             filter: none; /* No filter needed for lighter background */
         }
@@ -1454,7 +1454,7 @@
                 const img1 = document.createElement('img');
                 img1.src = currentContributor1Logo.url;
                 img1.alt = "L'ERMA di Bretschneider Logo";
-                img1.className = 'h-10'; // Apply Tailwind height class
+                img1.className = 'h-16'; // Increased contributor logo size
                 contributor1Container.appendChild(img1);
             }
 
@@ -1463,7 +1463,7 @@
                 const img2 = document.createElement('img');
                 img2.src = currentContributor2Logo.url;
                 img2.alt = "Fondazione MEDA Logo";
-                img2.className = 'h-10'; // Apply Tailwind height class
+                img2.className = 'h-16'; // Increased contributor logo size
                 contributor2Container.appendChild(img2);
             }
 
