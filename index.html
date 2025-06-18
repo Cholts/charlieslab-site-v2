@@ -38,7 +38,7 @@
             border-bottom: 1px solid #c0c4c9; /* A finer line */
         }
         .header-logo {
-            max-height: 90px;
+            max-height: 120px; /* Increased logo size */
             width: auto;
             filter: none; /* No filter needed for lighter background */
         }
@@ -266,7 +266,7 @@
             border-top: 1px solid #b0b8c3;
         }
         .footer-logo {
-            max-height: 60px;
+            max-height: 80px; /* Increased footer logo size */
             width: auto;
             filter: none; /* No filter needed for lighter background */
         }
@@ -274,7 +274,7 @@
             color: #3b76a7; /* Professional blue for links */
         }
         .footer-link:hover {
-            color: #2e5a80;
+            color: #2e5a80; /* Darker blue on hover */
             text-decoration: underline;
         }
 
@@ -421,7 +421,7 @@
             <div class="flex flex-col md:flex-row items-center justify-between w-full gap-4">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <img id="mainLogo" src="https://placehold.co/200x90/e0e2e5/3f4245?text=Header+Logo" alt="Quaderni di Archeologia della Libya Logo" class="header-logo">
+                    <img id="mainLogo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee" alt="Quaderni di Archeologia della Libya Logo" class="header-logo">
                 </div>
                 <!-- Search bar and sort options -->
                 <div class="header-search-container flex flex-col sm:flex-row items-center gap-4 flex-grow md:max-w-xl lg:max-w-2xl">
@@ -855,7 +855,7 @@
         <div class="container flex flex-col md:flex-row items-center justify-between text-sm">
             <!-- Logo on the left -->
             <div class="flex items-center space-x-4 mb-4 md:mb-0">
-                <img id="footerLogo" src="https://placehold.co/150x60/e0e2e5/3f4245?text=Footer+Logo" alt="Quaderni di Archeologia della Libya Logo" class="footer-logo">
+                <img id="mainLogo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee" alt="Quaderni di Archeologia della Libya Logo" class="footer-logo">
                 <p>&copy; <span id="currentYear"></span> <span data-lang-key="copyrightText">Quaderni di Archeologia della Libya. All rights reserved.</span></p>
             </div>
             
@@ -870,9 +870,13 @@
             <div class="text-center md:text-right space-y-2">
                 <p class="font-bold" data-lang-key="contributorsLabel">Contributors:</p>
                 <div class="flex justify-center md:justify-end items-center gap-4">
-                    <!-- These will be populated by JS if logos are uploaded via admin -->
-                    <div id="contributor1LogoContainer" class="h-10 flex items-center justify-center"></div>
-                    <div id="contributor2LogoContainer" class="h-10 flex items-center justify-center"></div>
+                    <!-- These will now load instantly from HTML, then be updated by JS if custom ones are set -->
+                    <div id="contributor1LogoContainer" class="h-16 flex items-center justify-center">
+                        <img id="contributor1Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20lerma.png?alt=media&token=f6966fec-902a-4e2a-b39e-a3ddb633e983" alt="L'ERMA di Bretschneider Logo" class="h-16">
+                    </div>
+                    <div id="contributor2LogoContainer" class="h-16 flex items-center justify-center">
+                        <img id="contributor2Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20meda%20ets%20max.jpg?alt=media&token=c2071e4e-bf59-4f06-b99b-4b739737f51b" alt="Fondazione MEDA Logo" class="h-16">
+                    </div>
                 </div>
                 <button id="adminLoginBtnFooter" class="nav-button bg-transparent hover:bg-gray-700 border border-white text-white mt-4" data-lang-key="adminLoginButton">Admin Login</button>
             </div>
@@ -881,11 +885,11 @@
 
     <!-- Firebase SDK -->
     <script type="module">
-        // Firebase CDN Imports
+        // Firebase CDN Imports - Corrected syntax to use 'from' keyword
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, onSnapshot, query, orderBy, where, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js"; // Corrected this line
 
         // Firebase Configuration and Auth Token (Provided by Canvas Environment or Fallback)
         const hardcodedFirebaseConfig = {
@@ -904,10 +908,11 @@
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
         // Default Logo Paths (Placeholders if not set by admin) - Now empty for contributor logos
-        const DEFAULT_HEADER_LOGO_URL = 'https://placehold.co/200x90/e0e2e5/3f4245?text=Header+Logo';
-        const DEFAULT_FOOTER_LOGO_URL = 'https://placehold.co/150x60/e0e2e5/3f4245?text=Footer+Logo';
-        const DEFAULT_CONTRIB1_LOGO_URL = ''; // Empty by default, will only show if uploaded
-        const DEFAULT_CONTRIB2_LOGO_URL = ''; // Empty by default, will only show if uploaded
+        const DEFAULT_HEADER_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee';
+        const DEFAULT_FOOTER_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee';
+        // Updated default contributor logo URLs to actual image URLs from your Firebase Storage
+        const DEFAULT_CONTRIB1_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20lerma.png?alt=media&token=f6966fec-902a-4e2a-b39e-a3ddb633e983'; // L'ERMA logo
+        const DEFAULT_CONTRIB2_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20meda%20ets%20max.jpg?alt=media&token=c2071e4e-bf59-4f06-b99b-4b739737f51b'; // Fondazione MEDA logo
 
         const SITE_SETTINGS_DOC_ID = 'siteSettings';
 
@@ -1086,9 +1091,9 @@
                 loadingArchivalVolumes: "Caricamento volumi di archivio...", editorialEthicsHeading: "Linee Guida Editoriali & Codice Etico",
                 editorialGuidelinesTitle: "Linee Guida Editoriali", articlesSubmittedTo: "Gli articoli devono essere inviati a:",
                 submissionProcedureTitle: "Procedura di Sottomissione:", submissionProcedure1: "I contributi devono essere inviati in formato digitale .doc (Microsoft Word) come allegato e-mail.",
-                submissionProcedure2: "I contenuti saranno esaminati da almeno due lettori anonimi e, se necessario, restituiti all'autore per eventuali correzioni e modifiche.",
+                submissionProcedure2: "I contenuti saranno esaminati da almeno due revisori anonimi e, se necessario, restituiti all'autore per eventuali correzioni e modifiche.",
                 submissionProcedure3: "Un solo set di bozze sarà inviato agli autori che dovranno correggerle e restituirle entro la scadenza fissata dagli editori.",
-                submissionProcedure4: "Per quanto riguarda le illustrazioni, un file contenente didascalie e crediti fotografici deve essere inviato separatamente. Il testo deve essere accompagnato da una copia digitale delle immagini da pubblicare (si prega di usare WeTransfer se le immagini sono troppo pesanti per essere inviate come allegati e-mail).",
+                submissionProcedure4: "Con riguardo alle illustrazioni, un file contenente didascalie e crediti fotografici deve essere inviato separatamente. Il testo deve essere accompagnato da una copia digitale delle immagini da pubblicare (si prega di usare WeTransfer se le immagini sono troppo pesanti per essere inviate come allegati e-mail).",
                 submissionProcedure5: "Le immagini devono essere in formato JPG o TIFF e con una risoluzione minima di 300 dpi (definizione pixel). Tutte le immagini inviate per la pubblicazione devono essere conformi alle norme sul copyright e deve esserci un accordo (o un modulo di liberatoria) sulla riproduzione dell'immagine da parte del titolare del copyright prima della pubblicazione. L'autore è l'unico responsabile dell'ottenimento di tali permessi. Nessuna immagine senza tali documenti di accompagnamento sarà pubblicata.",
                 articleRequirementsTitle: "Requisiti dell'Articolo:", articleRequirements1: "Un abstract di ca. 500 caratteri / 100 parole nella lingua del testo e in inglese.",
                 articleRequirements2: "Titolo in inglese.", articleRequirements3: "5 Parole Chiave in italiano e inglese.",
@@ -1140,8 +1145,8 @@
                 invalidCredentials: "Credenziali non valide. Riprova.", tooManyLoginAttempts: "Troppi tentativi di accesso. Riprova più tardi.",
                 adminLoginSuccessful: "Accesso admin riuscito!", errorLoadingPublications: "Errore caricamento pubblicazioni. Controlla le regole di Firebase.",
                 errorLoadingCurrentIssue: "Errore caricamento numero corrente.", errorLoadingNews: "Errore caricamento notizie.",
-                errorLoadingAdminPublications: "Errore caricamento pubblicazioni admin.", noPermissionAddEditPublications: "You do not have permission to add/edit publications.",
-                fillAllRequiredFields: "Please fill all required fields.", errorSavingPublication: "Errore salvataggio pubblicazione: ",
+                errorLoadingAdminPublications: "Errore caricamento pubblicazioni admin.", noPermissionAddEditPublications: "Non hai il permesso di aggiungere/modificare pubblicazioni.",
+                fillAllRequiredFields: "Compila tutti i campi richiesti.", errorSavingPublication: "Errore salvataggio pubblicazione: ",
                 publicationUpdated: "Pubblicazione aggiornata con successo!", publicationAdded: "Pubblicazione aggiunta con successo!",
                 publicationNotFoundForEdit: "Pubblicazione non trovata per modifica.", errorLoadingPublicationForEdit: "Errore caricamento pubblicazione per modifica: ",
                 publicationNotFoundForDeletion: "Pubblicazione non trovata per eliminazione.", errorDeletingPublication: "Errore eliminazione pubblicazione: ",
@@ -1152,10 +1157,10 @@
                 errorLoadingAdminNews: "Errore caricamento notizie admin.", siteLogosNotFound: "Loghi sito non trovati nel database. Uso predefiniti.",
                 couldNotLoadLogos: "Impossibile caricare i loghi del sito.", siteLogosUpdated: "Loghi sito aggiornati con successo!",
                 errorUpdatingLogos: "Errore aggiornamento loghi sito: ", contributorLogosUpdated: "Loghi contributori aggiornati con successo!",
-                errorUpdatingContributorLogos: "Errore aggiornamento loghi contributori: ", noPermissionUpdateSiteSettings: "You do not have permission to update site settings.",
+                errorUpdatingContributorLogos: "Errore aggiornamento loghi contributori: ", noPermissionUpdateSiteSettings: "Non hai il permesso di aggiornare le impostazioni del sito.",
                 yesButton: "Yes", noButton: "No", okButton: "OK", editButton: "Edit", deleteButton: "Delete",
-                noArabicAbstract: "No Arabic abstract text available.", noEnglishAbstract: "No English abstract text available.",
-                noItalianAbstract: "No Italian abstract text available."
+                noArabicAbstract: "Nessun abstract arabo disponibile.", noEnglishAbstract: "Nessun abstract inglese disponibile.",
+                noItalianAbstract: "Nessun abstract italiano disponibile.", fileNotFoundInStorage: "File non trovato nello storage: ", fileDeletionFailed: "Eliminazione file fallita: "
             }
         };
 
@@ -1196,10 +1201,6 @@
                 auth = getAuth(app);               
                 storage = getStorage(app);
 
-                // We will only sign in when explicitly logging in.
-                // The onAuthStateChanged listener will handle initial state (logged in or not)
-                // without forcing an anonymous login on page load.
-
                 // Listen for authentication state changes
                 onAuthStateChanged(auth, (user) => {
                     userId = user ? user.uid : null; 
@@ -1207,11 +1208,8 @@
                     document.getElementById('loggedInUserEmail').textContent = user ? (user.email || 'Anonymous User') : '';
                     
                     updateAuthUI();
-                    // Setup listeners ONLY after initial auth state is determined
-                    // and db is initialized.
-                    if (db) { 
-                        setupListeners(); 
-                    }
+                    // Setup listeners ONLY after Firebase is fully initialized and auth state is known
+                    setupListeners(); 
                 });
             } catch (error) {
                 console.error("Firebase init error:", error);
@@ -1226,7 +1224,7 @@
             aboutUs: document.getElementById('aboutUsView'),
             editorialBoard: document.getElementById('editorialBoardView'),
             currentIssue: document.getElementById('currentIssueView'),
-            archivalVolumes: document.getElementById('archivalVolumesView'), // New View
+            archivalVolumes: document.getElementById('archivalVolumesView'),
             editorialAndEthics: document.getElementById('editorialAndEthicsView'),
             newsEvents: document.getElementById('newsEventsView'),
             adminLogin: document.getElementById('adminLoginView'),
@@ -1246,28 +1244,19 @@
                 document.body.classList.toggle('admin-bg', viewId === 'adminLogin' || viewId === 'adminDashboard');
 
                 // Trigger specific listeners/initializations for certain views
-                if (viewId === 'currentIssue') {
-                    listenForCurrentIssue();
-                } else if (viewId === 'archivalVolumes') { // New View logic
-                    displayPublications(allPublications, 'archivalPublicationsList', 'archival');
-                } else if (viewId === 'aboutUs') { // aboutUs also lists publications
-                    displayPublications(allPublications, 'publicationsList', 'non-archival');
-                } else if (viewId === 'newsEvents') {
-                    listenForNews();
-                } else if (viewId === 'adminDashboard') {
+                // These are now handled by setupListeners and will be triggered by onAuthStateChanged
+                // No need to explicitly call them here.
+                if (viewId === 'adminDashboard') {
                     // Default to publications management when entering dashboard
                     document.getElementById('adminManagePublications').classList.remove('hidden');
                     document.getElementById('adminManageNews').classList.add('hidden');
                     document.getElementById('adminManageSiteSettings').classList.add('hidden');
                     resetAddPublicationForm(); // Clear form when navigating to pubs management
-                    listenForAdminPublications(); // Ensure admin pubs list is active
                 }
             } else {
                 console.warn("View not found:", viewId);
                 showMessageModal("errorMessage", "viewNotFound", "error");
             }
-            // Re-apply translations for dynamic content and newly visible elements
-            applyTranslations(currentLanguage);
         }
 
         // --- Event Listeners for Navigation ---
@@ -1304,7 +1293,7 @@
             document.getElementById('adminManageNews').classList.add('hidden');
             document.getElementById('adminManageSiteSettings').classList.add('hidden');
             resetAddPublicationForm(); // Reset publication form
-            listenForAdminPublications(); // Ensure publications list updates
+            listenForAdminPublications(); // Ensure admin pubs list is active
         });
         document.getElementById('manageNewsBtn').addEventListener('click', () => {
             document.getElementById('adminManagePublications').classList.add('hidden');
@@ -1333,7 +1322,10 @@
                 showView('adminDashboard');
             } else if (!isAdmin && currentView === 'adminDashboard') {
                 showView('aboutUs'); 
+            } else if (!user) { // If no user (anonymous), default to aboutUs
+                showView('aboutUs');
             }
+            // If user is not admin and currentView is already a public view, do nothing.
         }
 
         // --- Admin Login Form Handling ---
@@ -1369,6 +1361,7 @@
 
         function setupListeners() {
             if (!db) {
+                console.error("Firestore not initialized, cannot set up listeners.");
                 return;
             }
 
@@ -1393,9 +1386,10 @@
             const ADMIN_EMAIL = 'charles.schweb@lerma.it';
             const isAdmin = user && user.email === ADMIN_EMAIL; 
             if (isAdmin) { // Only attach admin-specific listeners if logged in as admin
-                listenForAdminPublications(); // This is also handled by the central listener, but keeping this for explicit admin refresh
+                // listenForAdminPublications() is already called inside the main onSnapshot
+                listenForAdminNews();
             } else {
-                // Clear admin tables if not admin
+                // Clear admin tables if not admin and ensure default message
                 document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noPublicationsToManage">${translations[currentLanguage].noPublicationsToManage}</td></tr>`;
                 document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noNewsToManage">${translations[currentLanguage].noNewsToManage}</td></tr>`;
             }
@@ -1452,23 +1446,26 @@
                     currentHeaderLogo.fileName = data.headerLogoFileName || '';
                     currentFooterLogo.url = data.footerLogoUrl || DEFAULT_FOOTER_LOGO_URL;
                     currentFooterLogo.fileName = data.footerLogoFileName || '';
+                    // Use actual default URLs if the Firestore field is explicitly empty or missing
                     currentContributor1Logo.url = data.contributor1LogoUrl || DEFAULT_CONTRIB1_LOGO_URL;
                     currentContributor1Logo.fileName = data.contributor1LogoFileName || '';
                     currentContributor2Logo.url = data.contributor2LogoUrl || DEFAULT_CONTRIB2_LOGO_URL;
                     currentContributor2Logo.fileName = data.contributor2LogoFileName || '';
                 } else {
-                    currentHeaderLogo.url = DEFAULT_HEADER_LOGO_URL;
-                    currentFooterLogo.url = DEFAULT_FOOTER_LOGO_URL;
-                    currentContributor1Logo.url = DEFAULT_CONTRIB1_LOGO_URL;
-                    currentContributor2Logo.url = DEFAULT_CONTRIB2_LOGO_URL;
+                    // If no settings doc, use default URLs and empty fileNames
+                    currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' };
+                    currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
+                    currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' };
+                    currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
                 }
                 updateSiteLogosUI();
             }, (error) => {
                 console.error("Error listening for site logos:", error);
-                currentHeaderLogo.url = DEFAULT_HEADER_LOGO_URL;
-                currentFooterLogo.url = DEFAULT_FOOTER_LOGO_URL;
-                currentContributor1Logo.url = DEFAULT_CONTRIB1_LOGO_URL;
-                currentContributor2Logo.url = DEFAULT_CONTRIB2_LOGO_URL;
+                // Fallback to defaults if there's an error fetching
+                currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' };
+                currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
+                currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' };
+                currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
                 updateSiteLogosUI();
                 showMessageModal("errorMessage", "couldNotLoadLogos", "error");
             });
@@ -1478,28 +1475,15 @@
             document.getElementById('mainLogo').src = currentHeaderLogo.url;
             document.getElementById('footerLogo').src = currentFooterLogo.url;
             
-            // Handle Contributor Logos dynamically
-            const contributor1Container = document.getElementById('contributor1LogoContainer');
-            const contributor2Container = document.getElementById('contributor2LogoContainer');
+            // Handle Contributor Logos dynamically (now updating existing img tags)
+            const img1 = document.getElementById('contributor1Logo');
+            const img2 = document.getElementById('contributor2Logo');
 
-            // Clear previous images
-            contributor1Container.innerHTML = '';
-            contributor2Container.innerHTML = '';
-
-            if (currentContributor1Logo.url) {
-                const img1 = document.createElement('img');
+            if (img1) {
                 img1.src = currentContributor1Logo.url;
-                img1.alt = "L'ERMA di Bretschneider Logo";
-                img1.className = 'h-10'; // Apply Tailwind height class
-                contributor1Container.appendChild(img1);
             }
-
-            if (currentContributor2Logo.url) {
-                const img2 = document.createElement('img');
+            if (img2) {
                 img2.src = currentContributor2Logo.url;
-                img2.alt = "Fondazione MEDA Logo";
-                img2.className = 'h-10'; // Apply Tailwind height class
-                contributor2Container.appendChild(img2);
             }
 
             // Update admin settings preview if on that page
@@ -1516,6 +1500,7 @@
                 const textEl = document.getElementById(textId);
                 if (imgEl && textEl) {
                     imgEl.src = current.url;
+                    // Display preview image if a custom one is set, or if it's a default, display as 'none' initially
                     imgEl.style.display = (current.url && current.url !== defaultUrl) ? 'block' : 'none';
                     textEl.textContent = current.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(current.fileName)}` : translations[currentLanguage][noMsgKey];
                 }
@@ -1643,7 +1628,7 @@
                     newContributor1Logo = { ...currentContributor1Logo };
                 } else {
                     // If no new file and no old custom file, ensure it's cleared (empty string)
-                    newContributor1Logo = { url: '', fileName: '' };
+                    newContributor1Logo = { url: '', fileName: '' }; // Set to empty string for db to know it's "unset"
                 }
 
                 if (contributor2File) {
@@ -1656,7 +1641,7 @@
                     newContributor2Logo = { ...currentContributor2Logo };
                 } else {
                     // If no new file and no old custom file, ensure it's cleared (empty string)
-                    newContributor2Logo = { url: '', fileName: '' };
+                    newContributor2Logo = { url: '', fileName: '' }; // Set to empty string for db to know it's "unset"
                 }
 
                 await setDoc(doc(db, PUBLIC_SETTINGS_COLLECTION, SITE_SETTINGS_DOC_ID), {
@@ -1682,7 +1667,7 @@
             }
         });
 
-        // publications will be filtered by the `displayPublications` function based on view
+
         function displayPublications(publications, containerId, filterType) {
             const container = document.getElementById(containerId);
             if (!container) return; // Exit if container not found
@@ -1779,22 +1764,28 @@
                 const currentIssueContentDiv = document.getElementById('currentIssueContent');
                 const currentIssuePublicationCard = document.getElementById('currentIssuePublicationCard');
                 
+                // Hide the "No current issue" message and the card initially
+                currentIssueContentDiv.querySelector('p[data-lang-key="noCurrentIssue"]').classList.remove('hidden');
+                currentIssuePublicationCard.classList.add('hidden');
+
                 if (!snapshot.empty) {
                     const currentBook = snapshot.docs[0].data();
-                    currentIssueContentDiv.querySelector('p:not([id])').classList.add('hidden');
+                    currentIssueContentDiv.querySelector('p[data-lang-key="noCurrentIssue"]').classList.add('hidden'); // Hide the "No current issue" message
                     currentIssuePublicationCard.classList.remove('hidden');
                     
                     document.getElementById('currentIssueCover').src = currentBook.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image';
-                    document.getElementById('currentIssueTitle').textContent = currentBook.title;
-                    document.getElementById('currentIssueAuthors').textContent = currentBook.authors;
-                    document.getElementById('currentIssueYear').textContent = currentBook.year;
-                    document.getElementById('currentIssueDescription').textContent = currentBook.description;
+                    document.getElementById('currentIssueTitle').textContent = currentBook.title || translations[currentLanguage].noTitle;
+                    document.getElementById('currentIssueAuthors').textContent = currentBook.authors || translations[currentLanguage].noAuthors;
+                    document.getElementById('currentIssueYear').textContent = currentBook.year || translations[currentLanguage].noYear;
+                    document.getElementById('currentIssueDescription').textContent = currentBook.description || translations[currentLanguage].noDescription;
 
                     const updateDownloadBtn = (btnId, url, unavailableKey) => {
                         const btn = document.getElementById(btnId);
-                        btn.href = url || '#';
-                        btn.classList.toggle('disabled', !url);
-                        btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
+                        if (btn) { // Ensure button exists before manipulating
+                            btn.href = url || '#';
+                            btn.classList.toggle('disabled', !url);
+                            btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
+                        }
                     };
                     updateDownloadBtn('currentIssueDownloadPdfBtn', currentBook.pdfUrl, 'fullPdfUnavailable');
                     updateDownloadBtn('currentIssueDownloadAbstractArBtn', currentBook.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable');
@@ -1802,8 +1793,9 @@
                     updateDownloadBtn('currentIssueDownloadAbstractItBtn', currentBook.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
 
                 } else {
-                    currentIssueContentDiv.querySelector('p:not([id])').classList.remove('hidden');
-                    currentIssuePublicationCard.classList.add('hidden');
+                    // This else block is for when there is no current issue.
+                    // The "No current issue" message is already visible from the start of the function.
+                    // The publication card is already hidden.
                 }
             }, (error) => {
                 console.error("Error listening to current issue:", error);
@@ -2408,7 +2400,7 @@
         });
 
         function showPublicationDetailsModal(book) {
-            document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image';
+            document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image';
             document.getElementById('detailTitle').textContent = book.title || translations[currentLanguage].noTitle;
             document.getElementById('detailAuthors').textContent = book.authors || translations[currentLanguage].noAuthors;
             document.getElementById('detailYear').textContent = book.year || translations[currentLanguage].noYear;
@@ -2423,9 +2415,11 @@
 
             const updateDownloadBtn = (btnId, url, unavailableKey) => {
                 const btn = document.getElementById(btnId);
-                btn.href = url || '#';
-                btn.classList.toggle('disabled', !url);
-                btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
+                if (btn) { // Ensure button exists
+                    btn.href = url || '#';
+                    btn.classList.toggle('disabled', !url);
+                    btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
+                }
             };
             updateDownloadBtn('detailDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable');
             updateDownloadBtn('detailDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable');
@@ -2453,7 +2447,7 @@
             initializeFirebase(); // Initialize Firebase and set up auth listener
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             // The initial view will be set by updateAuthUI after Firebase auth state is known
-            // If anonymous/no user, it defaults to 'aboutUs'. If admin, it defaults to 'adminDashboard'.
+            // The Firebase onAuthStateChanged listener will call setupListeners and updateAuthUI.
         };
     </script>
 </body>
