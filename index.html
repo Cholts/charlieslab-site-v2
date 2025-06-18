@@ -9,18 +9,18 @@
     <!-- Google Fonts: EB Garamond for global text and headings -->
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Global Font and Base Colors - Refined Cooler Greys */
+        /* Global Font and Base Colors - Light Neutral Greys */
         body {
             font-family: 'EB Garamond', serif; /* Apply Garamond globally */
-            background-color: #e8e9eb; /* Very light cool grey */
-            color: #3f4245; /* Dark charcoal-blue for body text */
+            background-color: #f5f5f5; /* Very light neutral grey */
+            color: #333333; /* Dark charcoal for body text */
             line-height: 1.6;
         }
 
         /* Headings Font - Consistent Garamond */
         h1, h2, h3, h4, h5, h6 {
             font-family: 'EB Garamond', serif;
-            color: #2c2f33; /* Even darker blue-grey for headings */
+            color: #222222; /* Even darker grey for headings */
             font-weight: 700;
         }
 
@@ -33,17 +33,17 @@
 
         /* Header Specific Styles */
         .header-bg {
-            background-color: #d8dbdf; /* Lighter cool grey for header */
+            background-color: #e0e0e0; /* Light grey for header */
             box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Subtle shadow */
-            border-bottom: 1px solid #c0c4c9; /* A finer line */
+            border-bottom: 1px solid #d0d0d0; /* A finer line */
         }
         .header-logo {
             max-height: 90px;
             width: auto;
-            filter: none; /* No filter needed for lighter background */
+            filter: none; /* No filter needed for lighter background if logo is already grey */
         }
         .nav-button {
-            background-color: #5f6b7a; /* Muted blue-grey for buttons */
+            background-color: #607d8b; /* Muted blue-grey for buttons */
             color: #ffffff; /* White text */
             font-family: 'EB Garamond', serif;
             padding: 0.75rem 1.25rem;
@@ -54,65 +54,65 @@
             font-weight: 600;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             white-space: nowrap;
-            border: 1px solid #505c68; /* Distinct border */
+            border: 1px solid #546e7a; /* Distinct border */
         }
         .nav-button:hover {
-            background-color: #72808f; /* Slightly lighter on hover */
+            background-color: #78909c; /* Slightly lighter on hover */
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
 
         /* Translation Buttons */
         .lang-button {
-            background-color: #8c98a7; /* Even lighter blue-grey for lang buttons */
+            background-color: #90a4ae; /* Even lighter blue-grey for lang buttons */
             color: #ffffff;
             font-family: 'EB Garamond', serif;
             padding: 0.5rem 0.8rem;
             border-radius: 4px;
             transition: all 0.2s ease-in-out;
             font-weight: 600;
-            border: 1px solid #7a8694;
+            border: 1px solid #78909c;
         }
         .lang-button:hover {
-            background-color: #a0aab8;
+            background-color: #b0bec5;
             transform: translateY(-1px);
         }
         .lang-button.active {
-            background-color: #3b76a7; /* Active blue */
-            border-color: #2e5a80;
+            background-color: #42a5f5; /* Active blue */
+            border-color: #1e88e5;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
         }
 
         /* Search Bar Styling */
         .header-search-container {
-            background-color: #e0e2e5; /* Lighter cool grey for search area */
+            background-color: #ebebeb; /* Lighter grey for search area */
             padding: 1rem 1.5rem;
             border-radius: 8px;
             box-shadow: inset 0 1px 4px rgba(0,0,0,0.03);
-            border: 1px solid #c0c4c9;
+            border: 1px solid #d0d0d0;
         }
         .search-input, .search-select {
-            border: 1px solid #a0a8b3; /* Medium cool grey border */
+            border: 1px solid #b0b0b0; /* Medium grey border */
             border-radius: 4px;
             padding: 0.6rem 1rem;
             font-family: 'EB Garamond', serif;
-            color: #3f4245; /* Dark text */
-            background-color: #f0f2f5; /* Off-white for inputs */
+            color: #333333; /* Dark text */
+            background-color: #ffffff; /* White for inputs */
             box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
         }
         .search-input::placeholder, .search-select option {
-            color: #7f8a94; /* Placeholder text color */
+            color: #777777; /* Placeholder text color */
         }
         .search-input:focus, .search-select:focus {
-            border-color: #5f6b7a; /* Muted blue-grey on focus */
+            border-color: #607d8b; /* Muted blue-grey on focus */
             outline: none;
-            box-shadow: 0 0 0 2px rgba(95, 107, 122, 0.2); /* Light blue-grey focus ring */
+            box-shadow: 0 0 0 2px rgba(96, 125, 139, 0.2); /* Light blue-grey focus ring */
         }
         .search-select {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292%22%20height%3D%22292%22%20viewBox%3D%220%200%20292%20292%22%3E%3Cpath%20fill%3D%22%237f8a94%22%20d%3D%22M287%2069.4L146.7%20209.6%206.4%2069.4c-4.2-4.1-11-4.1-15.2%200-4.2%204.1-4.2%2010.8%200%2014.9l145%20146.5c4%204%2010.4%204%2014.4%200l145-146.5c4.2-4.1%204.2-10.8%200-14.9-4.2-4.1-11-4.1-15.2%200z%22%2F%3E%3C%2Fsvg%3E');
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292%22%20height%3D%22292%22%20viewBox%3D%220%200%20292%20292%22%3E%3Cpath%20fill%3D%22%23777777%22%20d%3D%22M287%2069.4L146.7%20209.6%206.4%2069.4c-4.2-4.1-11-4.1-15.2%200-4.2%204.1-4.2%2010.8%200%2014.9l145%20146.5c4%204%2010.4%204%2014.4%200l145-146.5c4.2-4.1%204.2-10.8%200-14.9-4.2-4.1-11-4.1-15.2%200z%22%2F%3E%3C%2Fsvg%3E');
             background-repeat: no-repeat;
             background-position: right 0.75rem center;
             background-size: 0.8em;
@@ -121,19 +121,19 @@
 
         /* General Section Styling */
         .section-content {
-            background-color: #f0f2f5; /* Off-white, slightly darker light grey for main content sections */
+            background-color: #ffffff; /* White for main content sections */
             border-radius: 12px;
             padding: 2.5rem;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             margin-bottom: 2.5rem;
             animation: fadeIn 0.8s ease-out;
-            border: 1px solid #d0d5dc; /* Subtle cool grey border */
+            border: 1px solid #e0e0e0; /* Subtle light grey border */
         }
 
         /* Publication Cards */
         .publication-card {
-            background-color: #f8f9fa; /* Even lighter for cards */
-            border: 1px solid #e0e5ea; /* Very light cool grey border */
+            background-color: #fcfcfc; /* Even lighter for cards */
+            border: 1px solid #eeeeee; /* Very light grey border */
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -148,7 +148,7 @@
             width: 100%;
             height: 250px;
             object-fit: cover;
-            border-bottom: 1px solid #e0e5ea;
+            border-bottom: 1px solid #eeeeee;
         }
 
         /* Modal Styles */
@@ -170,7 +170,7 @@
             display: flex;
         }
         .modal-content {
-            background-color: #e8e9eb; /* Modal content matches body background for harmony */
+            background-color: #f5f5f5; /* Modal content matches body background for harmony */
             margin: auto;
             padding: 2.5rem;
             border-radius: 10px;
@@ -179,23 +179,23 @@
             max-width: 700px;
             text-align: center;
             position: relative;
-            border: 1px solid #a0a8b3;
+            border: 1px solid #b0b0b0;
         }
         .modal-close-button {
             position: absolute;
             top: 15px;
             right: 25px;
-            color: #7f8a94;
+            color: #777777;
             font-size: 32px;
             font-weight: bold;
             cursor: pointer;
             transition: color 0.2s;
         }
         .modal-close-button:hover {
-            color: #2c2f33;
+            color: #222222;
         }
         .modal-buttons button {
-            background-color: #5f6b7a;
+            background-color: #607d8b;
             color: white;
             padding: 0.8rem 1.5rem;
             border-radius: 6px;
@@ -204,42 +204,43 @@
             font-weight: 600;
         }
         .modal-buttons button:hover {
-            background-color: #72808f;
+            background-color: #78909c;
         }
 
         /* Admin Specific Styles */
         .admin-bg {
-            background-color: #c0c4c9; /* Slightly darker cool grey for admin area */
-            color: #2c2f33; /* Dark text for admin */
+            background-color: #dcdcdc; /* Slightly darker neutral grey for admin area */
+            color: #222222; /* Dark text for admin */
         }
         .admin-section {
-            background-color: #d8dbdf; /* Lighter cool grey for admin sections */
+            background-color: #f0f0f0; /* Lighter grey for admin sections */
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
-            color: #3f4245; /* Dark text inside admin sections */
+            color: #333333; /* Dark text inside admin sections */
         }
         .admin-section h3 {
-            color: #2c2f33; /* Ensure headings are dark */
+            color: #222222; /* Ensure headings are dark */
         }
         .admin-input {
-            border: 1px solid #a0a8b3;
+            border: 1px solid #b0b0b0;
             border-radius: 4px;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1rem;
             font-family: 'EB Garamond', serif;
-            color: #3f4245;
-            background-color: #f0f2f5;
+            color: #333333;
+            background-color: #ffffff;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
         }
         .admin-input::placeholder {
-            color: #7f8a94;
+            color: #777777;
         }
         .admin-input:focus {
-            border-color: #5f6b7a;
-            box-shadow: 0 0 0 2px rgba(95, 107, 122, 0.2);
+            border-color: #607d8b;
+            box-shadow: 0 0 0 2px rgba(96, 125, 139, 0.2);
         }
         .admin-button {
-            background-color: #5f6b7a;
+            background-color: #607d8b;
             color: #ffffff;
             padding: 0.75rem 1.5rem;
             border-radius: 6px;
@@ -248,22 +249,27 @@
             font-weight: 600;
         }
         .admin-button:hover {
-            background-color: #72808f;
+            background-color: #78909c;
         }
-        .admin-button.bg-red-600 { background-color: #dc2626; border-color: #b91c1c;} /* Tailwind red */
-        .admin-button.bg-red-600:hover { background-color: #b91c1c; }
-        .admin-button.bg-green-600 { background-color: #16a34a; border-color: #15803d; } /* Tailwind green */
-        .admin-button.bg-green-600:hover { background-color: #15803d; }
-        .admin-button.bg-blue-600 { background-color: #2563eb; border-color: #1d4ed8; } /* Tailwind blue */
-        .admin-button.bg-blue-600:hover { background-color: #1d4ed8; }
+        /* Specific button colors for admin actions, still within neutral/blue tones */
+        .admin-button.bg-red-600 { background-color: #ef5350; border-color: #e53935;} /* A softer red */
+        .admin-button.bg-red-600:hover { background-color: #e53935; }
+        .admin-button.bg-green-600 { background-color: #66bb6a; border-color: #43a047; } /* A softer green */
+        .admin-button.bg-green-600:hover { background-color: #43a047; }
+        .admin-button.bg-blue-600 { background-color: #42a5f5; border-color: #1e88e5; } /* A standard blue */
+        .admin-button.bg-blue-600:hover { background-color: #1e88e5; }
+        .admin-button.bg-yellow-500 { background-color: #ffca28; border-color: #ffb300; } /* A softer yellow */
+        .admin-button.bg-yellow-500:hover { background-color: #ffb300; }
+        .admin-button.bg-purple-600 { background-color: #ab47bc; border-color: #8e24aa; } /* A softer purple */
+        .admin-button.bg-purple-600:hover { background-color: #8e24aa; }
 
         /* Footer Styles */
         .footer-bg {
-            background-color: #a0a8b3; /* Medium cool grey for footer */
-            color: #2c2f33; /* Dark text */
+            background-color: #c0c0c0; /* Medium neutral grey for footer */
+            color: #222222; /* Dark text */
             padding: 2rem;
             box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
-            border-top: 1px solid #b0b8c3;
+            border-top: 1px solid #d0d0d0;
         }
         .footer-logo {
             max-height: 60px;
@@ -271,10 +277,10 @@
             filter: none; /* No filter needed for lighter background */
         }
         .footer-link {
-            color: #3b76a7; /* Professional blue for links */
+            color: #42a5f5; /* Professional blue for links */
         }
         .footer-link:hover {
-            color: #2e5a80; /* Darker blue on hover */
+            color: #1e88e5; /* Darker blue on hover */
             text-decoration: underline;
         }
 
@@ -287,7 +293,7 @@
             margin-top: 1.5rem;
         }
         .modal-download-group a, .modal-download-group button {
-            background-color: #3b76a7; /* A professional blue for downloads */
+            background-color: #42a5f5; /* A professional blue for downloads */
             color: white;
             padding: 0.6rem 1.2rem;
             border-radius: 5px;
@@ -299,7 +305,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
         .modal-download-group a:hover, .modal-download-group button:hover {
-            background-color: #2e5a80;
+            background-color: #1e88e5;
         }
         /* Loading Spinner Styles */
         #loadingSpinner {
@@ -318,7 +324,7 @@
 
         .spinner {
             border: 8px solid #f3f3f3; /* Light grey */
-            border-top: 8px solid #3498db; /* Blue */
+            border-top: 8px solid #42a5f5; /* Blue */
             border-radius: 50%;
             width: 60px;
             height: 60px;
@@ -343,7 +349,7 @@
     <header class="header-bg shadow-md py-4 px-6 md:px-8">
         <div class="container flex justify-between items-center">
             <a href="#home" class="flex items-center">
-                <img id="headerLogo" src="https://placehold.co/150x50/cccccc/333333?text=Logo" alt="Site Logo" class="header-logo rounded-md mr-3">
+                <img id="headerLogo" src="https://placehold.co/150x50/e0e0e0/333333?text=Logo" alt="Site Logo" class="header-logo rounded-md mr-3">
                 <h1 class="text-2xl md:text-3xl font-bold text-gray-800" data-lang-key="headerTitle">Quaderni di Archeologia della Libya</h1>
             </a>
             <nav class="flex items-center space-x-4">
@@ -371,18 +377,6 @@
                 <p id="modalMessage" class="text-lg text-gray-800"></p>
                 <div class="modal-buttons">
                     <button onclick="closeMessageModal()" class="admin-button" data-lang-key="modalOkBtn">OK</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Confirmation Modal -->
-        <div id="confirmModal" class="modal hidden">
-            <div class="modal-content">
-                <span class="modal-close-button" onclick="closeConfirmModal()">&times;</span>
-                <p id="confirmMessage" class="text-lg text-gray-800 mb-6"></p>
-                <div class="modal-buttons">
-                    <button id="confirmYesBtn" class="admin-button bg-red-600 hover:bg-red-700" data-lang-key="confirmYesBtn">Yes</button>
-                    <button id="confirmNoBtn" class="admin-button bg-gray-400 hover:bg-gray-500" data-lang-key="confirmNoBtn">No</button>
                 </div>
             </div>
         </div>
@@ -573,7 +567,7 @@
             <p>&copy; <span id="currentYear"></span> <span data-lang-key="footerCopyright">L'Erma di Bretschneider. All rights reserved.</span></p>
             <p class="text-amber-100" data-lang-key="footerDataStorage">Website data is stored securely using Firebase services.</p>
             <p class="text-amber-100" data-lang-key="footerUserId">Logged in User ID: <span id="currentUserId" class="font-mono"></span></p>
-            <img id="footerLogo" src="https://placehold.co/100x30/cccccc/333333?text=Logo" alt="Site Logo" class="footer-logo mt-3 mx-auto">
+            <img id="footerLogo" src="https://placehold.co/100x30/e0e0e0/333333?text=Logo" alt="Site Logo" class="footer-logo mt-3 mx-auto">
         </div>
     </footer>
 
@@ -586,22 +580,34 @@
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         // --- Firebase Configuration ---
-        // Use environment variables if available (provided by Canvas), otherwise fall back to a default.
-        // This ensures the app adapts to the Canvas environment's specific Firebase project.
-        const providedFirebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-
-        // Fallback configuration if not running in Canvas or __firebase_config is not provided.
-        // You would replace these with your actual Firebase project details if deploying independently.
-        const defaultFirebaseConfig = {
-            apiKey: "YOUR_API_KEY", // Placeholder - Canvas will inject this if empty
-            authDomain: "your-project-id.firebaseapp.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project-id.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID",
-            measurementId: "G-XXXXXXXXXX"
-        };
-        const finalFirebaseConfig = providedFirebaseConfig || defaultFirebaseConfig;
+        let finalFirebaseConfig = {};
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            try {
+                finalFirebaseConfig = JSON.parse(__firebase_config);
+                // Ensure apiKey is an empty string if it's null or undefined in the parsed config.
+                // This is crucial for Canvas's automatic API key injection when the string is empty.
+                if (!finalFirebaseConfig.apiKey) {
+                    finalFirebaseConfig.apiKey = "";
+                }
+            } catch (e) {
+                console.error("Error parsing __firebase_config:", e);
+                // Fallback to a minimal config if parsing fails, still with an empty API key
+                finalFirebaseConfig = { apiKey: "" };
+            }
+        } else {
+            // Fallback configuration for non-Canvas environments or if __firebase_config is not provided.
+            // IMPORTANT: If running this code outside the Canvas environment, you MUST replace `""` for `apiKey`
+            // and the "your-project-id" placeholders with your actual Firebase project details.
+            finalFirebaseConfig = {
+                apiKey: "", // LEAVE THIS EMPTY STRING FOR CANVAS INJECTION. If running locally, REPLACE with your Firebase API Key.
+                authDomain: "your-project-id.firebaseapp.com", // Replace with your project's authDomain
+                projectId: "your-project-id", // Replace with your project's projectId
+                storageBucket: "your-project-id.appspot.com", // Replace with your project's storageBucket
+                messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // Replace with your project's messagingSenderId
+                appId: "YOUR_APP_ID", // Replace with your project's appId
+                measurementId: "G-XXXXXXXXXX" // Replace with your project's measurementId
+            };
+        }
 
         // Determine the current app ID for constructing Firebase paths.
         // It prioritizes __app_id from the Canvas environment, falling back to the projectId from the config.
@@ -777,7 +783,7 @@
                 aboutTitle: "Chi Siamo Quaderni di Archeologia della Libya",
                 aboutPara1: "Benvenuti nel sito ufficiale di <strong>Quaderni di Archeologia della Libya</strong>, una prestigiosa rivista accademica dedicata alla ricerca archeologica in Libia. Iniziata nel 1950, questa stimata serie documenta i significativi contributi delle missioni archeologiche italiane nella regione, favorendo una più profonda comprensione della sua ricca storia antica.",
                 aboutPara2: "Dopo una breve pausa, la rivista ha ripreso con orgoglio la pubblicazione nel 2018 con una nuova serie, ristabilendosi come una piattaforma scientifica di spicco. Forniamo un luogo essenziale per gli studiosi interessati all'archeologia e alla storia della Libia e del Maghreb più ampio, garantendo contenuti di alta qualità e sottoposti a revisione paritaria.",
-                aboutPara3: "I nostri volumi adottano un approccio multidisciplinare, presentando articoli su epigrafia, antica e coloniale, storia dell'archeologia e studi territoriali. I contributi sono pubblicati nelle principali lingue europee, accompagnati da riassunti completi in inglese e arabo, per promuovere lo scambio accademico internazionale e la collaborazione.",
+                aboutPara3: "I nostri volumi adottano un approccio multidisciplinare, presentando articoli su epigrafia, antica e coloniale, storia dell'archeologia, e studi territoriali. I contributi sono pubblicati nelle principali lingue europee, accompagnati da riassunti completi in inglese e arabo, per promuovere lo scambio accademico internazionale e la collaborazione.",
                 aboutPara4: "Questo sito funge da risorsa dedicata alla serie, mantenuta da L'Erma di Bretschneider, una rinomata casa editrice accademica di Roma. Ci impegniamo a sostenere i più alti standard di eccellenza accademica e a garantire la continua diffusione globale delle ricerche innovative presentate nei \"Quaderni di Archeologia della Libya.\"",
                 contactTitle: "Contattaci",
                 contactEmailLabel: "Email:",
@@ -933,18 +939,17 @@
 
             // Update modal buttons if they are visible
             const modalOkBtn = document.querySelector('#messageModal .modal-buttons button');
-            if (modalOkBtn) modalOkBtn.textContent = translations[lang]['modalOkBtn'];
+            if (modalOkBtn) modalOkBtn.textContent = translations[currentLang]['modalOkBtn'];
 
-            const confirmYesBtn = document.getElementById('confirmYesBtn');
-            if (confirmYesBtn) confirmYesBtn.textContent = translations[lang]['confirmYesBtn'];
-            const confirmNoBtn = document.getElementById('confirmNoBtn');
-            if (confirmNoBtn) confirmNoBtn.textContent = translations[lang]['confirmNoBtn'];
+            // The confirm modal is now handled by the generic message modal with type "confirm"
+            // The buttons are created dynamically inside showMessageModal, so no need to update here directly.
 
             // Update dynamically generated text in file input displays
             const coverImageFileNameDisplayLocal = document.getElementById('coverImageFileNameDisplay');
             const pdfFileNameDisplayLocal = document.getElementById('pdfFileNameDisplay');
             const siteLogoFileNameDisplayLocal = document.getElementById('siteLogoFileNameDisplay');
 
+            // Handle cover image display text
             if (currentCoverImageFile) {
                 if (coverImageFileNameDisplayLocal) coverImageFileNameDisplayLocal.textContent = `${translations[currentLang]['msgSelected']}: ${getOriginalFileNameFromUnique(currentCoverImageFile.name)}`;
             } else if (editingBookId && currentCoverImageFileName) {
@@ -953,6 +958,7 @@
                 if (coverImageFileNameDisplayLocal) coverImageFileNameDisplayLocal.textContent = '';
             }
 
+            // Handle PDF file display text
             if (currentPdfFile) {
                 if (pdfFileNameDisplayLocal) pdfFileNameDisplayLocal.textContent = `${translations[currentLang]['msgSelected']}: ${getOriginalFileNameFromUnique(currentPdfFile.name)}`;
             } else if (editingBookId && currentPdfFileName) {
@@ -961,9 +967,10 @@
                 if (pdfFileNameDisplayLocal) pdfFileNameDisplayLocal.textContent = '';
             }
 
-            if (currentSiteLogoFile) { // For the new site logo input
+            // Handle site logo display text
+            if (currentSiteLogoFile) {
                 if (siteLogoFileNameDisplayLocal) siteLogoFileNameDisplayLocal.textContent = `${translations[currentLang]['msgSelected']}: ${getOriginalFileNameFromUnique(currentSiteLogoFile.name)}`;
-            } else if (siteLogoUrlFromFirestore && siteLogoFileNameFromFirestore) { // If a logo exists in Firestore
+            } else if (siteLogoUrlFromFirestore && siteLogoFileNameFromFirestore) {
                  if (siteLogoFileNameDisplayLocal) siteLogoFileNameDisplayLocal.textContent = `${translations[currentLang]['msgCurrentSiteLogo']} ${getOriginalFileNameFromUnique(siteLogoFileNameFromFirestore)}`;
             } else {
                 if (siteLogoFileNameDisplayLocal) siteLogoFileNameDisplayLocal.textContent = '';
@@ -971,10 +978,22 @@
 
             // Update potentially dynamic content like "by Author"
             document.querySelectorAll('.publication-card p.text-gray-600').forEach(el => {
-                const authorText = el.textContent; // Get current text
-                const authorName = authorText.replace(`${translations[currentLang === 'en' ? 'it' : 'en']['byAuthor']} `, ''); // Extract just the name, handling previous language
-                el.textContent = `${translations[currentLang]['byAuthor']} ${authorName}`;
+                // Ensure the element has content and is not just an empty placeholder
+                if (el.textContent.includes(translations['en']['byAuthor']) || el.textContent.includes(translations['it']['byAuthor'])) {
+                    const authorText = el.textContent; // Get current text
+                    // Determine which language was previously used to extract the author name
+                    let authorName;
+                    if (authorText.startsWith(translations['en']['byAuthor'])) {
+                        authorName = authorText.substring(translations['en']['byAuthor'].length).trim();
+                    } else if (authorText.startsWith(translations['it']['byAuthor'])) {
+                        authorName = authorText.substring(translations['it']['byAuthor'].length).trim();
+                    } else {
+                        authorName = authorText; // Fallback if no prefix found
+                    }
+                    el.textContent = `${translations[currentLang]['byAuthor']} ${authorName}`;
+                }
             });
+
             // Update the no data messages if they are currently visible
             const homeViewLocal = document.getElementById('homeView');
             const noBooksMessageElement = document.getElementById('noBooksMessage');
@@ -991,10 +1010,6 @@
                 }
             }
         }
-
-        // Event listeners for language buttons
-        document.getElementById('langEnBtn').addEventListener('click', () => setLanguage('en'));
-        document.getElementById('langItBtn').addEventListener('click', () => setLanguage('it'));
 
         // --- UI Feedback: Loading Spinner ---
         function showLoadingSpinner() {
@@ -1064,17 +1079,6 @@
                 messageModal.classList.remove('flex'); // Hide modal by removing flex
                 messageModal.classList.add('hidden');
             }
-        }
-
-        // Confirmation Modal Functions (for backward compatibility, though showMessageModal can handle it)
-        function showConfirmModal(messageKey, callback) {
-             // Redirect to the new showMessageModal for consistency
-            showMessageModal(messageKey, "confirm", callback);
-        }
-
-        function closeConfirmModal() {
-            // This now closes the main messageModal if it was used as a confirm
-            closeMessageModal();
         }
 
         // --- Book Details Modal Functions ---
@@ -1164,6 +1168,7 @@
         // --- Firebase Initialization and Authentication state management ---
         async function initializeFirebase() {
             showLoadingSpinner();
+            console.log("Starting Firebase initialization...");
             try {
                 // Initialize Firebase app if it hasn't been already
                 app = getApps().length ? getApp() : initializeApp(finalFirebaseConfig);
@@ -1171,68 +1176,95 @@
                 db = getFirestore(app);
                 auth = getAuth(app);
                 storage = getStorage(app); // Initialize Firebase Storage
+                console.log("Firebase services initialized.");
 
                 // Attempt to sign in with custom token first, if available (for Canvas admin auto-login)
                 const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                let userCredential = null;
+
                 if (initialAuthToken) {
                     try {
-                        await signInWithCustomToken(auth, initialAuthToken);
-                        console.log("Attempted sign-in with custom token for Canvas admin.");
+                        userCredential = await signInWithCustomToken(auth, initialAuthToken);
+                        console.log("Signed in with custom token. UID:", userCredential.user.uid);
                     } catch (tokenError) {
-                        console.error("Error signing in with custom token:", tokenError);
+                        console.error("Error signing in with custom token, attempting anonymous fallback:", tokenError);
                         // Fallback to anonymous sign-in if custom token fails
-                        await signInAnonymously(auth);
-                        console.log("Signed in anonymously due to custom token failure.");
+                        userCredential = await signInAnonymously(auth);
+                        console.log("Signed in anonymously due to custom token failure. UID:", userCredential.user.uid);
                     }
                 } else {
                     // If no custom token is provided (e.g., local development, or user logs out of admin), sign in anonymously
-                    await signInAnonymously(auth);
-                    console.log("Signed in anonymously (no custom token provided).");
+                    userCredential = await signInAnonymously(auth);
+                    console.log("Signed in anonymously (no custom token provided). UID:", userCredential.user.uid);
                 }
-
 
                 // Set up the auth state listener. This will fire immediately after the above sign-in,
                 // and every time the authentication state changes (login, logout).
                 onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        isLoggedIn = true;
-                        // If an initial custom token was provided AND the current user's UID matches the UID
-                        // we expect from the custom token login (the very first user logged in via token),
-                        // then this user is considered the "admin" for client-side checks.
-                        // IMPORTANT: The actual security is enforced by Firebase Rules using this UID.
-                        if (initialAuthToken && user.uid === userId) {
-                            ADMIN_UID_FROM_CANVAS = user.uid;
+                    // This listener can fire multiple times, ensure initial setup runs only once
+                    if (!isAuthReady) {
+                        if (user) {
+                            userId = user.uid;
+                            isLoggedIn = true;
+                            // If an initial custom token was provided AND the current user's UID matches the UID
+                            // we expect from the custom token login (the very first user logged in via token),
+                            // then this user is considered the "admin" for client-side checks.
+                            // IMPORTANT: The actual security is enforced by Firebase Rules using this UID.
+                            // Note: userCredential.user might be null if signInAnonymously was awaited and finished first.
+                            // Better to rely on `user` object from onAuthStateChanged
+                            if (initialAuthToken && user && user.uid === (userCredential ? userCredential.user.uid : null)) {
+                                ADMIN_UID_FROM_CANVAS = user.uid;
+                                console.log("ADMIN_UID_FROM_CANVAS set to:", ADMIN_UID_FROM_CANVAS);
+                            } else {
+                                ADMIN_UID_FROM_CANVAS = null; // Not the Canvas admin
+                            }
                         } else {
-                            ADMIN_UID_FROM_CANVAS = null; // Not the Canvas admin (e.g., anonymous, or regular email/pass user)
+                            // User is logged out, or initial anonymous sign-in failed (should be rare)
+                            userId = null;
+                            isLoggedIn = false;
+                            ADMIN_UID_FROM_CANVAS = null; // Clear admin UID when no user is logged in
                         }
-                    } else {
-                        // User is logged out, or initial anonymous sign-in failed (should be rare)
-                        userId = null;
-                        isLoggedIn = false;
-                        ADMIN_UID_FROM_CANVAS = null; // Clear admin UID when no user is logged in
-                    }
-                    isAuthReady = true; // Auth state has been checked
+                        isAuthReady = true; // Auth state has been checked for the first time
+                        console.log("Firebase Auth State Ready. User ID:", userId, "Is Admin:", isCurrentUserAdmin());
 
-                    // Now that auth state is determined, set up event listeners and initial view.
-                    setupEventListeners(); // Call setupEventListeners here
+                        // Now that auth state is determined, set up event listeners and initial view.
+                        setupEventListeners(); // Call setupEventListeners here
+                        loadSiteSettings(); // Load site settings (like logo) after firebase is ready
+                        updateAdminUI(); // Update UI based on current admin status
+                        showView('homeView'); // Show the first view, which will trigger loadBooks
+                        // hideLoadingSpinner(); moved to the end of loadBooks/loadSiteSettings for full content load confirmation
+                    } else {
+                        // For subsequent auth state changes (e.g., admin logs in/out after initial load)
+                        if (user) {
+                            userId = user.uid;
+                            isLoggedIn = true;
+                            // ADMIN_UID_FROM_CANVAS remains set from initial custom token login if it occurred.
+                            // If user logs out and then back in with email/password, they are NOT the Canvas admin.
+                        } else {
+                            userId = null;
+                            isLoggedIn = false;
+                            ADMIN_UID_FROM_CANVAS = null;
+                        }
+                        updateAdminUI(); // Always update UI on auth state changes
+                        console.log("Firebase Auth State Changed. User ID:", userId, "Is Admin:", isCurrentUserAdmin());
+                    }
                     
-                    // Display the current user ID in the footer
+                    // Display the current user ID in the footer, always update on auth changes
                     const currentUserIdElement = document.getElementById('currentUserId');
                     if (currentUserIdElement) {
                         currentUserIdElement.textContent = userId || translations[currentLang]['footerUserId'] + ' ' + translations[currentLang]['msgNotAvailable'];
                     }
-
-                    // Load site settings (like logo) and update UI based on admin status
-                    loadSiteSettings();
-                    updateAdminUI(); // Update UI based on current admin status
-                    hideLoadingSpinner(); // Hide spinner once initial auth and UI updates are done
                 });
 
             } catch (error) {
                 console.error("Error during Firebase initialization/initial sign-in:", error);
-                showMessageModal("msgFirebaseInitFailed");
-                hideLoadingSpinner();
+                // Check specifically for API key validity error to provide targeted message
+                if (error.code === 'auth/api-key-not-valid') {
+                    showMessageModal("msgFirebaseConfigInvalid");
+                } else {
+                    showMessageModal("msgFirebaseInitFailed");
+                }
+                hideLoadingSpinner(); // Ensure spinner is hidden on catastrophic error
             }
         }
 
@@ -1279,6 +1311,7 @@
             } else {
                 console.error(`Attempted to show unknown view: ${viewId}`);
                 showMessageModal('msgViewNotFound');
+                hideLoadingSpinner(); // Ensure spinner hides if view is not found
                 return; // Prevent further execution if view not found
             }
 
@@ -1289,6 +1322,7 @@
                 // If trying to access admin dashboard but not admin, redirect to login
                 showView('adminLoginView');
                 showMessageModal(translations[currentLang]['msgLoginRequiredToAddEdit']);
+                hideLoadingSpinner(); // Ensure spinner hides if view is changed to login
                 return;
             }
 
@@ -1304,6 +1338,7 @@
                         noBooksMessage.textContent = translations[currentLang]['msgFirebaseNotReady'];
                         noBooksMessage.classList.remove('hidden');
                     }
+                    hideLoadingSpinner(); // Hide spinner if Firebase not ready to load books
                 }
             } else if (viewId === 'adminDashboardView' && isCurrentUserAdmin()) {
                 loadBooksForAdmin(); // Load books for admin view specifically
@@ -1314,7 +1349,8 @@
 
         // Function to set up all event listeners and initial view after DOM is ready AND Firebase Auth is ready
         function setupEventListeners() {
-            // Assign ALL DOM elements to variables here
+            console.log("Setting up event listeners and UI elements...");
+            // Assign ALL DOM elements to variables here (defensive checks added)
             homeView = document.getElementById('homeView');
             aboutView = document.getElementById('aboutView');
             contactView = document.getElementById('contactView');
@@ -1374,7 +1410,7 @@
 
             // Set initial language and display home view
             setLanguage(currentLang); // Apply initial translations
-            showView('homeView'); // Show the first view, which will trigger loadBooks
+            // showView('homeView'); // Initial view moved to onAuthStateChanged when isAuthReady is true
 
             // Attach Event Listeners for Navigation
             if (homeViewBtn) homeViewBtn.addEventListener('click', () => showView('homeView'));
@@ -1784,15 +1820,6 @@
                 });
             }
             
-            const confirmModal = document.getElementById('confirmModal');
-            if (confirmModal) {
-                confirmModal.addEventListener('click', function(event) {
-                    if (event.target === confirmModal) {
-                        closeConfirmModal();
-                    }
-                });
-            }
-
             const bookDetailsModal = document.getElementById('bookDetailsModal');
             if (bookDetailsModal) {
                 bookDetailsModal.addEventListener('click', function(event) {
@@ -1801,11 +1828,13 @@
                     }
                 });
             }
+            console.log("Event listeners and UI setup complete.");
         } // End of setupEventListeners
 
         // --- Update Admin UI Visibility ---
         // This function dynamically shows/hides UI elements based on current admin status
         function updateAdminUI() {
+            console.log("Updating Admin UI based on admin status:", isCurrentUserAdmin());
             // Header buttons
             if (adminLoginBtn) {
                 if (isCurrentUserAdmin()) {
@@ -1863,6 +1892,7 @@
         // --- Book Management (Firestore) ---
         // Function to load and display books in the public view
         async function loadBooks(searchTerm = '') {
+            console.log("Loading public books...");
             // Ensure authentication is ready. Anonymous users will be able to read if rules permit.
             if (!isAuthReady || !userId) {
                 if (noBooksMessage) {
@@ -1872,11 +1902,12 @@
                 if (booksContainer) {
                     booksContainer.innerHTML = '';
                 }
+                hideLoadingSpinner(); // Ensure spinner is hidden if auth is not ready
                 return;
             }
 
-            if (!booksContainer) { console.error("booksContainer not found in loadBooks."); return; }
-            if (!noBooksMessage) { console.error("noBooksMessage not found in loadBooks."); return; }
+            if (!booksContainer) { console.error("booksContainer not found in loadBooks."); hideLoadingSpinner(); return; }
+            if (!noBooksMessage) { console.error("noBooksMessage not found in loadBooks."); hideLoadingSpinner(); return; }
 
             noBooksMessage.classList.add('hidden');
             booksContainer.innerHTML = '';
@@ -1909,7 +1940,7 @@
 
                     booksContainer.innerHTML = '';
                     if (filteredBooks.length === 0) {
-                        noBooksMessage.textContent = translations[currentLang]['msgNoBooksFoundSearch'];
+                        noBooksMessage.textContent = translations[currentLang]['noPublicationsMessage'];
                         noBooksMessage.classList.remove('hidden');
                         hideLoadingSpinner(); // Hide spinner if no books found
                         return;
@@ -1924,7 +1955,7 @@
                             : (book.description || translations[currentLang]['msgNoDescriptionProvided']);
 
                         const bookCard = `
-                            <div class="bg-yellow-100 p-4 rounded-lg shadow-md flex flex-col items-center text-center transition duration-300 hover:shadow-lg book-card" data-book-id="${book.id}">
+                            <div class="bg-fcfcfc p-4 rounded-lg shadow-md flex flex-col items-center text-center transition duration-300 hover:shadow-lg publication-card" data-book-id="${book.id}">
                                 <img src="${book.coverImageUrl || 'https://placehold.co/150x200/cccccc/333333?text=No+Cover'}" alt="${book.title}" class="w-36 h-48 object-cover rounded-md mb-4 shadow-sm">
                                 <h3 class="text-xl font-semibold mb-2 text-gray-800">${book.title}</h3>
                                 <p class="text-gray-600 text-sm mb-3">${translations[currentLang]['byAuthor']} ${book.author}</p>
@@ -1935,6 +1966,7 @@
                         booksContainer.innerHTML += bookCard;
                     });
                     hideLoadingSpinner(); // Hide spinner after books are loaded
+                    console.log("Public books loaded successfully.");
                 });
             } catch (error) {
                 console.error("Error setting up Firestore listener for books:", error);
@@ -1948,6 +1980,7 @@
 
         // Function to load and display books in the admin dashboard
         async function loadBooksForAdmin() {
+            console.log("Loading admin books...");
             if (!isAuthReady || !isCurrentUserAdmin()) { // Check for admin permissions
                 console.warn("Not authorized to load admin books. Please log in as admin.");
                 if (adminBooksList) adminBooksList.innerHTML = '';
@@ -1955,10 +1988,11 @@
                     noAdminBooksMessage.classList.remove('hidden');
                     noAdminBooksMessage.textContent = translations[currentLang]['msgLoginRequiredToAddEdit'];
                 }
+                hideLoadingSpinner(); // Ensure spinner is hidden if not authorized
                 return;
             }
-            if (!adminBooksList) { console.error("adminBooksList not found in loadBooksForAdmin."); return; }
-            if (!noAdminBooksMessage) { console.error("noAdminBooksMessage not found in loadBooksForAdmin."); return; }
+            if (!adminBooksList) { console.error("adminBooksList not found in loadBooksForAdmin."); hideLoadingSpinner(); return; }
+            if (!noAdminBooksMessage) { console.error("noAdminBooksMessage not found in loadBooksForAdmin."); hideLoadingSpinner(); return; }
 
             adminBooksList.innerHTML = '';
             noAdminBooksMessage.classList.add('hidden');
@@ -1996,7 +2030,7 @@
                         const coverDisplayFileName = getOriginalFileNameFromUnique(book.coverImageFileName) || translations[currentLang]['msgNotAvailable'];
 
                         const bookItem = `
-                            <div class="bg-yellow-100 p-4 rounded-lg shadow-sm flex items-center justify-between">
+                            <div class="bg-f0f0f0 p-4 rounded-lg shadow-sm flex items-center justify-between">
                                 <div class="flex items-center">
                                     <img src="${book.coverImageUrl || 'https://placehold.co/50x60/cccccc/333333?text=Cover'}" alt="${book.title}" class="w-12 h-16 object-cover rounded-md mr-4 shadow-sm">
                                     <div>
@@ -2004,11 +2038,11 @@
                                         <p class="text-gray-600 text-sm">by ${book.author}</p>
                                         <p class="text-gray-500 text-xs">${translations[currentLang]['uploadPdfFileLabel']}: ${pdfDisplayFileName}</p>
                                         <p class="text-gray-500 text-xs">${translations[currentLang]['uploadCoverImageLabel']}: ${coverDisplayFileName}</p>
-                                        <p class="text-gray-500 text-xs">${translations[currentLang]['bookPagesLabel']}: ${book.pages || translations[currentLang]['msgNotAvailable']}</p>
-                                        <p class="text-gray-500 text-xs">${translations[currentLang]['bookFormatLabel']}: ${book.format || translations[currentLang]['msgNotAvailable']}</p>
-                                        <p class="text-gray-500 text-xs">${translations[currentLang]['bookDoiLabel']}: ${book.doi || translations[currentLang]['msgNotAvailable']}</p>
-                                        <p class="text-gray-500 text-xs">${translations[currentLang]['bookIsbnLabel']}: ${book.isbn || translations[currentLang]['msgNotAvailable']}</p>
-                                        <p class="text-gray-500 text-xs">${translations[currentLang]['bookIssnLabel']}: ${book.issn || translations[currentLang]['msgNotAvailable']}</p>
+                                        <p class="text-gray-500 text-xs">${book.pages ? `${translations[currentLang]['bookPagesLabel']}: ${book.pages}` : ''}</p>
+                                        <p class="text-gray-500 text-xs">${book.format ? `${translations[currentLang]['bookFormatLabel']}: ${book.format}` : ''}</p>
+                                        <p class="text-gray-500 text-xs">${book.doi ? `${translations[currentLang]['bookDoiLabel']}: ${book.doi}` : ''}</p>
+                                        <p class="text-gray-500 text-xs">${book.isbn ? `${translations[currentLang]['bookIsbnLabel']}: ${book.isbn}` : ''}</p>
+                                        <p class="text-gray-500 text-xs">${book.issn ? `${translations[currentLang]['issnLabel']}: ${book.issn}` : ''}</p>
                                         <p class="text-xs ${book.isNew ? 'text-green-600 font-semibold' : 'text-gray-400'}" >${book.isNew ? translations[currentLang]['isNoveltyLabel'] : ''}</p>
                                     </div>
                                 </div>
@@ -2029,6 +2063,7 @@
                     });
                     setLanguage(currentLang); // Re-apply translations for dynamically added buttons
                     hideLoadingSpinner(); // Hide spinner after books are loaded
+                    console.log("Admin books loaded successfully.");
                 });
             } catch (error) {
                 console.error("Error setting up Firestore listener for admin books:", error);
@@ -2100,6 +2135,7 @@
         window.showBookDetailsModalWithId = async function(bookId) {
             if (!isAuthReady) {
                 showMessageModal("msgFirebaseNotReady");
+                hideLoadingSpinner(); // Ensure spinner hides
                 return;
             }
             showLoadingSpinner(); // Show spinner for fetching details
@@ -2192,7 +2228,7 @@
                  return;
             }
 
-            showConfirmModal("msgConfirmDelete", async (confirmed) => {
+            showMessageModal("msgConfirmDelete", "confirm", async (confirmed) => {
                 if (confirmed) {
                     showLoadingSpinner(); // Show spinner during deletion
                     try {
@@ -2242,6 +2278,10 @@
             // Write operations are protected by isCurrentUserAdmin() and Firebase Rules.
             if (!isAuthReady) { // Ensure Firebase is ready to perform read operations
                 console.warn("Firebase not ready to load site settings.");
+                // Ensure placeholder logos are displayed if Firebase isn't ready
+                if(headerLogo) headerLogo.src = 'https://placehold.co/150x50/e0e0e0/333333?text=Logo';
+                if(footerLogo) footerLogo.src = 'https://placehold.co/100x30/e0e0e0/333333?text=Logo';
+                hideLoadingSpinner(); // Hide spinner if settings cannot be loaded
                 return;
             }
 
@@ -2264,11 +2304,11 @@
                         siteLogoFileNameDisplay.textContent = siteLogoFileNameFromFirestore ? `${translations[currentLang]['msgCurrentSiteLogo']} ${getOriginalFileNameFromUnique(siteLogoFileNameFromFirestore)}` : translations[currentLang]['msgNoSiteLogoSelected'];
                     }
                     // Update header and footer logos immediately
-                    if(headerLogo) headerLogo.src = siteLogoUrlFromFirestore || 'https://placehold.co/150x50/cccccc/333333?text=Logo';
-                    if(footerLogo) footerLogo.src = siteLogoUrlFromFirestore || 'https://placehold.co/100x30/cccccc/333333?text=Logo';
+                    if(headerLogo) headerLogo.src = siteLogoUrlFromFirestore || 'https://placehold.co/150x50/e0e0e0/333333?text=Logo';
+                    if(footerLogo) footerLogo.src = siteLogoUrlFromFirestore || 'https://placehold.co/100x30/e0e0e0/333333?text=Logo';
 
                 } else {
-                    console.log("No site settings found in Firestore.");
+                    console.log("No site settings found in Firestore. Using default placeholders.");
                     // Reset if no settings found
                     siteLogoUrlFromFirestore = '';
                     siteLogoFileNameFromFirestore = '';
@@ -2278,14 +2318,22 @@
                     }
                     if (siteLogoFileNameDisplay) siteLogoFileNameDisplay.textContent = translations[currentLang]['msgNoSiteLogoSelected'];
                     // Use placeholders if no logo is set
-                    if(headerLogo) headerLogo.src = 'https://placehold.co/150x50/cccccc/333333?text=Logo';
-                    if(footerLogo) footerLogo.src = 'https://placehold.co/100x30/cccccc/333333?text=Logo';
+                    if(headerLogo) headerLogo.src = 'https://placehold.co/150x50/e0e0e0/333333?text=Logo';
+                    if(footerLogo) footerLogo.src = 'https://placehold.co/100x30/e0e0e0/333333?text=Logo';
                 }
             } catch (error) {
                 console.error("Error loading site settings:", error);
                 showMessageModal("msgErrorLoadingSiteSettings");
+                // Ensure placeholder logos are displayed on error
+                if(headerLogo) headerLogo.src = 'https://placehold.co/150x50/e0e0e0/333333?text=Logo';
+                if(footerLogo) footerLogo.src = 'https://placehold.co/100x30/e0e0e0/333333?text=Logo';
             } finally {
-                // hideLoadingSpinner(); // If spinner was shown, hide it.
+                // This will be called once after initializeFirebase, after all initial data loads
+                // are attempted (both books and site settings).
+                // Ensure spinner is hidden, especially if this is the last async operation.
+                // If this is the *very last* thing before user interaction, it should hide it.
+                // It's already hidden in `initializeFirebase` for catastrophic errors, and in `loadBooks` for data.
+                // We'll rely on loadBooks to hide it as it's the primary content loading function.
             }
         }
 
