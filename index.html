@@ -851,7 +851,7 @@
         <div class="container flex flex-col md:flex-row items-center justify-between text-sm">
             <!-- Logo on the left -->
             <div class="flex items-center space-x-4 mb-4 md:mb-0">
-                <img id="footerLogo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee" alt="Quaderni di Archeologia della Libya Logo" class="footer-logo">
+                <img id="mainLogo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee" alt="Quaderni di Archeologia della Libya Logo" class="footer-logo">
                 <p>&copy; <span id="currentYear"></span> <span data-lang-key="copyrightText">Quaderni di Archeologia della Libya. All rights reserved.</span></p>
             </div>
             
@@ -866,9 +866,13 @@
             <div class="text-center md:text-right space-y-2">
                 <p class="font-bold" data-lang-key="contributorsLabel">Contributors:</p>
                 <div class="flex justify-center md:justify-end items-center gap-4">
-                    <!-- These will be populated by JS if logos are uploaded via admin -->
-                    <div id="contributor1LogoContainer" class="h-10 flex items-center justify-center"></div>
-                    <div id="contributor2LogoContainer" class="h-10 flex items-center justify-center"></div>
+                    <!-- These will now load instantly from HTML, then be updated by JS if custom ones are set -->
+                    <div id="contributor1LogoContainer" class="h-16 flex items-center justify-center">
+                        <img id="contributor1Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20lerma.png?alt=media&token=f6966fec-902a-4e2a-b39e-a3ddb633e983" alt="L'ERMA di Bretschneider Logo" class="h-16">
+                    </div>
+                    <div id="contributor2LogoContainer" class="h-16 flex items-center justify-center">
+                        <img id="contributor2Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20meda%20ets%20max.jpg?alt=media&token=c2071e4e-bf59-4f06-b99b-4b739737f51b" alt="Fondazione MEDA Logo" class="h-16">
+                    </div>
                 </div>
                 <button id="adminLoginBtnFooter" class="nav-button bg-transparent hover:bg-gray-700 border border-white text-white mt-4" data-lang-key="adminLoginButton">Admin Login</button>
             </div>
@@ -1413,6 +1417,7 @@
                     currentHeaderLogo.fileName = data.headerLogoFileName || '';
                     currentFooterLogo.url = data.footerLogoUrl || DEFAULT_FOOTER_LOGO_URL;
                     currentFooterLogo.fileName = data.footerLogoFileName || '';
+                    // Use actual default URLs if the Firestore field is explicitly empty or missing
                     currentContributor1Logo.url = data.contributor1LogoUrl || DEFAULT_CONTRIB1_LOGO_URL;
                     currentContributor1Logo.fileName = data.contributor1LogoFileName || '';
                     currentContributor2Logo.url = data.contributor2LogoUrl || DEFAULT_CONTRIB2_LOGO_URL;
@@ -1441,30 +1446,15 @@
             document.getElementById('mainLogo').src = currentHeaderLogo.url;
             document.getElementById('footerLogo').src = currentFooterLogo.url;
             
-            // Handle Contributor Logos dynamically
-            const contributor1Container = document.getElementById('contributor1LogoContainer');
-            const contributor2Container = document.getElementById('contributor2LogoContainer');
+            // Handle Contributor Logos dynamically (now updating existing img tags)
+            const img1 = document.getElementById('contributor1Logo');
+            const img2 = document.getElementById('contributor2Logo');
 
-            // Clear previous images
-            contributor1Container.innerHTML = '';
-            contributor2Container.innerHTML = '';
-
-            // Render contributor 1 logo if URL exists (even if it's the default placeholder)
-            if (currentContributor1Logo.url) {
-                const img1 = document.createElement('img');
+            if (img1) {
                 img1.src = currentContributor1Logo.url;
-                img1.alt = "L'ERMA di Bretschneider Logo";
-                img1.className = 'h-16'; // Increased contributor logo size
-                contributor1Container.appendChild(img1);
             }
-
-            // Render contributor 2 logo if URL exists (even if it's the default placeholder)
-            if (currentContributor2Logo.url) {
-                const img2 = document.createElement('img');
+            if (img2) {
                 img2.src = currentContributor2Logo.url;
-                img2.alt = "Fondazione MEDA Logo";
-                img2.className = 'h-16'; // Increased contributor logo size
-                contributor2Container.appendChild(img2);
             }
 
             // Update admin settings preview if on that page
@@ -1609,7 +1599,7 @@
                     newContributor1Logo = { ...currentContributor1Logo };
                 } else {
                     // If no new file and no old custom file, ensure it's cleared (empty string)
-                    newContributor1Logo = { url: '', fileName: '' };
+                    newContributor1Logo = { url: '', fileName: '' }; // Set to empty string for db to know it's "unset"
                 }
 
                 if (contributor2File) {
@@ -1622,7 +1612,7 @@
                     newContributor2Logo = { ...currentContributor2Logo };
                 } else {
                     // If no new file and no old custom file, ensure it's cleared (empty string)
-                    newContributor2Logo = { url: '', fileName: '' };
+                    newContributor2Logo = { url: '', fileName: '' }; // Set to empty string for db to know it's "unset"
                 }
 
                 await setDoc(doc(db, PUBLIC_SETTINGS_COLLECTION, SITE_SETTINGS_DOC_ID), {
