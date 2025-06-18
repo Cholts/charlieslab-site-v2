@@ -1035,7 +1035,8 @@
                 contributor2LogoLabel: "Upload Fondazione MEDA Logo:", updateContributorLogosButton: "Update Contributor Logos",
                 copyrightText: "Quaderni di Archeologia della Libya. All rights reserved.", contactUsLabel: "Contact Us:",
                 emailLabelShort: "Email:", phoneLabelShort: "Phone:", selectedLabel: "Selected", currentLabel: "Current",
-                currentLabelShort: "Corrente", noCustomHeaderLogo: "No custom header logo.", noCustomFooterLogo: "No custom footer logo.",
+                currentLabelShort: "Corrente", archivalLabelShort: "Archival", // New
+                noCustomHeaderLogo: "No custom header logo.", noCustomFooterLogo: "No custom footer logo.",
                 noLERMALogo: "No L'ERMA logo.", noMEDALogo: "No MEDA logo.", fileUploadFailed: "File upload failed: ",
                 checkStorageRules: "Check Firebase Storage rules.", firebaseInitError: "An error occurred during Firebase initialization. Please check your console for details and ensure your Firebase config is correct.",
                 viewNotFound: "View not found.", logoutSuccessful: "Logout successful!", logoutFailed: "Logout failed: ",
@@ -1138,7 +1139,8 @@
                 contributor2LogoLabel: "Carica Logo Fondazione MEDA:", updateContributorLogosButton: "Aggiorna Loghi Contributori",
                 copyrightText: "Quaderni di Archeologia della Libya. Tutti i diritti riservati.", contactUsLabel: "Contattaci:",
                 emailLabelShort: "Email:", phoneLabelShort: "Telefono:", selectedLabel: "Selezionato", currentLabel: "Attuale",
-                currentLabelShort: "Corrente", noCustomHeaderLogo: "Nessun logo intestazione personalizzato.", noCustomFooterLogo: "Nessun logo piè di pagina personalizzato.",
+                currentLabelShort: "Corrente", archivalLabelShort: "Archivio", // New
+                noCustomHeaderLogo: "Nessun logo intestazione personalizzato.", noCustomFooterLogo: "Nessun logo piè di pagina personalizzato.",
                 noLERMALogo: "Nessun logo L'ERMA.", noMEDALogo: "Nessun logo MEDA.", fileUploadFailed: "Caricamento file fallito: ",
                 checkStorageRules: "Controlla le regole di Firebase Storage.", firebaseInitError: "An error occurred during Firebase initialization. Please check your console for details and ensure your Firebase config is correct.",
                 viewNotFound: "Vista non trovata.", logoutSuccessful: "Logout riuscito!", logoutFailed: "Logout fallito: ",
@@ -1252,6 +1254,19 @@
                     document.getElementById('adminManageNews').classList.add('hidden');
                     document.getElementById('adminManageSiteSettings').classList.add('hidden');
                     resetAddPublicationForm(); // Clear form when navigating to pubs management
+                }
+
+                // Re-display publications and news when switching views to ensure current data/filters
+                if (viewId === 'aboutUs') {
+                    displayPublications(allPublications, 'publicationsList', 'non-archival');
+                } else if (viewId === 'archivalVolumes') {
+                    displayPublications(allPublications, 'archivalPublicationsList', 'archival');
+                } else if (viewId === 'currentIssue') {
+                    listenForCurrentIssue();
+                } else if (viewId === 'newsEvents') {
+                    listenForNews();
+                } else if (viewId === 'adminDashboard') {
+                    listenForAdminPublications(); // Ensure admin list is current
                 }
             } else {
                 console.warn("View not found:", viewId);
@@ -1369,7 +1384,8 @@
             onSnapshot(query(collection(db, PUBLIC_PUB_COLLECTION), orderBy("year", "desc")), (snapshot) => {
                 allPublications = [];
                 snapshot.forEach(doc => allPublications.push({ id: doc.id, ...doc.data() }));
-                // Update all relevant views
+                
+                // Update all relevant views AFTER allPublications is populated
                 displayPublications(allPublications, 'publicationsList', 'non-archival'); // For About Us view
                 displayPublications(allPublications, 'archivalPublicationsList', 'archival'); // For Archival Volumes view
                 listenForCurrentIssue(); // Update Current Issue view based on latest data
@@ -1385,11 +1401,7 @@
             const user = auth.currentUser;
             const ADMIN_EMAIL = 'charles.schweb@lerma.it';
             const isAdmin = user && user.email === ADMIN_EMAIL; 
-            if (isAdmin) { // Only attach admin-specific listeners if logged in as admin
-                // listenForAdminPublications() is already called inside the main onSnapshot
-                listenForAdminNews();
-            } else {
-                // Clear admin tables if not admin and ensure default message
+            if (!isAdmin) { // If not admin, clear admin tables (they will be repopulated if admin logs in later)
                 document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noPublicationsToManage">${translations[currentLanguage].noPublicationsToManage}</td></tr>`;
                 document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 whitespace-nowrap text-sm text-gray-600" data-lang-key="noNewsToManage">${translations[currentLanguage].noNewsToManage}</td></tr>`;
             }
@@ -1690,11 +1702,12 @@
 
                 let meetsFilterType = true;
                 if (filterType === 'non-archival') {
-                    meetsFilterType = !pub.isArchivalVolume;
+                    // Non-archival publications are those NOT marked as archival, AND NOT set as current issue
+                    // since current issue has its own display.
+                    meetsFilterType = !pub.isArchivalVolume && !pub.isCurrentIssue;
                 } else if (filterType === 'archival') {
                     meetsFilterType = pub.isArchivalVolume;
                 }
-                // No filterType === 'current' here, as Current Issue has its own dedicated display logic.
                 
                 return (titleMatch || authorsMatch || yearMatch || descriptionMatch || isbnMatch || issnMatch ||
                        abstractArMatch || abstractEnMatch || abstractItMatch) && meetsFilterType;
@@ -1716,8 +1729,8 @@
 
             if (filteredPublications.length === 0) {
                 // Determine which "no results" message to show
-                const noResultsElementId = containerId === 'publicationsList' ? 'noPubsFound' : 'loadingArchivalVolumes'; // Re-using for simplicity, you can add a dedicated ID for archival no results.
-                container.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="${noResultsElementId}">${translations[currentLanguage][noResultsElementId]}</p>`;
+                const noResultsKey = containerId === 'publicationsList' ? 'noPubsFound' : 'noSearchResults'; // Use more specific keys if available
+                container.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="${noResultsKey}">${translations[currentLanguage][noResultsKey]}</p>`;
                 return;
             }
 
@@ -1759,48 +1772,44 @@
         });
 
         function listenForCurrentIssue() {
-            const q = query(collection(db, PUBLIC_PUB_COLLECTION), where("isCurrentIssue", "==", true));
-            onSnapshot(q, (snapshot) => {
-                const currentIssueContentDiv = document.getElementById('currentIssueContent');
-                const currentIssuePublicationCard = document.getElementById('currentIssuePublicationCard');
+            // Filter allPublications to find the one marked as current issue
+            const currentBook = allPublications.find(pub => pub.isCurrentIssue === true);
+
+            const currentIssueContentDiv = document.getElementById('currentIssueContent');
+            const currentIssuePublicationCard = document.getElementById('currentIssuePublicationCard');
+            
+            // Hide the "No current issue" message and the card initially
+            currentIssueContentDiv.querySelector('p[data-lang-key="noCurrentIssue"]').classList.remove('hidden');
+            currentIssuePublicationCard.classList.add('hidden');
+
+            if (currentBook) {
+                currentIssueContentDiv.querySelector('p[data-lang-key="noCurrentIssue"]').classList.add('hidden'); // Hide the "No current issue" message
+                currentIssuePublicationCard.classList.remove('hidden');
                 
-                // Hide the "No current issue" message and the card initially
-                currentIssueContentDiv.querySelector('p[data-lang-key="noCurrentIssue"]').classList.remove('hidden');
-                currentIssuePublicationCard.classList.add('hidden');
+                document.getElementById('currentIssueCover').src = currentBook.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image';
+                document.getElementById('currentIssueTitle').textContent = currentBook.title || translations[currentLanguage].noTitle;
+                document.getElementById('currentIssueAuthors').textContent = currentBook.authors || translations[currentLanguage].noAuthors;
+                document.getElementById('currentIssueYear').textContent = currentBook.year || translations[currentLanguage].noYear;
+                document.getElementById('currentIssueDescription').textContent = currentBook.description || translations[currentLanguage].noDescription;
 
-                if (!snapshot.empty) {
-                    const currentBook = snapshot.docs[0].data();
-                    currentIssueContentDiv.querySelector('p[data-lang-key="noCurrentIssue"]').classList.add('hidden'); // Hide the "No current issue" message
-                    currentIssuePublicationCard.classList.remove('hidden');
-                    
-                    document.getElementById('currentIssueCover').src = currentBook.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image';
-                    document.getElementById('currentIssueTitle').textContent = currentBook.title || translations[currentLanguage].noTitle;
-                    document.getElementById('currentIssueAuthors').textContent = currentBook.authors || translations[currentLanguage].noAuthors;
-                    document.getElementById('currentIssueYear').textContent = currentBook.year || translations[currentLanguage].noYear;
-                    document.getElementById('currentIssueDescription').textContent = currentBook.description || translations[currentLanguage].noDescription;
+                const updateDownloadBtn = (btnId, url, unavailableKey) => {
+                    const btn = document.getElementById(btnId);
+                    if (btn) { // Ensure button exists before manipulating
+                        btn.href = url || '#';
+                        btn.classList.toggle('disabled', !url);
+                        btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
+                    }
+                };
+                updateDownloadBtn('currentIssueDownloadPdfBtn', currentBook.pdfUrl, 'fullPdfUnavailable');
+                updateDownloadBtn('currentIssueDownloadAbstractArBtn', currentBook.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable');
+                updateDownloadBtn('currentIssueDownloadAbstractEnBtn', currentBook.abstracts?.en?.url, 'englishAbstractPdfUnavailable');
+                updateDownloadBtn('currentIssueDownloadAbstractItBtn', currentBook.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
 
-                    const updateDownloadBtn = (btnId, url, unavailableKey) => {
-                        const btn = document.getElementById(btnId);
-                        if (btn) { // Ensure button exists before manipulating
-                            btn.href = url || '#';
-                            btn.classList.toggle('disabled', !url);
-                            btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", unavailableKey, "alert"); };
-                        }
-                    };
-                    updateDownloadBtn('currentIssueDownloadPdfBtn', currentBook.pdfUrl, 'fullPdfUnavailable');
-                    updateDownloadBtn('currentIssueDownloadAbstractArBtn', currentBook.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable');
-                    updateDownloadBtn('currentIssueDownloadAbstractEnBtn', currentBook.abstracts?.en?.url, 'englishAbstractPdfUnavailable');
-                    updateDownloadBtn('currentIssueDownloadAbstractItBtn', currentBook.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
-
-                } else {
-                    // This else block is for when there is no current issue.
-                    // The "No current issue" message is already visible from the start of the function.
-                    // The publication card is already hidden.
-                }
-            }, (error) => {
-                console.error("Error listening to current issue:", error);
-                showMessageModal("errorMessage", "errorLoadingCurrentIssue", "error");
-            });
+            } else {
+                // This else block is for when there is no current issue.
+                // The "No current issue" message is already visible from the start of the function.
+                // The publication card is already hidden.
+            }
         }
 
         function listenForNews() {
