@@ -65,7 +65,6 @@ html
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
-    <!-- HTML Structure from your original file -->
     <!-- Loading Spinner -->
     <div id="loadingSpinner" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-[2000] hidden">
         <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
@@ -109,11 +108,7 @@ html
     <header class="header-bg py-4 px-6 shadow-sm">
         <div class="container flex flex-col gap-4">
             <div class="flex flex-col md:flex-row items-center justify-between w-full gap-4">
-                <div class="flex-shrink-0">
-                    <img id="mainHeaderLogo" 
-                         src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee" 
-                         alt="Quaderni di Archeologia della Libya Logo" class="header-logo">
-                </div>
+                <div class="flex-shrink-0"><img id="mainHeaderLogo" src="" alt="Quaderni di Archeologia della Libya Logo" class="header-logo"></div>
                 <div class="header-search-container flex flex-col sm:flex-row items-center gap-4 flex-grow md:max-w-xl lg:max-w-2xl">
                     <input type="text" id="publicationSearch" data-lang-key="searchPlaceholder" class="search-input flex-grow w-full sm:w-auto">
                     <select id="sortPublications" class="search-select w-full sm:w-auto">
@@ -148,6 +143,7 @@ html
                 <p class="col-span-full text-center text-gray-400" data-lang-key="loadingPublications"></p>
             </div>
         </section>
+
         <section id="editorialBoardView" class="view hidden section-content">
             <h2 class="text-3xl text-center mb-6" data-lang-key="editorialBoardHeading"></h2>
             <p class="text-center text-gray-700 mb-8" data-lang-key="editorialBoardIntro"></p>
@@ -158,10 +154,11 @@ html
             </div>
             <p class="text-center text-gray-600 mt-8" data-lang-key="editorialBoardComingSoon"></p>
         </section>
+
         <section id="currentIssueView" class="view hidden section-content flex flex-col items-center">
             <h2 class="text-3xl text-center mb-6" data-lang-key="currentIssueHeading"></h2>
             <div class="text-center w-full max-w-3xl" id="currentIssueContent">
-                <p class="text-lg mb-4" data-lang-key="noCurrentIssue"></p>
+                <p class="text-gray-700 text-lg mb-4" data-lang-key="noCurrentIssue"></p>
                 <div id="currentIssuePublicationCard" class="publication-card p-6 flex flex-col items-center text-center shadow-lg hidden">
                     <img id="currentIssueCover" src="" alt="Current Issue Cover" class="cover-image rounded-lg mb-6 shadow-xl" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/333333?text=No+Image';">
                     <h3 id="currentIssueTitle" class="text-3xl font-bold mb-3"></h3><p id="currentIssueAuthors" class="text-xl mb-2"></p>
@@ -175,14 +172,16 @@ html
                 </div>
             </div>
         </section>
+
         <section id="archivalVolumesView" class="view hidden section-content">
             <h2 class="text-3xl text-center mb-6" data-lang-key="archivalVolumesHeading"></h2>
-            <p class="text-center mb-8" data-lang-key="archivalVolumesIntro"></p>
+            <p class="text-center text-gray-700 mb-8" data-lang-key="archivalVolumesIntro"></p>
             <div id="archivalPublicationsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"><p class="col-span-full text-center text-gray-400" data-lang-key="loadingArchivalVolumes"></p></div>
         </section>
+
         <section id="editorialAndEthicsView" class="view hidden section-content">
             <h2 class="text-3xl text-center mb-6" data-lang-key="editorialEthicsHeading"></h2>
-            <div class="prose max-w-none leading-relaxed space-y-4">
+            <div class="prose max-w-none text-gray-700 leading-relaxed space-y-4">
                 <h3 class="text-2xl font-bold mt-6 mb-3" data-lang-key="editorialGuidelinesTitle"></h3><p class="text-lg font-semibold" data-lang-key="articlesSubmittedTo"></p>
                 <ul class="list-disc ml-6 space-y-1"><li><a href="mailto:redazione@quadalibya.it" class="text-blue-600 hover:underline">redazione@quadalibya.it</a></li><li><a href="mailto:laura.buccino@quadalibya.it" class="text-blue-600 hover:underline">laura.buccino@quadalibya.it</a></li></ul>
                 <h4 class="text-xl font-bold mt-4 mb-2" data-lang-key="submissionProcedureTitle"></h4><ul class="list-disc ml-6 space-y-2"><li data-lang-key="submissionProcedure1"></li><li data-lang-key="submissionProcedure2"></li><li data-lang-key="submissionProcedure3"></li><li data-lang-key="submissionProcedure4"></li><li data-lang-key="submissionProcedure5"></li></ul>
@@ -195,63 +194,106 @@ html
                 <p class="text-sm text-gray-600 mt-8" data-lang-key="lastUpdatedDate"></p>
             </div>
         </section>
-        <section id="newsEventsView" class="view hidden section-content"><h2 class="text-3xl text-center mb-6" data-lang-key="newsEventsHeading"></h2><p class="text-center mb-8" data-lang-key="newsEventsIntro"></p><div id="newsFeed" class="grid grid-cols-1 md:grid-cols-2 gap-8"><p class="col-span-full text-center text-gray-400" data-lang-key="noNewsUpdates"></p></div></section>
-        <section id="adminLoginView" class="view hidden section-content max-w-md mx-auto"><h2 class="text-3xl text-center mb-6" data-lang-key="adminLoginHeading"></h2><form id="adminLoginForm" class="space-y-4"><div><label for="adminEmail" class="block text-sm font-semibold" data-lang-key="emailLabel"></label><input type="email" id="adminEmail" class="admin-input w-full" required></div><div><label for="adminPassword" class="block text-sm font-semibold" data-lang-key="passwordLabel"></label><input type="password" id="adminPassword" class="admin-input w-full" required></div><button type="submit" class="admin-button w-full bg-green-600" data-lang-key="loginButton"></button><p class="text-red-500 text-sm mt-2 text-center" id="loginErrorMessage"></p></form></section>
-        <section id="adminDashboardView" class="view hidden admin-bg p-8 rounded-lg shadow-md max-w-4xl mx-auto"><h2 class="text-3xl text-center mb-6" data-lang-key="adminDashboardHeading"></h2><p class="text-center mb-4"><span data-lang-key="welcomeAdmin"></span><span id="loggedInUserEmail" class="font-semibold"></span>!</p><nav class="flex justify-center space-x-4 mb-8"><button class="admin-button" id="managePublicationsBtn" data-lang-key="managePublicationsBtn"></button><button class="admin-button" id="manageNewsBtn" data-lang-key="manageNewsBtn"></button><button class="admin-button" id="manageSiteSettingsBtn" data-lang-key="manageSiteSettingsBtn"></button><button class="admin-button bg-red-600" id="adminLogoutBtn" data-lang-key="logoutButton"></button></nav><div id="adminManagePublications" class="admin-section"><h3 id="adminFormTitle" class="text-2xl font-bold mb-4" data-lang-key="addPublicationTitle"></h3><form id="addPublicationForm" class="space-y-4"><div><label for="bookTitle" class="block text-sm font-semibold" data-lang-key="titleLabel"></label><input type="text" id="bookTitle" class="admin-input w-full"></div><div><label for="bookAuthors" class="block text-sm font-semibold" data-lang-key="authorsLabel"></label><input type="text" id="bookAuthors" class="admin-input w-full"></div><div><label for="bookYear" class="block text-sm font-semibold" data-lang-key="publicationYearLabel"></label><input type="number" id="bookYear" class="admin-input w-full" min="1900" max="2100"></div><div><label for="bookDescription" class="block text-sm font-semibold" data-lang-key="descriptionLabel"></label><textarea id="bookDescription" rows="3" class="admin-input w-full"></textarea></div><div><label for="bookISBN" class="block text-sm font-semibold" data-lang-key="isbnLabel"></label><input type="text" id="bookISBN" class="admin-input w-full"></div><div><label for="bookISSN" class="block text-sm font-semibold" data-lang-key="issnLabel"></label><input type="text" id="bookISSN" class="admin-input w-full"></div><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label for="abstractArText" class="block text-sm font-semibold" data-lang-key="arabicAbstractTextLabel"></label><textarea id="abstractArText" rows="3" class="admin-input w-full"></textarea></div><div><label for="abstractEnText" class="block text-sm font-semibold" data-lang-key="englishAbstractTextLabel"></label><textarea id="abstractEnText" rows="3" class="admin-input w-full"></textarea></div><div><label for="abstractItText" class="block text-sm font-semibold" data-lang-key="italianAbstractTextLabel"></label><textarea id="abstractItText" rows="3" class="admin-input w-full"></textarea></div></div><div><label for="bookCover" class="block text-sm font-semibold" data-lang-key="coverImageLabel"></label><input type="file" id="bookCover" accept="image/*" class="admin-input w-full"><div class="file-upload-preview" id="coverImagePreviewContainer"><img id="uploadedCoverPreviewAdmin" src="" alt="Cover Preview" style="display:none;"><p id="coverImageFileNameDisplayAdmin"></p></div></div><div><label for="bookPdf" class="block text-sm font-semibold" data-lang-key="fullBookPdfLabel"></label><input type="file" id="bookPdf" accept="application/pdf" class="admin-input w-full"><p id="pdfFileNameDisplayAdmin" class="text-xs"></p></div><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><div><label for="abstractArPdf" class="block text-sm font-semibold" data-lang-key="arabicAbstractPdfLabel"></label><input type="file" id="abstractArPdf" accept="application/pdf" class="admin-input w-full"><p id="abstractArPdfFileNameDisplayAdmin" class="text-xs"></p></div><div><label for="abstractEnPdf" class="block text-sm font-semibold" data-lang-key="englishAbstractPdfLabel"></label><input type="file" id="abstractEnPdf" accept="application/pdf" class="admin-input w-full"><p id="abstractEnPdfFileNameDisplayAdmin" class="text-xs"></p></div><div><label for="abstractItPdf" class="block text-sm font-semibold" data-lang-key="italianAbstractPdfLabel"></label><input type="file" id="abstractItPdf" accept="application/pdf" class="admin-input w-full"><p id="abstractItPdfFileNameDisplayAdmin" class="text-xs"></p></div></div><div class="flex items-center"><input type="checkbox" id="bookIsCurrentIssue" class="h-4 w-4"><label for="bookIsCurrentIssue" class="ml-2" data-lang-key="setCurrentIssueLabel"></label></div><div class="flex justify-between gap-4"><button type="submit" id="submitPublicationBtn" class="admin-button w-full bg-green-600" data-lang-key="addPublicationButton"></button><button type="button" id="cancelEditPublicationBtn" class="admin-button w-full bg-gray-500 hidden" data-lang-key="cancelEditButton"></button></div></form><h3 class="text-2xl font-bold mt-8 mb-4" data-lang-key="managePublicationsHeading"></h3><div class="overflow-x-auto"><table class="min-w-full"><thead class="admin-table-header"><tr><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderTitle"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderAuthors"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderYear"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderActions"></th></tr></thead><tbody id="adminPublicationsList" class="divide-y divide-gray-300"></tbody></table></div></div><div id="adminManageNews" class="admin-section hidden"><h3 class="text-2xl font-bold mb-4" data-lang-key="addNewsItemTitle"></h3><form id="addNewsItemForm" class="space-y-4"><div><label for="newsTitle" class="block text-sm font-semibold" data-lang-key="newsTitleLabel"></label><input type="text" id="newsTitle" class="admin-input w-full" required></div><div><label for="newsDescription" class="block text-sm font-semibold" data-lang-key="newsDescriptionLabel"></label><textarea id="newsDescription" rows="3" class="admin-input w-full" required></textarea></div><div><label for="newsImage" class="block text-sm font-semibold" data-lang-key="newsImageLabel"></label><input type="file" id="newsImage" accept="image/*" class="admin-input w-full"><div class="file-upload-preview" id="newsImagePreviewContainer"><img id="uploadedNewsImagePreviewAdmin" src="" alt="News Image Preview" style="display:none;"><p id="newsImageFileNameDisplayAdmin"></p></div></div><button type="submit" id="submitNewsBtn" class="admin-button w-full bg-blue-600" data-lang-key="addNewsItemButton"></button><button type="button" id="cancelEditNewsBtn" class="admin-button w-full bg-gray-500 hidden" data-lang-key="cancelEditButton"></button></form><h3 class="text-2xl font-bold mt-8 mb-4" data-lang-key="manageNewsHeading"></h3><div class="overflow-x-auto"><table class="min-w-full"><thead class="admin-table-header"><tr><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderTitle"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderDate"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderActions"></th></tr></thead><tbody id="adminNewsList" class="divide-y divide-gray-300"></tbody></table></div></div><div id="adminManageSiteSettings" class="admin-section hidden"><h3 class="text-2xl font-bold mb-4" data-lang-key="manageSiteLogosHeading"></h3><form id="logoUploadForm" class="space-y-4"><div><label for="headerLogoUpload" class="block text-sm font-semibold" data-lang-key="headerLogoUploadLabel"></label><input type="file" id="headerLogoUpload" accept="image/*" class="admin-input w-full"><div class="file-upload-preview" id="headerLogoPreviewContainer"><img id="headerLogoPreview" src="" alt="Header Preview" style="display:none;"><p id="headerLogoFileNameDisplayAdmin"></p></div></div><div><label for="footerLogoUpload" class="block text-sm font-semibold" data-lang-key="footerLogoUploadLabel"></label><input type="file" id="footerLogoUpload" accept="image/*" class="admin-input w-full"><div class="file-upload-preview" id="footerLogoPreviewContainer"><img id="footerLogoPreview" src="" alt="Footer Preview" style="display:none;"><p id="footerLogoFileNameDisplayAdmin"></p></div></div><button type="submit" class="admin-button w-full bg-blue-600" data-lang-key="updateLogosButton"></button></form><div class="section-separator"></div><h3 class="text-2xl font-bold mb-4" data-lang-key="manageContributorLogosHeading"></h3><form id="contributorLogoUploadForm" class="space-y-4"><div><label for="contributor1LogoUpload" class="block text-sm font-semibold" data-lang-key="contributor1LogoLabel"></label><input type="file" id="contributor1LogoUpload" accept="image/*" class="admin-input w-full"><div class="file-upload-preview"><img id="contributor1LogoPreview" src="" alt="Contrib1 Preview" style="display:none;"><p id="contributor1FileNameDisplayAdmin"></p></div></div><div><label for="contributor2LogoUpload" class="block text-sm font-semibold" data-lang-key="contributor2LogoLabel"></label><input type="file" id="contributor2LogoUpload" accept="image/*" class="admin-input w-full"><div class="file-upload-preview"><img id="contributor2LogoPreview" src="" alt="Contrib2 Preview" style="display:none;"><p id="contributor2FileNameDisplayAdmin"></p></div></div><button type="submit" class="admin-button w-full bg-blue-600" data-lang-key="updateContributorLogosButton"></button></form></div></section></main>
-    <footer class="footer-bg py-6 mt-8 shadow-inner"><div class="container flex flex-col md:flex-row items-center justify-between text-sm"><div class="flex items-center space-x-4 mb-4 md:mb-0"><img id="mainFooterLogo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee" alt="Quaderni di Archeologia della Libya Logo" class="footer-logo"><p>&copy; <span id="currentYear"></span> <span data-lang-key="copyrightText"></span></p></div><div class="text-center md:text-left space-y-1 mb-4 md:mb-0"><p class="font-bold" data-lang-key="contactUsLabel"></p><p data-lang-key="emailAddress"><span data-lang-key="emailLabelShort"></span> <a href="mailto:info@archaeologylibya.org" class="footer-link">info@archaeologylibya.org</a></p><p data-lang-key="phoneNumber"><span data-lang-key="phoneLabelShort"></span> +39 06 6874127</p></div><div class="text-center md:text-right space-y-2"><p class="font-bold" data-lang-key="contributorsLabel"></p><div class="flex justify-center md:justify-end items-center gap-4"><div id="contributor1LogoContainer" class="h-16 flex items-center justify-center"><img id="contributor1Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20lerma.png?alt=media&token=f6966fec-902a-4e2a-b39e-a3ddb633e983" alt="L'ERMA di Bretschneider Logo" class="h-16"></div><div id="contributor2LogoContainer" class="h-16 flex items-center justify-center"><img id="contributor2Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20meda%20ets%20max.jpg?alt=media&token=c2071e4e-bf59-4f06-b99b-4b739737f51b" alt="Fondazione MEDA Logo" class="h-16"></div></div><button id="adminLoginBtnFooter" class="nav-button bg-transparent hover:bg-gray-700 border border-white text-white mt-4" data-lang-key="adminLoginButton"></button></div></div></footer>
+
+        <section id="newsEventsView" class="view hidden section-content">
+            <h2 class="text-3xl text-center mb-6" data-lang-key="newsEventsHeading"></h2>
+            <p class="text-center text-gray-700 mb-8" data-lang-key="newsEventsIntro"></p>
+            <div id="newsFeed" class="grid grid-cols-1 md:grid-cols-2 gap-8"><p class="col-span-full text-center text-gray-400" data-lang-key="noNewsUpdates"></p></div>
+        </section>
+
+        <section id="adminLoginView" class="view hidden section-content max-w-md mx-auto">
+            <h2 class="text-3xl text-center mb-6" data-lang-key="adminLoginHeading"></h2>
+            <form id="adminLoginForm" class="space-y-4">
+                <div><label for="adminEmail" class="block text-sm font-semibold" data-lang-key="emailLabel"></label><input type="email" id="adminEmail" class="admin-input w-full" required></div>
+                <div><label for="adminPassword" class="block text-sm font-semibold" data-lang-key="passwordLabel"></label><input type="password" id="adminPassword" class="admin-input w-full" required></div>
+                <button type="submit" class="admin-button w-full bg-green-600" data-lang-key="loginButton"></button>
+                <p class="text-red-500 text-sm mt-2 text-center" id="loginErrorMessage"></p>
+            </form>
+        </section>
+
+        <section id="adminDashboardView" class="view hidden admin-bg p-8 rounded-lg shadow-md max-w-4xl mx-auto">
+            <h2 class="text-3xl text-center mb-6" data-lang-key="adminDashboardHeading"></h2>
+            <p class="text-center text-gray-700 mb-4"><span data-lang-key="welcomeAdmin"></span><span id="loggedInUserEmail" class="font-semibold"></span>!</p>
+            <nav class="flex justify-center space-x-4 mb-8">
+                <button class="admin-button" id="managePublicationsBtn" data-lang-key="managePublicationsBtn"></button><button class="admin-button" id="manageNewsBtn" data-lang-key="manageNewsBtn"></button>
+                <button class="admin-button" id="manageSiteSettingsBtn" data-lang-key="manageSiteSettingsBtn"></button><button class="admin-button bg-red-600" id="adminLogoutBtn" data-lang-key="logoutButton"></button>
+            </nav>
+            <div id="adminManagePublications" class="admin-section">
+                <h3 id="adminFormTitle" class="text-2xl font-bold mb-4" data-lang-key="addPublicationTitle"></h3>
+                <form id="addPublicationForm" class="space-y-4">
+                    <div><label for="bookTitle" class="block text-sm font-semibold" data-lang-key="titleLabel"></label><input type="text" id="bookTitle" class="admin-input w-full"></div>
+                    <div><label for="bookAuthors" class="block text-sm font-semibold" data-lang-key="authorsLabel"></label><input type="text" id="bookAuthors" class="admin-input w-full"></div>
+                    <div><label for="bookYear" class="block text-sm font-semibold" data-lang-key="publicationYearLabel"></label><input type="number" id="bookYear" class="admin-input w-full" min="1900" max="2100"></div>
+                    <div><label for="bookDescription" class="block text-sm font-semibold" data-lang-key="descriptionLabel"></label><textarea id="bookDescription" rows="3" class="admin-input w-full"></textarea></div>
+                    <div><label for="bookISBN" class="block text-sm font-semibold" data-lang-key="isbnLabel"></label><input type="text" id="bookISBN" class="admin-input w-full"></div>
+                    <div><label for="bookISSN" class="block text-sm font-semibold" data-lang-key="issnLabel"></label><input type="text" id="bookISSN" class="admin-input w-full"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label for="abstractArText" class="block text-sm font-semibold" data-lang-key="arabicAbstractTextLabel"></label><textarea id="abstractArText" rows="3" class="admin-input w-full"></textarea></div>
+                        <div><label for="abstractEnText" class="block text-sm font-semibold" data-lang-key="englishAbstractTextLabel"></label><textarea id="abstractEnText" rows="3" class="admin-input w-full"></textarea></div>
+                        <div><label for="abstractItText" class="block text-sm font-semibold" data-lang-key="italianAbstractTextLabel"></label><textarea id="abstractItText" rows="3" class="admin-input w-full"></textarea></div>
+                    </div>
+                    <div><label for="bookCover" class="block text-sm font-semibold" data-lang-key="coverImageLabel"></label><input type="file" id="bookCover" accept="image/*" class="admin-input w-full"><div class="file-upload-preview" id="coverImagePreviewContainer"><img id="uploadedCoverPreviewAdmin" src="" alt="Cover Preview" style="display:none;"><p id="coverImageFileNameDisplayAdmin"></p></div></div>
+                    <div><label for="bookPdf" class="block text-sm font-semibold" data-lang-key="fullBookPdfLabel"></label><input type="file" id="bookPdf" accept="application/pdf" class="admin-input w-full"><p id="pdfFileNameDisplayAdmin" class="text-xs"></p></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label for="abstractArPdf" class="block text-sm font-semibold" data-lang-key="arabicAbstractPdfLabel"></label><input type="file" id="abstractArPdf" accept="application/pdf" class="admin-input w-full"><p id="abstractArPdfFileNameDisplayAdmin" class="text-xs"></p></div>
+                        <div><label for="abstractEnPdf" class="block text-sm font-semibold" data-lang-key="englishAbstractPdfLabel"></label><input type="file" id="abstractEnPdf" accept="application/pdf" class="admin-input w-full"><p id="abstractEnPdfFileNameDisplayAdmin" class="text-xs"></p></div>
+                        <div><label for="abstractItPdf" class="block text-sm font-semibold" data-lang-key="italianAbstractPdfLabel"></label><input type="file" id="abstractItPdf" accept="application/pdf" class="admin-input w-full"><p id="abstractItPdfFileNameDisplayAdmin" class="text-xs"></p></div>
+                    </div>
+                    <div class="flex items-center"><input type="checkbox" id="bookIsCurrentIssue" class="h-4 w-4"><label for="bookIsCurrentIssue" class="ml-2" data-lang-key="setCurrentIssueLabel"></label></div>
+                    <div class="flex justify-between gap-4"><button type="submit" id="submitPublicationBtn" class="admin-button w-full bg-green-600" data-lang-key="addPublicationButton"></button><button type="button" id="cancelEditPublicationBtn" class="admin-button w-full bg-gray-500 hidden" data-lang-key="cancelEditButton"></button></div>
+                </form>
+                <h3 class="text-2xl font-bold mt-8 mb-4" data-lang-key="managePublicationsHeading"></h3>
+                <div class="overflow-x-auto"><table class="min-w-full">
+                    <thead class="admin-table-header"><tr><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderTitle"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderAuthors"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderYear"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderActions"></th></tr></thead>
+                    <tbody id="adminPublicationsList" class="divide-y divide-gray-300"></tbody>
+                </table></div>
+            </div>
+            <div id="adminManageNews" class="admin-section hidden">
+                <h3 class="text-2xl font-bold mb-4" data-lang-key="addNewsItemTitle"></h3>
+                <form id="addNewsItemForm" class="space-y-4">
+                    <div><label for="newsTitle" class="block text-sm font-semibold" data-lang-key="newsTitleLabel"></label><input type="text" id="newsTitle" class="admin-input w-full" required></div>
+                    <div><label for="newsDescription" class="block text-sm font-semibold" data-lang-key="newsDescriptionLabel"></label><textarea id="newsDescription" rows="3" class="admin-input w-full" required></textarea></div>
+                    <div><label for="newsImage" class="block text-sm font-semibold" data-lang-key="newsImageLabel"></label><input type="file" id="newsImage" accept="image/*" class="admin-input w-full"><div class="file-upload-preview" id="newsImagePreviewContainer"><img id="uploadedNewsImagePreviewAdmin" src="" alt="News Image Preview" style="display:none;"><p id="newsImageFileNameDisplayAdmin"></p></div></div>
+                    <button type="submit" id="submitNewsBtn" class="admin-button w-full bg-blue-600" data-lang-key="addNewsItemButton"></button>
+                    <button type="button" id="cancelEditNewsBtn" class="admin-button w-full bg-gray-500 hidden" data-lang-key="cancelEditButton"></button>
+                </form>
+                <h3 class="text-2xl font-bold mt-8 mb-4" data-lang-key="manageNewsHeading"></h3>
+                <div class="overflow-x-auto"><table class="min-w-full">
+                    <thead class="admin-table-header"><tr><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderTitle"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderDate"></th><th class="px-6 py-3 text-left text-xs font-semibold uppercase" data-lang-key="tableHeaderActions"></th></tr></thead>
+                    <tbody id="adminNewsList" class="divide-y divide-gray-300"></tbody>
+                </table></div>
+            </div>
+            <div id="adminManageSiteSettings" class="admin-section hidden">
+                <h3 class="text-2xl font-bold mb-4" data-lang-key="manageSiteLogosHeading"></h3>
+                <form id="logoUploadForm" class="space-y-4">
+                    <div><label for="headerLogoUpload" class="block text-sm font-semibold" data-lang-key="headerLogoUploadLabel"></label><input type="file" id="headerLogoUpload" accept="image/*" class="admin-input w-full"><div class="file-upload-preview" id="headerLogoPreviewContainer"><img id="headerLogoPreview" src="" alt="Header Preview" style="display:none;"><p id="headerLogoFileNameDisplayAdmin"></p></div></div>
+                    <div><label for="footerLogoUpload" class="block text-sm font-semibold" data-lang-key="footerLogoUploadLabel"></label><input type="file" id="footerLogoUpload" accept="image/*" class="admin-input w-full"><div class="file-upload-preview" id="footerLogoPreviewContainer"><img id="footerLogoPreview" src="" alt="Footer Preview" style="display:none;"><p id="footerLogoFileNameDisplayAdmin"></p></div></div>
+                    <button type="submit" class="admin-button w-full bg-blue-600" data-lang-key="updateLogosButton"></button>
+                </form>
+                <div class="section-separator"></div>
+                <h3 class="text-2xl font-bold mb-4" data-lang-key="manageContributorLogosHeading"></h3>
+                <form id="contributorLogoUploadForm" class="space-y-4">
+                    <div><label for="contributor1LogoUpload" class="block text-sm font-semibold" data-lang-key="contributor1LogoLabel"></label><input type="file" id="contributor1LogoUpload" accept="image/*" class="admin-input w-full"><div class="file-upload-preview"><img id="contributor1LogoPreview" src="" alt="Contrib1 Preview" style="display:none;"><p id="contributor1FileNameDisplayAdmin"></p></div></div>
+                    <div><label for="contributor2LogoUpload" class="block text-sm font-semibold" data-lang-key="contributor2LogoLabel"></label><input type="file" id="contributor2LogoUpload" accept="image/*" class="admin-input w-full"><div class="file-upload-preview"><img id="contributor2LogoPreview" src="" alt="Contrib2 Preview" style="display:none;"><p id="contributor2FileNameDisplayAdmin"></p></div></div>
+                    <button type="submit" class="admin-button w-full bg-blue-600" data-lang-key="updateContributorLogosButton"></button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-bg py-6 mt-8 shadow-inner">
+        <div class="container flex flex-col md:flex-row items-center justify-between text-sm">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0"><img id="mainFooterLogo" src="" alt="Quaderni di Archeologia della Libya Logo" class="footer-logo"><p>&copy; <span id="currentYear"></span> <span data-lang-key="copyrightText"></span></p></div>
+            <div class="text-center md:text-left space-y-1 mb-4 md:mb-0"><p class="font-bold" data-lang-key="contactUsLabel"></p><p data-lang-key="emailAddress"><span data-lang-key="emailLabelShort"></span> <a href="mailto:info@archaeologylibya.org" class="footer-link">info@archaeologylibya.org</a></p><p data-lang-key="phoneNumber"><span data-lang-key="phoneLabelShort"></span> +39 06 6874127</p></div>
+            <div class="text-center md:text-right space-y-2"><p class="font-bold" data-lang-key="contributorsLabel"></p><div class="flex justify-center md:justify-end items-center gap-4"><div id="contributor1LogoContainer" class="h-16 flex items-center justify-center"><img id="contributor1Logo" src="" alt="L'ERMA di Bretschneider Logo" class="h-16"></div><div id="contributor2LogoContainer" class="h-16 flex items-center justify-center"><img id="contributor2Logo" src="" alt="Fondazione MEDA Logo" class="h-16"></div></div><button id="adminLoginBtnFooter" class="nav-button bg-transparent hover:bg-gray-700 border border-white text-white mt-4" data-lang-key="adminLoginButton"></button></div>
+        </div>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, onSnapshot, query, orderBy, where, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
-
-        // --- START: Definition of DOM element constants (MOVED TO TOP) ---
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const messageModalElement = document.getElementById('messageModal');
-        const messageTextElement = document.getElementById('messageText');
-        const modalButtonsElement = document.getElementById('modalButtons');
-        const closeMessageModalElement = document.getElementById('closeMessageModal');
-        const publicationDetailsModal = document.getElementById('publicationDetailsModal');
-        const closePublicationDetailsModal = document.getElementById('closePublicationDetailsModal');
-        
-        const bookTitleInput = document.getElementById('bookTitle');
-        const bookAuthorsInput = document.getElementById('bookAuthors');
-        const bookYearInput = document.getElementById('bookYear');
-        const bookDescriptionInput = document.getElementById('bookDescription');
-        const bookISBNInput = document.getElementById('bookISBN');
-        const bookISSNInput = document.getElementById('bookISSN');
-        const abstractArTextInput = document.getElementById('abstractArText');
-        const abstractEnTextInput = document.getElementById('abstractEnText');
-        const abstractItTextInput = document.getElementById('abstractItText');
-        const bookIsCurrentIssueCheckbox = document.getElementById('bookIsCurrentIssue');
-        const bookCoverInput = document.getElementById('bookCover');
-        const bookPdfInput = document.getElementById('bookPdf');
-        const abstractArPdfInput = document.getElementById('abstractArPdf');
-        const abstractEnPdfInput = document.getElementById('abstractEnPdf');
-        const abstractItPdfInput = document.getElementById('abstractItPdf');
-        const adminFormTitle = document.getElementById('adminFormTitle');
-        const submitPublicationBtn = document.getElementById('submitPublicationBtn');
-        const cancelEditPublicationBtn = document.getElementById('cancelEditPublicationBtn');
-        const uploadedCoverPreviewAdmin = document.getElementById('uploadedCoverPreviewAdmin');
-        const coverImageFileNameDisplayAdmin = document.getElementById('coverImageFileNameDisplayAdmin');
-        const pdfFileNameDisplayAdmin = document.getElementById('pdfFileNameDisplayAdmin');
-        const abstractArPdfFileNameDisplayAdmin = document.getElementById('abstractArPdfFileNameDisplayAdmin');
-        const abstractEnPdfFileNameDisplayAdmin = document.getElementById('abstractEnPdfFileNameDisplayAdmin');
-        const abstractItPdfFileNameDisplayAdmin = document.getElementById('abstractItPdfFileNameDisplayAdmin');
-        const adminPubFormElements = { bookTitleInput, bookAuthorsInput, bookYearInput, bookDescriptionInput, bookISBNInput, bookISSNInput, abstractArTextInput, abstractEnTextInput, abstractItTextInput, bookIsCurrentIssueCheckbox, bookCoverInput, bookPdfInput, abstractArPdfInput, abstractEnPdfInput, abstractItPdfInput, adminFormTitle, submitPublicationBtn, cancelEditPublicationBtn, uploadedCoverPreviewAdmin, coverImageFileNameDisplayAdmin, pdfFileNameDisplayAdmin, abstractArPdfFileNameDisplayAdmin, abstractEnPdfFileNameDisplayAdmin, abstractItPdfFileNameDisplayAdmin };
-
-        const newsTitleInput = document.getElementById('newsTitle');
-        const newsDescriptionInput = document.getElementById('newsDescription');
-        const newsImageInput = document.getElementById('newsImage');
-        const uploadedNewsImagePreviewAdmin = document.getElementById('uploadedNewsImagePreviewAdmin'); // Note: ID conflict with pub form, might need unique IDs if both are visible at once
-        const newsImageFileNameDisplayAdmin = document.getElementById('newsImageFileNameDisplayAdmin');
-        const submitNewsBtn = document.getElementById('submitNewsBtn');
-        const cancelEditNewsBtn = document.getElementById('cancelEditNewsBtn');
-        const adminNewsFormElements = { newsTitleInput, newsDescriptionInput, newsImageInput, uploadedNewsImagePreviewAdmin, newsImageFileNameDisplayAdmin, submitNewsBtn, cancelEditNewsBtn };
-        
-        const views = {}; // Populated in window.onload
-        // --- END: Definition of DOM element constants ---
 
         const hardcodedFirebaseConfig = {
             apiKey: "AIzaSyDrOjIfbI2ttZF_Dp8JSRNpl_eL8XU4JGk",
@@ -288,7 +330,6 @@ html
         const STORAGE_PATH_LOGOS = `${STORAGE_BASE_PATH}/logos`;
 
         let app, db, auth, storage;
-        let userId; // Added from original
         let editingPublicationId = null;
         let editingNewsItemId = null;
         let currentPubFiles = {coverUrl:'',coverFileName:'',pdfUrl:'',pdfFileName:'',abstracts:{ar:{text:'',url:'',fileName:''},en:{text:'',url:'',fileName:''},it:{text:'',url:'',fileName:''}}};
@@ -299,10 +340,8 @@ html
         let currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
 
         let currentLanguage = localStorage.getItem('siteLanguage') || 'en';
-        const translations = { /* PASTE YOUR FULL TRANSLATIONS OBJECT HERE */ };
-            // ... (The translations object is very large, ensure it's fully pasted here)
-            // For example:
-             en: {
+        const translations = {
+            en: {
                 pageTitle: "QAL - Publications", navAboutUs: "About Us", navEditorialBoard: "Editorial Board",
                 navCurrentIssue: "Current Issue", navArchivalVolumes: "Archival Volumes", navEditorialEthics: "Editorial Guidelines & Ethics",
                 navNewsEvents: "News & Events", adminLoginButton: "Admin Login", logoutButton: "Logout",
@@ -502,11 +541,11 @@ html
                 couldNotLoadLogos: "Impossibile caricare i loghi del sito.", siteLogosUpdated: "Loghi sito aggiornati con successo!",
                 errorUpdatingLogos: "Errore aggiornamento loghi sito: ", contributorLogosUpdated: "Loghi contributori aggiornati con successo!",
                 errorUpdatingContributorLogos: "Errore aggiornamento loghi contributori: ", noPermissionUpdateSiteSettings: "Non hai il permesso di aggiornare le impostazioni del sito.",
-                noPermissionAddNews: "Non hai il permesso di aggiungere/modificare notizie.", errorSavingNewsItem: "Errore nel salvataggio della noticia: ",
+                noPermissionAddNews: "Non hai il permesso di aggiungere/modificare notizie.", errorSavingNewsItem: "Errore nel salvataggio della notizia: ",
                 newsItemUpdated: "Notizia aggiornata con successo!", newsItemAdded: "Notizia aggiunta con successo!",
-                newsItemNotFoundForEdit: "Notizia non trovata per la modifica.", errorLoadingNewsItemForEdit: "Errore caricamento noticia per modifica: ",
+                newsItemNotFoundForEdit: "Notizia non trovata per la modifica.", errorLoadingNewsItemForEdit: "Errore caricamento notizia per modifica: ",
                 newsItemDeleted: "Notizia eliminata con successo!", newsItemNotFoundForDeletion: "Notizia non trovata per l'eliminazione.",
-                errorDeletingNewsItem: "Errore eliminazione noticia: ",
+                errorDeletingNewsItem: "Errore eliminazione notizia: ",
                 yesButton: "Sì", noButton: "No", okButton: "OK", editButton: "Modifica", deleteButton: "Elimina",
                 noArabicAbstract: "Nessun abstract arabo disponibile.", noEnglishAbstract: "Nessun abstract inglese disponibile.",
                 noItalianAbstract: "Nessun abstract italiano disponibile.", fileNotFoundInStorage: "File non trovato nello storage: ", fileDeletionFailed: "Eliminazione file fallita: ",
@@ -516,152 +555,559 @@ html
         // End of Full Translations Object
 
         // --- Start of JavaScript functions ---
-        let currentView = 'aboutUs';
+        // (All functions from previous complete script, with paths verified for SITE_CONFIGURATION_DOC_ID and ADMIN_USERS_DOC_PATH)
+
+        // Initialize views object in window.onload
+        const views = {};
 
         function applyTranslations(lang) {
-            const elements = document.querySelectorAll('[data-lang-key]');
+            // ... (Implementation from previous script)
+             const elements = document.querySelectorAll('[data-lang-key]');
             elements.forEach(element => {
                 const key = element.dataset.langKey;
                 if (translations[lang] && translations[lang][key]) {
-                    if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) { element.placeholder = translations[lang][key]; }
-                    else if (element.tagName === 'OPTION') { element.textContent = translations[lang][key]; }
-                    else { element.innerHTML = translations[lang][key]; }
+                    if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
+                        element.placeholder = translations[lang][key];
+                    } else if (element.tagName === 'OPTION') {
+                        element.textContent = translations[lang][key];
+                    } else {
+                        element.innerHTML = translations[lang][key]; 
+                    }
+                } else if (translations[lang]) {
+                    // console.warn(`Translation key "${key}" not found for language "${lang}".`);
                 }
             });
-            document.querySelectorAll('.lang-button').forEach(button => button.classList.toggle('active', button.dataset.lang === lang));
-            currentLanguage = lang; localStorage.setItem('siteLanguage', lang);
-            if (auth && auth.currentUser && typeof views !== 'undefined' && views.adminDashboard && !views.adminDashboard.classList.contains('hidden')) { if(typeof listenForAdminPublications === 'function') listenForAdminPublications(); if(typeof listenForAdminNews === 'function') listenForAdminNews(); }
-            if (typeof views !== 'undefined' && views.publicationsList && (views.publicationsList.textContent.includes(translations.en.loadingPublications) || views.publicationsList.textContent.includes(translations.it.loadingPublications))) { if(typeof listenForPublicPublications === 'function') listenForPublicPublications(); }
-            if (typeof views !== 'undefined' && views.newsFeed && (views.newsFeed.textContent.includes(translations.en.noNewsUpdates) || views.newsFeed.textContent.includes(translations.it.noNewsUpdates))) { if(typeof listenForNews === 'function') listenForNews(); }
+            document.querySelectorAll('.lang-button').forEach(button => {
+                button.classList.toggle('active', button.dataset.lang === lang);
+            });
+            currentLanguage = lang;
+            localStorage.setItem('siteLanguage', lang);
+            if (auth && auth.currentUser && views.adminDashboard && !views.adminDashboard.classList.contains('hidden')) {
+                 listenForAdminPublications(); listenForAdminNews();
+            }
+            if (views.publicationsList && (views.publicationsList.textContent.includes(translations.en.loadingPublications) || views.publicationsList.textContent.includes(translations.it.loadingPublications))) listenForPublicPublications();
+            if (views.newsFeed && (views.newsFeed.textContent.includes(translations.en.noNewsUpdates) || views.newsFeed.textContent.includes(translations.it.noNewsUpdates))) listenForNews();
         }
 
         async function initializeFirebase() {
-            try {
-                app = initializeApp(firebaseConfig); db = getFirestore(app); auth = getAuth(app); storage = getStorage(app);
+            // ... (Implementation from previous script)
+             try {
+                app = initializeApp(firebaseConfig);             
+                db = getFirestore(app);             
+                auth = getAuth(app);               
+                storage = getStorage(app);
                 onAuthStateChanged(auth, (user) => {
                     console.log("Auth state changed. User:", user ? user.uid : 'null');
-                    if(document.getElementById('loggedInUserEmail')) document.getElementById('loggedInUserEmail').textContent = user ? (user.email || 'Admin') : '';
-                    if(typeof updateAuthUI === 'function') updateAuthUI(user); 
-                    if(typeof setupListeners === 'function') setupListeners(user);
+                    document.getElementById('loggedInUserEmail').textContent = user ? (user.email || 'Admin') : '';
+                    updateAuthUI(user); 
+                    setupListeners(user);
                 });
-            } catch (error) { console.error("Firebase init error:", error); if(typeof showMessageModal === "function") showMessageModal("errorMessage", "firebaseInitError", "error"); }
+            } catch (error) { console.error("Firebase init error:", error); showMessageModal("errorMessage", "firebaseInitError", "error"); }
         }
 
+        let currentView = 'aboutUs';
+        // views object is populated in window.onload
+
         function showView(viewId) {
-            if (typeof views === 'undefined' || Object.keys(views).length === 0) {
-                console.warn("showView called before views object is populated. Attempting to populate now.");
-                // Attempt to populate views if not already done (e.g. if called before window.onload)
-                views.aboutUs = document.getElementById('aboutUsView');
-                views.editorialBoard = document.getElementById('editorialBoardView');
-                views.currentIssue = document.getElementById('currentIssueView');
-                views.archivalVolumes = document.getElementById('archivalVolumesView');
-                views.editorialAndEthics = document.getElementById('editorialAndEthicsView');
-                views.newsEvents = document.getElementById('newsEventsView');
-                views.adminLogin = document.getElementById('adminLoginView');
-                views.adminDashboard = document.getElementById('adminDashboardView');
-                if (!views[viewId]) { // Still not found after attempt
-                    console.error("View still not found after attempting to populate:", viewId);
-                    return;
-                }
-            }
+            // ... (Implementation from previous script)
             Object.values(views).forEach(view => view && view.classList.add('hidden'));
             const targetView = views[viewId];
             if (targetView) {
-                targetView.classList.remove('hidden'); currentView = viewId;
+                targetView.classList.remove('hidden');
+                currentView = viewId;
                 document.body.classList.toggle('admin-bg', viewId === 'adminLogin' || viewId === 'adminDashboard');
-                if (viewId === 'adminDashboard' && typeof resetAddPublicationForm === "function") {
-                    if(document.getElementById('adminManagePublications')) document.getElementById('adminManagePublications').classList.remove('hidden');
-                    if(document.getElementById('adminManageNews')) document.getElementById('adminManageNews').classList.add('hidden');
-                    if(document.getElementById('adminManageSiteSettings')) document.getElementById('adminManageSiteSettings').classList.add('hidden');
-                    resetAddPublicationForm();
+                if (viewId === 'adminDashboard') {
+                    document.getElementById('adminManagePublications').classList.remove('hidden');
+                    document.getElementById('adminManageNews').classList.add('hidden');
+                    document.getElementById('adminManageSiteSettings').classList.add('hidden');
+                    if (typeof resetAddPublicationForm === "function") resetAddPublicationForm();
                 }
             } else {
-                console.warn("View not found in views object:", viewId, views);
-                if (typeof showMessageModal === "function" && translations[currentLanguage]) { showMessageModal("errorMessage", "viewNotFound", "error"); }
+                console.warn("View not found:", viewId);
+                if (typeof showMessageModal === "function" && translations[currentLanguage]) { 
+                   showMessageModal("errorMessage", "viewNotFound", "error");
+                }
             }
         }
         
+        // All event listeners for navigation
+        // ... (Implementation from previous script)
+        document.querySelectorAll('.view-button').forEach(button => {button.addEventListener('click', (e) => showView(e.target.dataset.view));});
+        document.querySelectorAll('.lang-button').forEach(button => {button.addEventListener('click', (e) => applyTranslations(e.target.dataset.lang));});
+        document.getElementById('adminLoginBtnFooter').addEventListener('click', () => showView('adminLogin'));
+        document.getElementById('adminLogoutBtn').addEventListener('click', async () => { try { await signOut(auth); showMessageModal("successMessage", "logoutSuccessful", "success"); } catch (error) { console.error("Error logging out:", error); showMessageModal("errorMessage", "logoutFailed" + error.message, "error"); }});
+        document.getElementById('managePublicationsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.remove('hidden'); document.getElementById('adminManageNews').classList.add('hidden'); document.getElementById('adminManageSiteSettings').classList.add('hidden'); if(typeof resetAddPublicationForm === "function") resetAddPublicationForm(); if(auth && auth.currentUser && typeof listenForAdminPublications === "function") listenForAdminPublications(); });
+        document.getElementById('manageNewsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.add('hidden'); document.getElementById('adminManageNews').classList.remove('hidden'); document.getElementById('adminManageSiteSettings').classList.add('hidden'); if(typeof resetAddNewsItemForm === "function") resetAddNewsItemForm(); if(auth && auth.currentUser && typeof listenForAdminNews === "function") listenForAdminNews(); });
+        document.getElementById('manageSiteSettingsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.add('hidden'); document.getElementById('adminManageNews').classList.add('hidden'); document.getElementById('adminManageSiteSettings').classList.remove('hidden'); if(typeof loadSiteLogosForAdmin === "function") loadSiteLogosForAdmin(); });
+        
         function updateAuthUI(user) {
+            // ... (Implementation from previous script, uses ADMIN_USERS_DOC_PATH)
             const isAdminViewActive = currentView === 'adminDashboard' || currentView === 'adminLogin';
             let isClientSideAdmin = false; 
-            if (user && db) {
+
+            if (user) {
                 const adminUserDocRef = doc(db, ADMIN_USERS_DOC_PATH); 
                 console.log("updateAuthUI: Checking admin status at path:", ADMIN_USERS_DOC_PATH);
                 getDoc(adminUserDocRef).then(docSnap => {
                     if (docSnap.exists() && docSnap.data().uids && docSnap.data().uids[user.uid] === true) {
-                        isClientSideAdmin = true; console.log("updateAuthUI: User IS client-side admin.");
-                    } else { console.log("updateAuthUI: User is NOT client-side admin. Doc exists:", docSnap.exists(), "UIDs field in doc:", docSnap.data()?.uids, "User UID:", user.uid); }
+                        isClientSideAdmin = true;
+                        console.log("updateAuthUI: User IS client-side admin.");
+                    } else {
+                        console.log("updateAuthUI: User is NOT client-side admin. Doc exists:", docSnap.exists(), "UIDs field in doc:", docSnap.data()?.uids, "User UID:", user.uid);
+                    }
                     finishAuthUIUpdate(user, isClientSideAdmin, isAdminViewActive);
-                }).catch(err => { console.warn("updateAuthUI: Error reading adminUsers doc:", err.message); finishAuthUIUpdate(user, false, isAdminViewActive); });
-            } else { console.log("updateAuthUI: No user logged in or db not ready."); finishAuthUIUpdate(null, false, isAdminViewActive); }
+                }).catch(err => {
+                    console.warn("updateAuthUI: Could not verify client-side admin status for UI due to Firestore read error:", err.message, "Path attempted:", ADMIN_USERS_DOC_PATH);
+                    finishAuthUIUpdate(user, false, isAdminViewActive); 
+                });
+            } else {
+                console.log("updateAuthUI: No user logged in.");
+                finishAuthUIUpdate(null, false, isAdminViewActive);
+            }
         }
 
         function finishAuthUIUpdate(user, isClientSideAdmin, isAdminViewActiveCurrently) {
+            // ... (Implementation from previous script)
             console.log(`finishAuthUIUpdate: User: ${user ? user.uid : 'null'}, isClientAdmin: ${isClientSideAdmin}, isAdminViewActive: ${isAdminViewActiveCurrently}, currentView: ${currentView}`);
-            if(document.getElementById('adminLoginBtnFooter')) document.getElementById('adminLoginBtnFooter').classList.toggle('hidden', isClientSideAdmin);
-            if(document.getElementById('adminLogoutBtn')) document.getElementById('adminLogoutBtn').classList.toggle('hidden', !isClientSideAdmin);
-            if (isClientSideAdmin) { if (currentView !== 'adminDashboard') { console.log("Redirecting admin to dashboard."); showView('adminDashboard'); } }
-            else { if (isAdminViewActiveCurrently) { console.log("User not admin or no user, redirecting from admin view to aboutUs."); showView('aboutUs'); } }
+            document.getElementById('adminLoginBtnFooter').classList.toggle('hidden', isClientSideAdmin);
+            document.getElementById('adminLogoutBtn').classList.toggle('hidden', !isClientSideAdmin);
+
+            if (isClientSideAdmin) {
+                if (currentView !== 'adminDashboard') { 
+                    console.log("Redirecting admin to dashboard.");
+                    showView('adminDashboard');
+                }
+            } else { 
+                if (isAdminViewActiveCurrently) { 
+                    console.log("User not admin or no user, redirecting from admin view to aboutUs.");
+                    showView('aboutUs');
+                }
+            }
         }
 
+        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+            // ... (Implementation from previous script)
+            e.preventDefault(); showLoadingSpinner();
+            const email = document.getElementById('adminEmail').value; const password = document.getElementById('adminPassword').value; 
+            const loginErrorMessage = document.getElementById('loginErrorMessage'); loginErrorMessage.textContent = '';
+            try { 
+                console.log("Attempting admin login for:", email);
+                await signInWithEmailAndPassword(auth, email, password); 
+                document.getElementById('adminEmail').value = ''; document.getElementById('adminPassword').value = '';
+            } catch (error) { 
+                console.error("Admin login error:", error.code, error.message); 
+                loginErrorMessage.textContent = (translations[currentLanguage] && translations[currentLanguage].invalidCredentials) ? translations[currentLanguage].invalidCredentials : "Invalid credentials.";
+            } finally { hideLoadingSpinner(); }
+        });
+
         function setupListeners(user) {
+            // ... (Implementation from previous script)
              if (!db) { console.error("Firestore not initialized for setupListeners."); return; }
             if(typeof listenForPublicPublications === "function") listenForPublicPublications(); 
             if(typeof listenForCurrentIssue === "function") listenForCurrentIssue(); 
             if(typeof listenForNews === "function") listenForNews(); 
             if(typeof listenForSiteLogos === "function") listenForSiteLogos();
-            const noPubsMsg = (translations[currentLanguage] && translations[currentLanguage].noPublicationsToManage) || 'No publications to manage.';
-            const noNewsMsg = (translations[currentLanguage] && translations[currentLanguage].noNewsToManage) || 'No news to manage.';
-            const adminPubList = document.getElementById('adminPublicationsList');
-            const adminNewsList = document.getElementById('adminNewsList');
-
             if (user) { 
                 console.log("User logged in, setting up admin listeners.");
                 if(typeof listenForAdminPublications === "function") listenForAdminPublications(); 
                 if(typeof listenForAdminNews === "function") listenForAdminNews();
             } else {
                 console.log("No user, clearing admin tables.");
-                if(adminPubList) adminPubList.innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4" data-lang-key="noPublicationsToManage">${noPubsMsg}</td></tr>`;
-                if(adminNewsList) adminNewsList.innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4" data-lang-key="noNewsToManage">${noNewsMsg}</td></tr>`;
+                const noPubsMsg = (translations[currentLanguage] && translations[currentLanguage].noPublicationsToManage) || 'No publications to manage.';
+                const noNewsMsg = (translations[currentLanguage] && translations[currentLanguage].noNewsToManage) || 'No news to manage.';
+                document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4" data-lang-key="noPublicationsToManage">${noPubsMsg}</td></tr>`;
+                document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4" data-lang-key="noNewsToManage">${noNewsMsg}</td></tr>`;
             }
         }
         
-        function getOriginalFileNameFromUnique(uniqueFileName) { if (!uniqueFileName) return ''; const parts = uniqueFileName.split('_'); if (parts.length > 1 && !isNaN(Number(parts[0]))) { parts.shift(); return parts.join('_'); } return uniqueFileName; }
-        async function uploadFile(file, path) { if (!file) return { url: '', fileName: '' }; const uniqueFileName = `${Date.now()}_${file.name}`; const storageRef = ref(storage, `${path}/${uniqueFileName}`); try { const snapshot = await uploadBytes(storageRef, file); const downloadURL = await getDownloadURL(snapshot.ref); return { url: downloadURL, fileName: uniqueFileName }; } catch (error) { console.error("Error uploading file:", file.name, error); throw new Error(`${translations[currentLanguage]?.fileUploadFailed || 'File upload failed:'} ${file.name}. ${translations[currentLanguage]?.checkStorageRules || 'Check rules.'}`); }}
-        async function deleteFile(uniqueFileName, path) { if (!uniqueFileName || !path) { console.warn("deleteFile: Missing filename or path."); return; } try { const fileRef = ref(storage, `${path}/${uniqueFileName}`); await deleteObject(fileRef); console.log("Deleted file:", uniqueFileName); } catch (error) { if (error.code === 'storage/object-not-found') { console.warn(`${translations[currentLanguage]?.fileNotFoundInStorage || 'File not found:'} ${uniqueFileName}`); } else { console.error(`${translations[currentLanguage]?.fileDeletionFailed || 'Deletion failed:'} ${uniqueFileName}`, error); }}}
-        
-        function listenForSiteLogos() { 
-            const docRef = doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID); 
-            onSnapshot(docRef, (docSnap) => { 
-                if (docSnap.exists()) { const data = docSnap.data(); currentHeaderLogo.url = data.headerLogoUrl || DEFAULT_HEADER_LOGO_URL; currentHeaderLogo.fileName = data.headerLogoFileName || ''; currentFooterLogo.url = data.footerLogoUrl || DEFAULT_FOOTER_LOGO_URL; currentFooterLogo.fileName = data.footerLogoFileName || ''; currentContributor1Logo.url = data.contributor1LogoUrl || DEFAULT_CONTRIB1_LOGO_URL; currentContributor1Logo.fileName = data.contributor1LogoFileName || ''; currentContributor2Logo.url = data.contributor2LogoUrl || DEFAULT_CONTRIB2_LOGO_URL; currentContributor2Logo.fileName = data.contributor2LogoFileName || ''; } 
-                else { console.warn(`Site config doc '${SITE_CONFIGURATION_DOC_ID}' not found.`); currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' }; currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' }; currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' }; } 
-                updateSiteLogosUI(); 
-            }, (error) => { console.error("Error listening for site logos:", error); showMessageModal("errorMessage", "couldNotLoadLogos", "error"); updateSiteLogosUI(); });
+        function getOriginalFileNameFromUnique(uniqueFileName) {
+            // ... (Implementation from previous script)
+            if (!uniqueFileName) return '';
+            const parts = uniqueFileName.split('_');
+            if (parts.length > 1 && !isNaN(Number(parts[0]))) {
+                parts.shift(); return parts.join('_');
+            }
+            return uniqueFileName;
         }
-        function updateSiteLogosUI() { if(document.getElementById('mainHeaderLogo')) document.getElementById('mainHeaderLogo').src = currentHeaderLogo.url; if(document.getElementById('mainFooterLogo')) document.getElementById('mainFooterLogo').src = currentFooterLogo.url; if(document.getElementById('contributor1Logo')) document.getElementById('contributor1Logo').src = currentContributor1Logo.url; if(document.getElementById('contributor2Logo')) document.getElementById('contributor2Logo').src = currentContributor2Logo.url; const adminPreviews = { header: { imgId: 'headerLogoPreview', textId: 'headerLogoFileNameDisplayAdmin', current: currentHeaderLogo, defaultUrl: DEFAULT_HEADER_LOGO_URL, noMsgKey: 'noCustomHeaderLogo' }, footer: { imgId: 'footerLogoPreview', textId: 'footerLogoFileNameDisplayAdmin', current: currentFooterLogo, defaultUrl: DEFAULT_FOOTER_LOGO_URL, noMsgKey: 'noCustomFooterLogo' }, contributor1: { imgId: 'contributor1LogoPreview', textId: 'contributor1FileNameDisplayAdmin', current: currentContributor1Logo, defaultUrl: DEFAULT_CONTRIB1_LOGO_URL, noMsgKey: 'noLERMALogo' }, contributor2: { imgId: 'contributor2LogoPreview', textId: 'contributor2FileNameDisplayAdmin', current: currentContributor2Logo, defaultUrl: DEFAULT_CONTRIB2_LOGO_URL, noMsgKey: 'noMEDALogo' }}; for (const key in adminPreviews) { const { imgId, textId, current, defaultUrl, noMsgKey } = adminPreviews[key]; const imgEl = document.getElementById(imgId); const textEl = document.getElementById(textId); if (imgEl && textEl) { imgEl.src = current.url || defaultUrl; imgEl.style.display = (current.url && current.fileName) ? 'block' : 'none'; textEl.textContent = current.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(current.fileName)}` : translations[currentLanguage][noMsgKey]; }}}
+
+        async function uploadFile(file, path) {
+            // ... (Implementation from previous script)
+            if (!file) return { url: '', fileName: '' };
+            const uniqueFileName = `${Date.now()}_${file.name}`;
+            const storageRef = ref(storage, `${path}/${uniqueFileName}`);
+            try {
+                const snapshot = await uploadBytes(storageRef, file);
+                const downloadURL = await getDownloadURL(snapshot.ref);
+                return { url: downloadURL, fileName: uniqueFileName };
+            } catch (error) {
+                console.error("Error uploading file:", file.name, "to path:", path, error);
+                const errorMsg = (translations[currentLanguage] && translations[currentLanguage].fileUploadFailed) || "File upload failed: ";
+                const checkRulesMsg = (translations[currentLanguage] && translations[currentLanguage].checkStorageRules) || "Check Firebase Storage rules.";
+                throw new Error(`${errorMsg} ${file.name}. ${checkRulesMsg}`);
+            }
+        }
+
+        async function deleteFile(uniqueFileName, path) {
+            // ... (Implementation from previous script)
+            if (!uniqueFileName || !path) { console.warn("deleteFile: Missing filename or path."); return; }
+            try {
+                const fileRef = ref(storage, `${path}/${uniqueFileName}`);
+                await deleteObject(fileRef);
+                console.log("Successfully deleted file:", uniqueFileName, "from", path);
+            } catch (error) {
+                const notFoundMsg = (translations[currentLanguage] && translations[currentLanguage].fileNotFoundInStorage) || "File not found in storage: ";
+                const deletionFailedMsg = (translations[currentLanguage] && translations[currentLanguage].fileDeletionFailed) || "File deletion failed: ";
+                if (error.code === 'storage/object-not-found') {
+                    console.warn(`${notFoundMsg} ${uniqueFileName}`);
+                } else {
+                    console.error(`${deletionFailedMsg} ${uniqueFileName}`, error);
+                }
+            }
+        }
+        
+        function listenForSiteLogos() {
+            const docRef = doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID); // CORRECT PATH
+            onSnapshot(docRef, (docSnap) => {
+                // ... (Rest of implementation from previous script)
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    currentHeaderLogo.url = data.headerLogoUrl || DEFAULT_HEADER_LOGO_URL;
+                    currentHeaderLogo.fileName = data.headerLogoFileName || '';
+                    currentFooterLogo.url = data.footerLogoUrl || DEFAULT_FOOTER_LOGO_URL;
+                    currentFooterLogo.fileName = data.footerLogoFileName || '';
+                    currentContributor1Logo.url = data.contributor1LogoUrl || DEFAULT_CONTRIB1_LOGO_URL;
+                    currentContributor1Logo.fileName = data.contributor1LogoFileName || '';
+                    currentContributor2Logo.url = data.contributor2LogoUrl || DEFAULT_CONTRIB2_LOGO_URL;
+                    currentContributor2Logo.fileName = data.contributor2LogoFileName || '';
+                } else {
+                    console.warn(`Site configuration document '${SITE_CONFIGURATION_DOC_ID}' not found. Using defaults.`);
+                    currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; 
+                    currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
+                    currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' };
+                    currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
+                }
+                updateSiteLogosUI();
+            }, (error) => {
+                console.error("Error listening for site logos:", error);
+                showMessageModal("errorMessage", "couldNotLoadLogos", "error");
+                currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' }; currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' }; currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
+                updateSiteLogosUI();
+            });
+        }
+        function updateSiteLogosUI() {
+            // ... (Implementation from previous script)
+            document.getElementById('mainHeaderLogo').src = currentHeaderLogo.url;
+            document.getElementById('mainFooterLogo').src = currentFooterLogo.url;
+            document.getElementById('contributor1Logo').src = currentContributor1Logo.url;
+            document.getElementById('contributor2Logo').src = currentContributor2Logo.url;
+
+            const adminPreviews = {
+                header: { imgId: 'headerLogoPreview', textId: 'headerLogoFileNameDisplayAdmin', current: currentHeaderLogo, defaultUrl: DEFAULT_HEADER_LOGO_URL, noMsgKey: 'noCustomHeaderLogo' },
+                footer: { imgId: 'footerLogoPreview', textId: 'footerLogoFileNameDisplayAdmin', current: currentFooterLogo, defaultUrl: DEFAULT_FOOTER_LOGO_URL, noMsgKey: 'noCustomFooterLogo' },
+                contributor1: { imgId: 'contributor1LogoPreview', textId: 'contributor1FileNameDisplayAdmin', current: currentContributor1Logo, defaultUrl: DEFAULT_CONTRIB1_LOGO_URL, noMsgKey: 'noLERMALogo' },
+                contributor2: { imgId: 'contributor2LogoPreview', textId: 'contributor2FileNameDisplayAdmin', current: currentContributor2Logo, defaultUrl: DEFAULT_CONTRIB2_LOGO_URL, noMsgKey: 'noMEDALogo' }
+            };
+            for (const key in adminPreviews) {
+                const { imgId, textId, current, defaultUrl, noMsgKey } = adminPreviews[key];
+                const imgEl = document.getElementById(imgId); const textEl = document.getElementById(textId);
+                if (imgEl && textEl) {
+                    imgEl.src = current.url || defaultUrl; 
+                    imgEl.style.display = (current.url && current.fileName) ? 'block' : 'none'; 
+                    textEl.textContent = current.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(current.fileName)}` : translations[currentLanguage][noMsgKey];
+                }
+            }
+        }
         function loadSiteLogosForAdmin() { updateSiteLogosUI(); }
-        function handleLogoFileInput(inputElement, previewImgElement, fileNameDisplayElement, currentLogoState, defaultUrl, noMsgKey) { const file = inputElement.files[0]; if (file) { fileNameDisplayElement.textContent = `${translations[currentLanguage].selectedLabel}: ${file.name}`; if (previewImgElement) { const reader = new FileReader(); reader.onload = (event) => { previewImgElement.src = event.target.result; previewImgElement.style.display = 'block'; }; reader.readAsDataURL(file); }} else { fileNameDisplayElement.textContent = currentLogoState.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentLogoState.fileName)}` : translations[currentLanguage][noMsgKey]; if (previewImgElement) { previewImgElement.src = currentLogoState.url || defaultUrl; previewImgElement.style.display = (currentLogoState.url && currentLogoState.fileName) ? 'block' : 'none'; }}}
+        function handleLogoFileInput(inputElement, previewImgElement, fileNameDisplayElement, currentLogoState, defaultUrl, noMsgKey) {
+            // ... (Implementation from previous script)
+            const file = inputElement.files[0];
+            if (file) {
+                fileNameDisplayElement.textContent = `${translations[currentLanguage].selectedLabel}: ${file.name}`;
+                if (previewImgElement) { const reader = new FileReader(); reader.onload = (event) => { previewImgElement.src = event.target.result; previewImgElement.style.display = 'block'; }; reader.readAsDataURL(file); }
+            } else {
+                fileNameDisplayElement.textContent = currentLogoState.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentLogoState.fileName)}` : translations[currentLanguage][noMsgKey];
+                if (previewImgElement) { previewImgElement.src = currentLogoState.url || defaultUrl; previewImgElement.style.display = (currentLogoState.url && currentLogoState.fileName) ? 'block' : 'none'; }
+            }
+        }
+        document.getElementById('headerLogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('headerLogoPreview'), document.getElementById('headerLogoFileNameDisplayAdmin'), currentHeaderLogo, DEFAULT_HEADER_LOGO_URL, 'noCustomHeaderLogo'));
+        document.getElementById('footerLogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('footerLogoPreview'), document.getElementById('footerLogoFileNameDisplayAdmin'), currentFooterLogo, DEFAULT_FOOTER_LOGO_URL, 'noCustomFooterLogo'));
+        document.getElementById('contributor1LogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('contributor1LogoPreview'), document.getElementById('contributor1FileNameDisplayAdmin'), currentContributor1Logo, DEFAULT_CONTRIB1_LOGO_URL, 'noLERMALogo'));
+        document.getElementById('contributor2LogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('contributor2LogoPreview'), document.getElementById('contributor2FileNameDisplayAdmin'), currentContributor2Logo, DEFAULT_CONTRIB2_LOGO_URL, 'noMEDALogo'));
+
+        document.getElementById('logoUploadForm').addEventListener('submit', async (e) => {
+            // ... (Full implementation from previous script, using doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID))
+            e.preventDefault(); showLoadingSpinner();
+            if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error"); hideLoadingSpinner(); return; }
+            const headerFile = document.getElementById('headerLogoUpload').files[0]; const footerFile = document.getElementById('footerLogoUpload').files[0];
+            let newHeaderLogo = { ...currentHeaderLogo }; let newFooterLogo = { ...currentFooterLogo };
+            try {
+                if (headerFile) { if (currentHeaderLogo.fileName && currentHeaderLogo.url !== DEFAULT_HEADER_LOGO_URL) await deleteFile(currentHeaderLogo.fileName, STORAGE_PATH_LOGOS); newHeaderLogo = await uploadFile(headerFile, STORAGE_PATH_LOGOS); }
+                if (footerFile) { if (currentFooterLogo.fileName && currentFooterLogo.url !== DEFAULT_FOOTER_LOGO_URL) await deleteFile(currentFooterLogo.fileName, STORAGE_PATH_LOGOS); newFooterLogo = await uploadFile(footerFile, STORAGE_PATH_LOGOS); }
+                await setDoc(doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID), { headerLogoUrl: newHeaderLogo.url, headerLogoFileName: newHeaderLogo.fileName, footerLogoUrl: newFooterLogo.url, footerLogoFileName: newFooterLogo.fileName }, { merge: true });
+                showMessageModal("successMessage", "siteLogosUpdated", "success");
+                currentHeaderLogo = newHeaderLogo; currentFooterLogo = newFooterLogo; updateSiteLogosUI();
+                document.getElementById('headerLogoUpload').value = ''; document.getElementById('footerLogoUpload').value = '';
+            } catch (error) { console.error("Error updating site logos:", error); showMessageModal("errorMessage", "errorUpdatingLogos" + error.message, "error"); } finally { hideLoadingSpinner(); }
+        });
+        document.getElementById('contributorLogoUploadForm').addEventListener('submit', async (e) => {
+            // ... (Full implementation from previous script, using doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID))
+            e.preventDefault(); showLoadingSpinner();
+            if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error"); hideLoadingSpinner(); return; }
+            const c1File = document.getElementById('contributor1LogoUpload').files[0]; const c2File = document.getElementById('contributor2LogoUpload').files[0];
+            let newC1Logo = { ...currentContributor1Logo }; let newC2Logo = { ...currentContributor2Logo };
+            try {
+                if (c1File) { if (currentContributor1Logo.fileName && currentContributor1Logo.url !== DEFAULT_CONTRIB1_LOGO_URL) await deleteFile(currentContributor1Logo.fileName, STORAGE_PATH_LOGOS); newC1Logo = await uploadFile(c1File, STORAGE_PATH_LOGOS); }
+                if (c2File) { if (currentContributor2Logo.fileName && currentContributor2Logo.url !== DEFAULT_CONTRIB2_LOGO_URL) await deleteFile(currentContributor2Logo.fileName, STORAGE_PATH_LOGOS); newC2Logo = await uploadFile(c2File, STORAGE_PATH_LOGOS); }
+                await setDoc(doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID), { contributor1LogoUrl: newC1Logo.url, contributor1LogoFileName: newC1Logo.fileName, contributor2LogoUrl: newC2Logo.url, contributor2LogoFileName: newC2Logo.fileName }, { merge: true });
+                showMessageModal("successMessage", "contributorLogosUpdated", "success");
+                currentContributor1Logo = newC1Logo; currentContributor2Logo = newC2Logo; updateSiteLogosUI();
+                document.getElementById('contributor1LogoUpload').value = ''; document.getElementById('contributor2LogoUpload').value = '';
+            } catch (error) { console.error("Error updating contributor logos:", error); showMessageModal("errorMessage", "errorUpdatingContributorLogos" + error.message, "error"); } finally { hideLoadingSpinner(); }
+        });
+
+        function listenForPublicPublications() {
+            // ... (Implementation from previous script, uses PUBLIC_PUB_COLLECTION_NAME)
+            const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME);
+            const q = query(pubCollRef, orderBy("year", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const publications = []; snapshot.forEach(doc => publications.push({ id: doc.id, ...doc.data() }));
+                displayPublications(publications);
+            }, (error) => { console.error("Error listening to public publications:", error); const errorMsg = `<p class="col-span-full text-center text-red-500">${(translations[currentLanguage] && translations[currentLanguage].errorLoadingPublications) || 'Error loading publications.'}</p>`; document.getElementById('publicationsList').innerHTML = errorMsg; document.getElementById('archivalPublicationsList').innerHTML = errorMsg; });
+        }
+        function listenForCurrentIssue() {
+            // ... (Implementation from previous script, uses PUBLIC_PUB_COLLECTION_NAME)
+             const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME);
+            const q = query(pubCollRef, where("isCurrentIssue", "==", true));
+            onSnapshot(q, (snapshot) => {
+                const card = document.getElementById('currentIssuePublicationCard'); const noIssueMsg = document.getElementById('currentIssueContent').querySelector('p[data-lang-key="noCurrentIssue"]');
+                if (!snapshot.empty) {
+                    const book = snapshot.docs[0].data(); noIssueMsg.classList.add('hidden'); card.classList.remove('hidden');
+                    document.getElementById('currentIssueCover').src = book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image';
+                    document.getElementById('currentIssueTitle').textContent = book.title || translations[currentLanguage]?.noTitle || 'No Title';
+                    document.getElementById('currentIssueAuthors').textContent = book.authors || translations[currentLanguage]?.noAuthors || 'No Authors';
+                    document.getElementById('currentIssueYear').textContent = book.year || translations[currentLanguage]?.noYear || 'No Year';
+                    document.getElementById('currentIssueDescription').textContent = book.description || translations[currentLanguage]?.noDescription || 'No description.';
+                    const updateBtn = (id, url, key) => { const btn=document.getElementById(id); btn.href=url||'#'; btn.classList.toggle('disabled',!url); btn.onclick=url?null:(e)=>{e.preventDefault();showMessageModal("unavailable",key,"alert");};};
+                    updateBtn('currentIssueDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable'); updateBtn('currentIssueDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable'); updateBtn('currentIssueDownloadAbstractEnBtn', book.abstracts?.en?.url, 'englishAbstractPdfUnavailable'); updateBtn('currentIssueDownloadAbstractItBtn', book.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
+                } else { noIssueMsg.classList.remove('hidden'); card.classList.add('hidden'); }
+            }, (error) => { console.error("Error listening to current issue:", error); showMessageModal("errorMessage", "errorLoadingCurrentIssue", "error");});
+        }
+        function listenForNews() {
+            // ... (Implementation from previous script, uses PUBLIC_NEWS_COLLECTION_NAME)
+            const newsCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME);
+            const q = query(newsCollRef, orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const newsFeedDiv = document.getElementById('newsFeed'); newsFeedDiv.innerHTML = '';
+                if (snapshot.empty) { newsFeedDiv.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="noNewsUpdates">${translations[currentLanguage]?.noNewsUpdates || 'No news.'}</p>`; return; }
+                snapshot.forEach(doc => {
+                    const news = { id: doc.id, ...doc.data() };
+                    newsFeedDiv.innerHTML += `<div class="bg-gray-100 p-6 rounded-lg shadow-md border"><h3 class="text-xl font-bold mb-2">${news.title}</h3><p class="text-sm mb-3">${new Date(news.timestamp).toLocaleDateString(currentLanguage==='it'?'it-IT':'en-US')}</p><p class="text-base">${news.description}</p>${news.imageUrl ? `<img src="${news.imageUrl}" alt="${news.title}" class="w-full h-48 object-cover rounded-md mt-4 shadow-sm" onerror="this.style.display='none';">` : ''}</div>`;
+                });
+            }, (error) => { console.error("Error listening to news:", error); document.getElementById('newsFeed').innerHTML = `<p class="col-span-full text-center text-red-500">${translations[currentLanguage]?.errorLoadingNews || 'Error loading news.'}</p>`;});
+        }
+        function displayPublications(publications) {
+            // ... (Implementation from previous script, uses PUBLIC_PUB_COLLECTION_NAME for details modal)
+            const listDiv = document.getElementById('publicationsList'); const archivalDiv = document.getElementById('archivalPublicationsList');
+            listDiv.innerHTML = ''; archivalDiv.innerHTML = '';
+            const noPubsMsg = `<p class="col-span-full text-center text-gray-400" data-lang-key="noPubsFound">${translations[currentLanguage]?.noPubsFound || 'No publications found.'}</p>`;
+            if (!publications || publications.length === 0) { listDiv.innerHTML = noPubsMsg; archivalDiv.innerHTML = noPubsMsg; return; }
+            const searchTerm = document.getElementById('publicationSearch').value.toLowerCase(); const sortBy = document.getElementById('sortPublications').value;
+            let filtered = publications.filter(p => ((p.title||'').toLowerCase().includes(searchTerm) || (p.authors||'').toLowerCase().includes(searchTerm) || String(p.year||'').includes(searchTerm) || (p.description||'').toLowerCase().includes(searchTerm) || (p.isbn||'').toLowerCase().includes(searchTerm) || (p.issn||'').toLowerCase().includes(searchTerm) || (p.abstracts?.ar?.text||'').toLowerCase().includes(searchTerm) || (p.abstracts?.en?.text||'').toLowerCase().includes(searchTerm) || (p.abstracts?.it?.text||'').toLowerCase().includes(searchTerm) ));
+            if (sortBy === 'year-desc') filtered.sort((a,b)=>(b.year||0)-(a.year||0)); else if (sortBy === 'year-asc') filtered.sort((a,b)=>(a.year||0)-(b.year||0)); else if (sortBy === 'title-asc') filtered.sort((a,b)=>(a.title||'').localeCompare(b.title||'')); else if (sortBy === 'title-desc') filtered.sort((a,b)=>(b.title||'').localeCompare(a.title||'')); else if (sortBy === 'author-asc') filtered.sort((a,b)=>(a.authors||'').localeCompare(b.authors||'')); else if (sortBy === 'author-desc') filtered.sort((a,b)=>(b.authors||'').localeCompare(a.authors||''));
+            const noResultsMsg = `<p class="col-span-full text-center text-gray-400" data-lang-key="noSearchResults">${translations[currentLanguage]?.noSearchResults || 'No results match.'}</p>`;
+            if (filtered.length === 0) { listDiv.innerHTML = noResultsMsg; archivalDiv.innerHTML = noResultsMsg; return; }
+            filtered.forEach(book => {
+                const cardHtml = `<div class="publication-card p-4 flex flex-col items-center text-center"><img src="${book.coverImageUrl||'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image'}" alt="${book.title||translations[currentLanguage]?.noTitle||'No Title'} Cover" class="cover-image rounded-md mb-4"><h3 class="text-xl font-bold mb-2">${book.title||translations[currentLanguage]?.noTitle||'No Title'}</h3><p class="mb-1">${book.authors||translations[currentLanguage]?.noAuthors||'No Authors'}</p><p class="text-sm font-medium">${book.year||translations[currentLanguage]?.noYear||'No Year'}</p><p class="text-sm mt-2 flex-grow overflow-hidden line-clamp-3">${book.description||translations[currentLanguage]?.noDescription||'No description.'}</p><button class="nav-button text-sm mt-4 view-publication-details" data-id="${book.id}" data-lang-key="viewDetailsButton">${translations[currentLanguage]?.viewDetailsButton||'View Details'}</button></div>`;
+                listDiv.innerHTML += cardHtml; archivalDiv.innerHTML += cardHtml;
+            });
+            document.querySelectorAll('.view-publication-details').forEach(btn => btn.addEventListener('click', async (e) => { const bookId = e.target.dataset.id; const docRef = doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME, bookId); const docSnap = await getDoc(docRef); if (docSnap.exists()) showPublicationDetailsModal(docSnap.data()); else showMessageModal("errorMessage", "pubDetailsNotFound", "error"); }));
+        }
+        document.getElementById('publicationSearch').addEventListener('input', () => { if(typeof listenForPublicPublications === "function") listenForPublicPublications(); });
+        document.getElementById('sortPublications').addEventListener('change', () => { if(typeof listenForPublicPublications === "function") listenForPublicPublications(); });
         
-        function listenForPublicPublications() { const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME); const q = query(pubCollRef, orderBy("year", "desc")); onSnapshot(q, (snapshot) => { const publications = []; snapshot.forEach(doc => publications.push({ id: doc.id, ...doc.data() })); displayPublications(publications); }, (error) => { console.error("Error public publications:", error); const errHtml = `<p class="col-span-full text-center text-red-500">${translations[currentLanguage]?.errorLoadingPublications||'Error.'}</p>`; if(views.publicationsList) views.publicationsList.innerHTML = errHtml; if(views.archivalPublicationsList) views.archivalPublicationsList.innerHTML = errHtml;});}
-        function listenForCurrentIssue() { const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME); const q = query(pubCollRef, where("isCurrentIssue", "==", true)); onSnapshot(q, (snapshot) => { const card = document.getElementById('currentIssuePublicationCard'); const noIssueMsg = document.getElementById('currentIssueContent').querySelector('p[data-lang-key="noCurrentIssue"]'); if (!snapshot.empty) { const book = snapshot.docs[0].data(); noIssueMsg.classList.add('hidden'); card.classList.remove('hidden'); document.getElementById('currentIssueCover').src = book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image'; document.getElementById('currentIssueTitle').textContent = book.title || translations[currentLanguage]?.noTitle || 'No Title'; document.getElementById('currentIssueAuthors').textContent = book.authors || translations[currentLanguage]?.noAuthors || 'No Authors'; document.getElementById('currentIssueYear').textContent = book.year || translations[currentLanguage]?.noYear || 'No Year'; document.getElementById('currentIssueDescription').textContent = book.description || translations[currentLanguage]?.noDescription || 'No description.'; const updateBtn = (id, url, key) => { const btn=document.getElementById(id); btn.href=url||'#'; btn.classList.toggle('disabled',!url); btn.onclick=url?null:(e)=>{e.preventDefault();showMessageModal("unavailable",key,"alert");};}; updateBtn('currentIssueDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable'); updateBtn('currentIssueDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable'); updateBtn('currentIssueDownloadAbstractEnBtn', book.abstracts?.en?.url, 'englishAbstractPdfUnavailable'); updateBtn('currentIssueDownloadAbstractItBtn', book.abstracts?.it?.url, 'italianAbstractPdfUnavailable'); } else { noIssueMsg.classList.remove('hidden'); card.classList.add('hidden'); } }, (error) => { console.error("Error current issue:", error); showMessageModal("errorMessage", "errorLoadingCurrentIssue", "error");});}
-        function listenForNews() { const newsCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME); const q = query(newsCollRef, orderBy("timestamp", "desc")); onSnapshot(q, (snapshot) => { const newsFeedDiv = document.getElementById('newsFeed'); newsFeedDiv.innerHTML = ''; if (snapshot.empty) { newsFeedDiv.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="noNewsUpdates">${translations[currentLanguage]?.noNewsUpdates || 'No news.'}</p>`; return; } snapshot.forEach(doc => { const news = { id: doc.id, ...doc.data() }; newsFeedDiv.innerHTML += `<div class="bg-gray-100 p-6 rounded-lg shadow-md border"><h3 class="text-xl font-bold mb-2">${news.title}</h3><p class="text-sm mb-3">${new Date(news.timestamp).toLocaleDateString(currentLanguage==='it'?'it-IT':'en-US')}</p><p class="text-base">${news.description}</p>${news.imageUrl ? `<img src="${news.imageUrl}" alt="${news.title}" class="w-full h-48 object-cover rounded-md mt-4 shadow-sm" onerror="this.style.display='none';">` : ''}</div>`; }); }, (error) => { console.error("Error news:", error); document.getElementById('newsFeed').innerHTML = `<p class="col-span-full text-center text-red-500">${translations[currentLanguage]?.errorLoadingNews || 'Error.'}</p>`;});}
-        function displayPublications(publications) { const listDiv = document.getElementById('publicationsList'); const archivalDiv = document.getElementById('archivalPublicationsList'); listDiv.innerHTML = ''; archivalDiv.innerHTML = ''; const noPubsMsg = `<p class="col-span-full text-center text-gray-400" data-lang-key="noPubsFound">${translations[currentLanguage]?.noPubsFound || 'No publications.'}</p>`; if (!publications || publications.length === 0) { listDiv.innerHTML = noPubsMsg; archivalDiv.innerHTML = noPubsMsg; return; } const searchTerm = document.getElementById('publicationSearch').value.toLowerCase(); const sortBy = document.getElementById('sortPublications').value; let filtered = publications.filter(p => ((p.title||'').toLowerCase().includes(searchTerm) || (p.authors||'').toLowerCase().includes(searchTerm) || String(p.year||'').includes(searchTerm) || (p.description||'').toLowerCase().includes(searchTerm) || (p.isbn||'').toLowerCase().includes(searchTerm) || (p.issn||'').toLowerCase().includes(searchTerm) || (p.abstracts?.ar?.text||'').toLowerCase().includes(searchTerm) || (p.abstracts?.en?.text||'').toLowerCase().includes(searchTerm) || (p.abstracts?.it?.text||'').toLowerCase().includes(searchTerm) )); if (sortBy === 'year-desc') filtered.sort((a,b)=>(b.year||0)-(a.year||0)); else if (sortBy === 'year-asc') filtered.sort((a,b)=>(a.year||0)-(b.year||0)); else if (sortBy === 'title-asc') filtered.sort((a,b)=>(a.title||'').localeCompare(b.title||'')); else if (sortBy === 'title-desc') filtered.sort((a,b)=>(b.title||'').localeCompare(a.title||'')); else if (sortBy === 'author-asc') filtered.sort((a,b)=>(a.authors||'').localeCompare(b.authors||'')); else if (sortBy === 'author-desc') filtered.sort((a,b)=>(b.authors||'').localeCompare(a.authors||'')); const noResultsMsg = `<p class="col-span-full text-center text-gray-400" data-lang-key="noSearchResults">${translations[currentLanguage]?.noSearchResults || 'No results.'}</p>`; if (filtered.length === 0) { listDiv.innerHTML = noResultsMsg; archivalDiv.innerHTML = noResultsMsg; return; } filtered.forEach(book => { const cardHtml = `<div class="publication-card p-4 flex flex-col items-center text-center"><img src="${book.coverImageUrl||'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image'}" alt="${book.title||translations[currentLanguage]?.noTitle||'No Title'} Cover" class="cover-image rounded-md mb-4"><h3 class="text-xl font-bold mb-2">${book.title||translations[currentLanguage]?.noTitle||'No Title'}</h3><p class="mb-1">${book.authors||translations[currentLanguage]?.noAuthors||'No Authors'}</p><p class="text-sm font-medium">${book.year||translations[currentLanguage]?.noYear||'No Year'}</p><p class="text-sm mt-2 flex-grow overflow-hidden line-clamp-3">${book.description||translations[currentLanguage]?.noDescription||'No description.'}</p><button class="nav-button text-sm mt-4 view-publication-details" data-id="${book.id}" data-lang-key="viewDetailsButton">${translations[currentLanguage]?.viewDetailsButton||'Details'}</button></div>`; listDiv.innerHTML += cardHtml; archivalDiv.innerHTML += cardHtml; }); document.querySelectorAll('.view-publication-details').forEach(btn => btn.addEventListener('click', async (e) => { const bookId = e.target.dataset.id; const docRef = doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME, bookId); const docSnap = await getDoc(docRef); if (docSnap.exists()) showPublicationDetailsModal(docSnap.data()); else showMessageModal("errorMessage", "pubDetailsNotFound", "error"); }));}
+        function listenForAdminPublications() {
+            // ... (Implementation from previous script, uses PUBLIC_PUB_COLLECTION_NAME)
+            const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME); const q = query(pubCollRef, orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const listBody = document.getElementById('adminPublicationsList'); listBody.innerHTML = '';
+                const noPubsMsg = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4" data-lang-key="noPublicationsToManage">${translations[currentLanguage]?.noPublicationsToManage || 'No publications.'}</td></tr>`;
+                if (snapshot.empty) { listBody.innerHTML = noPubsMsg; return; }
+                snapshot.forEach(d => { const book = { id: d.id, ...d.data() }; const row = listBody.insertRow(); row.className = 'admin-table-row'; const currentIndicator = book.isCurrentIssue ? `<span class="ml-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-full" data-lang-key="currentLabelShort">${translations[currentLanguage]?.currentLabelShort||'Current'}</span>` : '';
+                    row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm">${book.title||translations[currentLanguage]?.noTitle||'No Title'}${currentIndicator}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${book.authors||translations[currentLanguage]?.noAuthors||'No Authors'}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${book.year||translations[currentLanguage]?.noYear||'No Year'}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm flex space-x-2"><button class="text-blue-600 hover:text-blue-800 edit-publication-button admin-button text-xs p-2" data-id="${book.id}" data-lang-key="editButton">${translations[currentLanguage]?.editButton||'Edit'}</button><button class="text-red-600 hover:text-red-800 delete-publication-button admin-button text-xs p-2" data-id="${book.id}" data-lang-key="deleteButton">${translations[currentLanguage]?.deleteButton||'Delete'}</button></td>`;
+                });
+                document.querySelectorAll('.edit-publication-button').forEach(btn => btn.addEventListener('click', (e) => editPublication(e.target.dataset.id)));
+                document.querySelectorAll('.delete-publication-button').forEach(btn => btn.addEventListener('click', (e) => confirmDeletePublication(e.target.dataset.id)));
+            }, (error) => { console.error("Error admin publications:", error); document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 text-red-500">${translations[currentLanguage]?.errorLoadingAdminPublications||'Error loading.'}</td></tr>`;});
+        }
+
+        const adminPubFormElements = { bookTitleInput, bookAuthorsInput, bookYearInput, bookDescriptionInput, bookISBNInput, bookISSNInput, abstractArTextInput, abstractEnTextInput, abstractItTextInput, bookIsCurrentIssueCheckbox, bookCoverInput, bookPdfInput, abstractArPdfInput, abstractEnPdfInput, abstractItPdfInput, adminFormTitle, submitPublicationBtn, cancelEditPublicationBtn, uploadedCoverPreviewAdmin, coverImageFileNameDisplayAdmin, pdfFileNameDisplayAdmin, abstractArPdfFileNameDisplayAdmin, abstractEnPdfFileNameDisplayAdmin, abstractItPdfFileNameDisplayAdmin };
         
-        function listenForAdminPublications() { const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME); const q = query(pubCollRef, orderBy("timestamp", "desc")); onSnapshot(q, (snapshot) => { const listBody = document.getElementById('adminPublicationsList'); listBody.innerHTML = ''; const noPubsMsg = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4" data-lang-key="noPublicationsToManage">${translations[currentLanguage]?.noPublicationsToManage || 'No pubs.'}</td></tr>`; if (snapshot.empty) { listBody.innerHTML = noPubsMsg; return; } snapshot.forEach(d => { const book = { id: d.id, ...d.data() }; const row = listBody.insertRow(); row.className = 'admin-table-row'; const currentIndicator = book.isCurrentIssue ? `<span class="ml-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-full" data-lang-key="currentLabelShort">${translations[currentLanguage]?.currentLabelShort||'Current'}</span>` : ''; row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm">${book.title||translations[currentLanguage]?.noTitle||'No Title'}${currentIndicator}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${book.authors||translations[currentLanguage]?.noAuthors||'No Authors'}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${book.year||translations[currentLanguage]?.noYear||'No Year'}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm flex space-x-2"><button class="text-blue-600 hover:text-blue-800 edit-publication-button admin-button text-xs p-2" data-id="${book.id}" data-lang-key="editButton">${translations[currentLanguage]?.editButton||'Edit'}</button><button class="text-red-600 hover:text-red-800 delete-publication-button admin-button text-xs p-2" data-id="${book.id}" data-lang-key="deleteButton">${translations[currentLanguage]?.deleteButton||'Delete'}</button></td>`; }); document.querySelectorAll('.edit-publication-button').forEach(btn => btn.addEventListener('click', (e) => editPublication(e.target.dataset.id))); document.querySelectorAll('.delete-publication-button').forEach(btn => btn.addEventListener('click', (e) => confirmDeletePublication(e.target.dataset.id))); }, (error) => { console.error("Error admin pubs:", error); document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 text-red-500">${translations[currentLanguage]?.errorLoadingAdminPublications||'Error.'}</td></tr>`;});}
+        document.getElementById('addPublicationForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); showLoadingSpinner();
+            if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionAddEditPublications", "error"); hideLoadingSpinner(); return; }
+            const title = adminPubFormElements.bookTitleInput.value.trim(), authors = adminPubFormElements.bookAuthorsInput.value.trim(), year = adminPubFormElements.bookYearInput.value ? parseInt(adminPubFormElements.bookYearInput.value,10) : null, description = adminPubFormElements.bookDescriptionInput.value.trim(), isbn = adminPubFormElements.bookISBNInput.value.trim(), issn = adminPubFormElements.bookISSNInput.value.trim(), abstractArText = adminPubFormElements.abstractArTextInput.value.trim(), abstractEnText = adminPubFormElements.abstractEnTextInput.value.trim(), abstractItText = adminPubFormElements.abstractItTextInput.value.trim(), isCurrentIssue = adminPubFormElements.bookIsCurrentIssueCheckbox.checked;
+            try {
+                const uploadAndUpdate = async (input, currentFile, path) => { let newUrl = currentFile.url, newName = currentFile.fileName; if (input.files[0]) { if (currentFile.fileName) await deleteFile(currentFile.fileName, path); const res = await uploadFile(input.files[0], path); newUrl = res.url; newName = res.fileName;} return { url: newUrl, fileName: newName }; };
+                const coverRes = await uploadAndUpdate(adminPubFormElements.bookCoverInput, {url: currentPubFiles.coverUrl, fileName: currentPubFiles.coverFileName}, STORAGE_PATH_COVERS);
+                const pdfRes = await uploadAndUpdate(adminPubFormElements.bookPdfInput, {url: currentPubFiles.pdfUrl, fileName: currentPubFiles.pdfFileName}, STORAGE_PATH_PDFS);
+                const absArRes = await uploadAndUpdate(adminPubFormElements.abstractArPdfInput, {url: currentPubFiles.abstracts.ar.url, fileName: currentPubFiles.abstracts.ar.fileName}, STORAGE_PATH_ABSTRACTS);
+                const absEnRes = await uploadAndUpdate(adminPubFormElements.abstractEnPdfInput, {url: currentPubFiles.abstracts.en.url, fileName: currentPubFiles.abstracts.en.fileName}, STORAGE_PATH_ABSTRACTS);
+                const absItRes = await uploadAndUpdate(adminPubFormElements.abstractItPdfInput, {url: currentPubFiles.abstracts.it.url, fileName: currentPubFiles.abstracts.it.fileName}, STORAGE_PATH_ABSTRACTS);
+                const pubData = { title, authors, year, description, isbn, issn, abstracts: {ar:{text:abstractArText,url:absArRes.url,fileName:absArRes.fileName},en:{text:abstractEnText,url:absEnRes.url,fileName:absEnRes.fileName},it:{text:abstractItText,url:absItRes.url,fileName:absItRes.fileName}}, coverImageUrl:coverRes.url,coverImageFileName:coverRes.fileName,pdfUrl:pdfRes.url,pdfFileName:pdfRes.fileName, isCurrentIssue, timestamp:new Date().toISOString()};
+                if (isCurrentIssue) { const q = query(collection(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME),where("isCurrentIssue","==",true)); const snap = await getDocs(q); for(const d of snap.docs) if(d.id!==editingPublicationId) await updateDoc(doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,d.id),{isCurrentIssue:false});}
+                if (editingPublicationId) { await updateDoc(doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,editingPublicationId),pubData); showMessageModal("successMessage","publicationUpdated","success");}
+                else { await addDoc(collection(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME),pubData); showMessageModal("successMessage","publicationAdded","success");}
+                resetAddPublicationForm();
+            } catch (error) { console.error("Error saving pub:", error); showMessageModal("errorMessage","errorSavingPublication"+error.message,"error");
+            } finally { hideLoadingSpinner(); }
+        });
+        function resetAddPublicationForm() {
+            document.getElementById('addPublicationForm').reset(); editingPublicationId = null;
+            adminPubFormElements.adminFormTitle.textContent = translations[currentLanguage]?.addPublicationTitle || 'Add Publication';
+            adminPubFormElements.submitPublicationBtn.textContent = translations[currentLanguage]?.addPublicationButton || 'Add';
+            adminPubFormElements.cancelEditPublicationBtn.classList.add('hidden');
+            adminPubFormElements.uploadedCoverPreviewAdmin.src = ''; adminPubFormElements.uploadedCoverPreviewAdmin.style.display = 'none';
+            adminPubFormElements.coverImageFileNameDisplayAdmin.textContent = ''; adminPubFormElements.pdfFileNameDisplayAdmin.textContent = '';
+            adminPubFormElements.abstractArPdfFileNameDisplayAdmin.textContent = ''; adminPubFormElements.abstractEnPdfFileNameDisplayAdmin.textContent = ''; adminPubFormElements.abstractItPdfFileNameDisplayAdmin.textContent = '';
+            currentPubFiles = {coverUrl:'',coverFileName:'',pdfUrl:'',pdfFileName:'',abstracts:{ar:{text:'',url:'',fileName:''},en:{text:'',url:'',fileName:''},it:{text:'',url:'',fileName:''}}};
+        }
+        adminPubFormElements.cancelEditPublicationBtn.addEventListener('click', resetAddPublicationForm);
+        async function editPublication(pubId) {
+            showLoadingSpinner(); try {
+                const docRef = doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,pubId); const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const d = docSnap.data(); editingPublicationId = pubId;
+                    adminPubFormElements.bookTitleInput.value=d.title||''; adminPubFormElements.bookAuthorsInput.value=d.authors||''; adminPubFormElements.bookYearInput.value=d.year!=null?d.year:''; adminPubFormElements.bookDescriptionInput.value=d.description||''; adminPubFormElements.bookISBNInput.value=d.isbn||''; adminPubFormElements.bookISSNInput.value=d.issn||''; adminPubFormElements.abstractArTextInput.value=d.abstracts?.ar?.text||''; adminPubFormElements.abstractEnTextInput.value=d.abstracts?.en?.text||''; adminPubFormElements.abstractItTextInput.value=d.abstracts?.it?.text||''; adminPubFormElements.bookIsCurrentIssueCheckbox.checked=d.isCurrentIssue||false;
+                    currentPubFiles={coverUrl:d.coverImageUrl||'',coverFileName:d.coverImageFileName||'',pdfUrl:d.pdfUrl||'',pdfFileName:d.pdfFileName||'',abstracts:{ar:d.abstracts?.ar||{text:'',url:'',fileName:''},en:d.abstracts?.en||{text:'',url:'',fileName:''},it:d.abstracts?.it||{text:'',url:'',fileName:''}}};
+                    adminPubFormElements.uploadedCoverPreviewAdmin.src=currentPubFiles.coverUrl; adminPubFormElements.uploadedCoverPreviewAdmin.style.display=currentPubFiles.coverUrl?'block':'none';
+                    adminPubFormElements.coverImageFileNameDisplayAdmin.textContent=currentPubFiles.coverFileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.coverFileName)}`:'';
+                    adminPubFormElements.pdfFileNameDisplayAdmin.textContent=currentPubFiles.pdfFileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.pdfFileName)}`:'';
+                    adminPubFormElements.abstractArPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.ar.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.ar.fileName)}`:'';
+                    adminPubFormElements.abstractEnPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.en.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.en.fileName)}`:'';
+                    adminPubFormElements.abstractItPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.it.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.it.fileName)}`:'';
+                    adminPubFormElements.bookCoverInput.value=''; adminPubFormElements.bookPdfInput.value=''; adminPubFormElements.abstractArPdfInput.value=''; adminPubFormElements.abstractEnPdfInput.value=''; adminPubFormElements.abstractItPdfInput.value='';
+                    adminPubFormElements.adminFormTitle.textContent=translations[currentLanguage].updatePublicationButton; adminPubFormElements.submitPublicationBtn.textContent=translations[currentLanguage].updatePublicationButton; adminPubFormElements.cancelEditPublicationBtn.classList.remove('hidden');
+                    window.scrollTo({top:0,behavior:'smooth'});
+                } else showMessageModal("errorMessage","publicationNotFoundForEdit","error");
+            }catch(e){console.error("Edit pub error:",e);showMessageModal("errorMessage","errorLoadingPublicationForEdit"+e.message,"error");}
+            finally{hideLoadingSpinner();}
+        }
+        function confirmDeletePublication(pubId) {
+            showMessageModal("confirmDelete","confirmDeleteMsg","confirm", async (confirmed) => {
+                if(confirmed){ showLoadingSpinner(); try {
+                    const docRef=doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,pubId); const docSnap=await getDoc(docRef);
+                    if(docSnap.exists()){ const d=docSnap.data();
+                        if(d.coverImageFileName) await deleteFile(d.coverImageFileName,STORAGE_PATH_COVERS); if(d.pdfFileName) await deleteFile(d.pdfFileName,STORAGE_PATH_PDFS);
+                        if(d.abstracts?.ar?.fileName) await deleteFile(d.abstracts.ar.fileName,STORAGE_PATH_ABSTRACTS); if(d.abstracts?.en?.fileName) await deleteFile(d.abstracts.en.fileName,STORAGE_PATH_ABSTRACTS); if(d.abstracts?.it?.fileName) await deleteFile(d.abstracts.it.fileName,STORAGE_PATH_ABSTRACTS);
+                        await deleteDoc(docRef); showMessageModal("successMessage","publicationDeleted","success");
+                    } else showMessageModal("errorMessage","publicationNotFoundForDeletion","error");
+                } catch(e){console.error("Del pub error:",e);showMessageModal("errorMessage","errorDeletingPublication"+e.message,"error");}
+                finally{hideLoadingSpinner();} }
+            });
+        }
+
+        const adminNewsFormElements = { newsTitleInput, newsDescriptionInput, newsImageInput, uploadedNewsImagePreviewAdmin, newsImageFileNameDisplayAdmin, submitNewsBtn, cancelEditNewsBtn };
+        function resetAddNewsItemForm() {
+            document.getElementById('addNewsItemForm').reset(); adminNewsFormElements.newsTitleInput.value='';adminNewsFormElements.newsDescriptionInput.value='';adminNewsFormElements.newsImageInput.value=''; adminNewsFormElements.uploadedNewsImagePreviewAdmin.src='';adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display='none'; adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=''; currentNewsImage={url:'',fileName:''}; editingNewsItemId=null; adminNewsFormElements.submitNewsBtn.textContent=translations[currentLanguage]?.addNewsItemButton||'Add News'; adminNewsFormElements.cancelEditNewsBtn.classList.add('hidden');
+        }
+        document.getElementById('addNewsItemForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); showLoadingSpinner();
+            if(!auth.currentUser){showMessageModal("permissionDenied","noPermissionAddNews","error");hideLoadingSpinner();return;}
+            const title=adminNewsFormElements.newsTitleInput.value.trim(), description=adminNewsFormElements.newsDescriptionInput.value.trim();
+            let imageUrl=currentNewsImage.url, imageFileName=currentNewsImage.fileName;
+            try {
+                if(adminNewsFormElements.newsImageInput.files[0]){ if(currentNewsImage.fileName) await deleteFile(currentNewsImage.fileName,STORAGE_PATH_NEWS_IMAGES); const res=await uploadFile(adminNewsFormElements.newsImageInput.files[0],STORAGE_PATH_NEWS_IMAGES); imageUrl=res.url; imageFileName=res.fileName;
+                } else if (!adminNewsFormElements.newsImageInput.files[0] && editingNewsItemId && !currentNewsImage.url) { // If field is cleared during edit and there was no previous image or it was removed
+                     if(currentNewsImage.fileName) await deleteFile(currentNewsImage.fileName, STORAGE_PATH_NEWS_IMAGES); // Delete if one was there but input cleared
+                    imageUrl = ''; imageFileName = '';
+                } // else: keep existing image if no new one is selected and one exists
+
+                const newsData={title,description,imageUrl,imageFileName,timestamp:new Date().toISOString()};
+                if(editingNewsItemId){await updateDoc(doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME,editingNewsItemId),newsData); showMessageModal("successMessage","newsItemUpdated","success");}
+                else{await addDoc(collection(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME),newsData); showMessageModal("successMessage","newsItemAdded","success");}
+                resetAddNewsItemForm();
+            }catch(err){console.error("Save news err:",err);showMessageModal("errorMessage","errorSavingNewsItem"+err.message,"error");}
+            finally{hideLoadingSpinner();}
+        });
+        adminNewsFormElements.newsImageInput.addEventListener('change', (e) => {
+            const file=e.target.files[0];
+            if(file){ adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=`${translations[currentLanguage].selectedLabel}: ${file.name}`; const r=new FileReader();r.onload=(ev)=>{adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=ev.target.result;adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display='block';};r.readAsDataURL(file);}
+            else{ adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=currentNewsImage.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}`:''; adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=currentNewsImage.url; adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display=currentNewsImage.url?'block':'none';}
+        });
+        adminNewsFormElements.cancelEditNewsBtn.addEventListener('click', resetAddNewsItemForm);
+        async function editNewsItem(newsId){
+            showLoadingSpinner(); try{
+                const docRef=doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME,newsId); const docSnap=await getDoc(docRef);
+                if(docSnap.exists()){ const d=docSnap.data(); editingNewsItemId=newsId;
+                    adminNewsFormElements.newsTitleInput.value=d.title||''; adminNewsFormElements.newsDescriptionInput.value=d.description||'';
+                    currentNewsImage={url:d.imageUrl||'',fileName:d.imageFileName||''};
+                    adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=currentNewsImage.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}`:'';
+                    adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=currentNewsImage.url; adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display=currentNewsImage.url?'block':'none';
+                    adminNewsFormElements.newsImageInput.value=''; adminNewsFormElements.submitNewsBtn.textContent=translations[currentLanguage].updateNewsItemButton; adminNewsFormElements.cancelEditNewsBtn.classList.remove('hidden');
+                    window.scrollTo({top:0,behavior:'smooth'});
+                }else showMessageModal("errorMessage","newsItemNotFoundForEdit","error");
+            }catch(e){console.error("Edit news err:",e);showMessageModal("errorMessage","errorLoadingNewsItemForEdit"+e.message,"error");}
+            finally{hideLoadingSpinner();}
+        }
+        function confirmDeleteNewsItem(newsId){
+            showMessageModal("confirmDelete","confirmDeleteMsg","confirm",async(confirmed)=>{
+                if(confirmed){showLoadingSpinner();try{
+                    const newsRef=doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME,newsId); const newsDoc=await getDoc(newsRef);
+                    if(newsDoc.exists()){ const d=newsDoc.data(); if(d.imageFileName) await deleteFile(d.imageFileName,STORAGE_PATH_NEWS_IMAGES); await deleteDoc(newsRef); showMessageModal("successMessage","newsItemDeleted","success");}
+                    else showMessageModal("errorMessage","newsItemNotFoundForDeletion","error");
+                }catch(e){console.error("Del news err:",e);showMessageModal("errorMessage","errorDeletingNewsItem"+e.message,"error");}
+                finally{hideLoadingSpinner();}}
+            });
+        }
+        function listenForAdminNews() {
+            const newsCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME); const q = query(newsCollRef, orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const listBody = document.getElementById('adminNewsList'); listBody.innerHTML = '';
+                const noNewsMsg = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4" data-lang-key="noNewsToManage">${translations[currentLanguage]?.noNewsToManage||'No news.'}</td></tr>`;
+                if (snapshot.empty) { listBody.innerHTML = noNewsMsg; return; }
+                snapshot.forEach(d => {
+                    const news = { id: d.id, ...d.data() }; const row = listBody.insertRow(); row.className = 'admin-table-row';
+                    row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm">${news.title||translations[currentLanguage]?.noTitle||'No Title'}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${new Date(news.timestamp).toLocaleDateString(currentLanguage==='it'?'it-IT':'en-US')}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm flex space-x-2"><button class="text-blue-600 hover:text-blue-800 edit-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="editButton">${translations[currentLanguage]?.editButton||'Edit'}</button><button class="text-red-600 hover:text-red-800 delete-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="deleteButton">${translations[currentLanguage]?.deleteButton||'Delete'}</button></td>`;
+                });
+                document.querySelectorAll('.edit-news-button').forEach(btn => btn.addEventListener('click', (e) => editNewsItem(e.target.dataset.id)));
+                document.querySelectorAll('.delete-news-button').forEach(btn => btn.addEventListener('click', (e) => confirmDeleteNewsItem(e.target.dataset.id)));
+            }, (error) => { console.error("Error admin news:", error); document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 text-red-500">${translations[currentLanguage]?.errorLoadingAdminNews||'Error.'}</td></tr>`;});
+        }
         
-        function resetAddPublicationForm() { document.getElementById('addPublicationForm').reset(); editingPublicationId = null; adminPubFormElements.adminFormTitle.textContent = translations[currentLanguage]?.addPublicationTitle || 'Add Publication'; adminPubFormElements.submitPublicationBtn.textContent = translations[currentLanguage]?.addPublicationButton || 'Add'; adminPubFormElements.cancelEditPublicationBtn.classList.add('hidden'); adminPubFormElements.uploadedCoverPreviewAdmin.src = ''; adminPubFormElements.uploadedCoverPreviewAdmin.style.display = 'none'; adminPubFormElements.coverImageFileNameDisplayAdmin.textContent = ''; adminPubFormElements.pdfFileNameDisplayAdmin.textContent = ''; adminPubFormElements.abstractArPdfFileNameDisplayAdmin.textContent = ''; adminPubFormElements.abstractEnPdfFileNameDisplayAdmin.textContent = ''; adminPubFormElements.abstractItPdfFileNameDisplayAdmin.textContent = ''; currentPubFiles = {coverUrl:'',coverFileName:'',pdfUrl:'',pdfFileName:'',abstracts:{ar:{text:'',url:'',fileName:''},en:{text:'',url:'',fileName:''},it:{text:'',url:'',fileName:''}}}; }
-        async function editPublication(pubId) { showLoadingSpinner(); try { const docRef = doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,pubId); const docSnap = await getDoc(docRef); if (docSnap.exists()) { const d = docSnap.data(); editingPublicationId = pubId; adminPubFormElements.bookTitleInput.value=d.title||''; adminPubFormElements.bookAuthorsInput.value=d.authors||''; adminPubFormElements.bookYearInput.value=d.year!=null?d.year:''; adminPubFormElements.bookDescriptionInput.value=d.description||''; adminPubFormElements.bookISBNInput.value=d.isbn||''; adminPubFormElements.bookISSNInput.value=d.issn||''; adminPubFormElements.abstractArTextInput.value=d.abstracts?.ar?.text||''; adminPubFormElements.abstractEnTextInput.value=d.abstracts?.en?.text||''; adminPubFormElements.abstractItTextInput.value=d.abstracts?.it?.text||''; adminPubFormElements.bookIsCurrentIssueCheckbox.checked=d.isCurrentIssue||false; currentPubFiles={coverUrl:d.coverImageUrl||'',coverFileName:d.coverImageFileName||'',pdfUrl:d.pdfUrl||'',pdfFileName:d.pdfFileName||'',abstracts:{ar:d.abstracts?.ar||{text:'',url:'',fileName:''},en:d.abstracts?.en||{text:'',url:'',fileName:''},it:d.abstracts?.it||{text:'',url:'',fileName:''}}}; adminPubFormElements.uploadedCoverPreviewAdmin.src=currentPubFiles.coverUrl; adminPubFormElements.uploadedCoverPreviewAdmin.style.display=currentPubFiles.coverUrl?'block':'none'; adminPubFormElements.coverImageFileNameDisplayAdmin.textContent=currentPubFiles.coverFileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.coverFileName)}`:''; adminPubFormElements.pdfFileNameDisplayAdmin.textContent=currentPubFiles.pdfFileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.pdfFileName)}`:''; adminPubFormElements.abstractArPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.ar.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.ar.fileName)}`:''; adminPubFormElements.abstractEnPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.en.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.en.fileName)}`:''; adminPubFormElements.abstractItPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.it.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.it.fileName)}`:''; adminPubFormElements.bookCoverInput.value=''; adminPubFormElements.bookPdfInput.value=''; adminPubFormElements.abstractArPdfInput.value=''; adminPubFormElements.abstractEnPdfInput.value=''; adminPubFormElements.abstractItPdfInput.value=''; adminPubFormElements.adminFormTitle.textContent=translations[currentLanguage].updatePublicationButton; adminPubFormElements.submitPublicationBtn.textContent=translations[currentLanguage].updatePublicationButton; adminPubFormElements.cancelEditPublicationBtn.classList.remove('hidden'); window.scrollTo({top:0,behavior:'smooth'}); } else showMessageModal("errorMessage","publicationNotFoundForEdit","error"); }catch(e){console.error("Edit pub error:",e);showMessageModal("errorMessage","errorLoadingPublicationForEdit"+e.message,"error");} finally{hideLoadingSpinner();}}
-        function confirmDeletePublication(pubId) { showMessageModal("confirmDelete","confirmDeleteMsg","confirm", async (confirmed) => { if(confirmed){ showLoadingSpinner(); try { const docRef=doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,pubId); const docSnap=await getDoc(docRef); if(docSnap.exists()){ const d=docSnap.data(); if(d.coverImageFileName) await deleteFile(d.coverImageFileName,STORAGE_PATH_COVERS); if(d.pdfFileName) await deleteFile(d.pdfFileName,STORAGE_PATH_PDFS); if(d.abstracts?.ar?.fileName) await deleteFile(d.abstracts.ar.fileName,STORAGE_PATH_ABSTRACTS); if(d.abstracts?.en?.fileName) await deleteFile(d.abstracts.en.fileName,STORAGE_PATH_ABSTRACTS); if(d.abstracts?.it?.fileName) await deleteFile(d.abstracts.it.fileName,STORAGE_PATH_ABSTRACTS); await deleteDoc(docRef); showMessageModal("successMessage","publicationDeleted","success"); } else showMessageModal("errorMessage","publicationNotFoundForDeletion","error"); } catch(e){console.error("Del pub error:",e);showMessageModal("errorMessage","errorDeletingPublication"+e.message,"error");} finally{hideLoadingSpinner();} } });}
-        
-        function resetAddNewsItemForm() { document.getElementById('addNewsItemForm').reset(); adminNewsFormElements.newsTitleInput.value='';adminNewsFormElements.newsDescriptionInput.value='';adminNewsFormElements.newsImageInput.value=''; adminNewsFormElements.uploadedNewsImagePreviewAdmin.src='';adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display='none'; adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=''; currentNewsImage={url:'',fileName:''}; editingNewsItemId=null; adminNewsFormElements.submitNewsBtn.textContent=translations[currentLanguage]?.addNewsItemButton||'Add News'; adminNewsFormElements.cancelEditNewsBtn.classList.add('hidden');}
-        async function editNewsItem(newsId){ showLoadingSpinner(); try{ const docRef=doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME,newsId); const docSnap=await getDoc(docRef); if(docSnap.exists()){ const d=docSnap.data(); editingNewsItemId=newsId; adminNewsFormElements.newsTitleInput.value=d.title||''; adminNewsFormElements.newsDescriptionInput.value=d.description||''; currentNewsImage={url:d.imageUrl||'',fileName:d.imageFileName||''}; adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=currentNewsImage.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}`:''; adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=currentNewsImage.url; adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display=currentNewsImage.url?'block':'none'; adminNewsFormElements.newsImageInput.value=''; adminNewsFormElements.submitNewsBtn.textContent=translations[currentLanguage].updateNewsItemButton; adminNewsFormElements.cancelEditNewsBtn.classList.remove('hidden'); window.scrollTo({top:0,behavior:'smooth'}); }else showMessageModal("errorMessage","newsItemNotFoundForEdit","error"); }catch(e){console.error("Edit news err:",e);showMessageModal("errorMessage","errorLoadingNewsItemForEdit"+e.message,"error");} finally{hideLoadingSpinner();}}
-        function confirmDeleteNewsItem(newsId){ showMessageModal("confirmDelete","confirmDeleteMsg","confirm",async(confirmed)=>{ if(confirmed){showLoadingSpinner();try{ const newsRef=doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME,newsId); const newsDoc=await getDoc(newsRef); if(newsDoc.exists()){ const d=newsDoc.data(); if(d.imageFileName) await deleteFile(d.imageFileName,STORAGE_PATH_NEWS_IMAGES); await deleteDoc(newsRef); showMessageModal("successMessage","newsItemDeleted","success");} else showMessageModal("errorMessage","newsItemNotFoundForDeletion","error"); }catch(e){console.error("Del news err:",e);showMessageModal("errorMessage","errorDeletingNewsItem"+e.message,"error");} finally{hideLoadingSpinner();}} });}
-        function listenForAdminNews() { const newsCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME); const q = query(newsCollRef, orderBy("timestamp", "desc")); onSnapshot(q, (snapshot) => { const listBody = document.getElementById('adminNewsList'); listBody.innerHTML = ''; const noNewsMsg = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4" data-lang-key="noNewsToManage">${translations[currentLanguage]?.noNewsToManage||'No news.'}</td></tr>`; if (snapshot.empty) { listBody.innerHTML = noNewsMsg; return; } snapshot.forEach(d => { const news = { id: d.id, ...d.data() }; const row = listBody.insertRow(); row.className = 'admin-table-row'; row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm">${news.title||translations[currentLanguage]?.noTitle||'No Title'}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${new Date(news.timestamp).toLocaleDateString(currentLanguage==='it'?'it-IT':'en-US')}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm flex space-x-2"><button class="text-blue-600 hover:text-blue-800 edit-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="editButton">${translations[currentLanguage]?.editButton||'Edit'}</button><button class="text-red-600 hover:text-red-800 delete-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="deleteButton">${translations[currentLanguage]?.deleteButton||'Delete'}</button></td>`; }); document.querySelectorAll('.edit-news-button').forEach(btn => btn.addEventListener('click', (e) => editNewsItem(e.target.dataset.id))); document.querySelectorAll('.delete-news-button').forEach(btn => btn.addEventListener('click', (e) => confirmDeleteNewsItem(e.target.dataset.id))); }, (error) => { console.error("Error admin news:", error); document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 text-red-500">${translations[currentLanguage]?.errorLoadingAdminNews||'Error.'}</td></tr>`;});}
-        
-        function showMessageModal(titleKey, messageKey, type = "alert", callback = null) { if(!messageTextElement || !modalButtonsElement || !messageModalElement) { console.error("Modal elements not found!"); return; } messageTextElement.innerHTML = `<strong>${translations[currentLanguage]?.[titleKey] || titleKey}</strong><br>${translations[currentLanguage]?.[messageKey] || messageKey}`; modalButtonsElement.innerHTML = ''; if (type === "confirm") { const yesBtn = document.createElement('button'); yesBtn.textContent=translations[currentLanguage]?.yesButton||'Yes'; yesBtn.className='nav-button bg-red-600'; yesBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback(true);}; modalButtonsElement.appendChild(yesBtn); const noBtn = document.createElement('button'); noBtn.textContent=translations[currentLanguage]?.noButton||'No'; noBtn.className='nav-button bg-gray-500'; noBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback(false);}; modalButtonsElement.appendChild(noBtn); } else { const okBtn = document.createElement('button'); okBtn.textContent=translations[currentLanguage]?.okButton||'OK'; okBtn.className='nav-button bg-blue-600'; okBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback();}; modalButtonsElement.appendChild(okBtn); } messageModalElement.classList.remove('hidden'); messageModalElement.classList.add('flex'); }
-        function showPublicationDetailsModal(book) { if(!publicationDetailsModal) { console.error("Publication details modal not found!"); return; } document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image'; document.getElementById('detailTitle').textContent = book.title || translations[currentLanguage]?.noTitle||'No Title'; document.getElementById('detailAuthors').textContent = book.authors || translations[currentLanguage]?.noAuthors||'No Authors'; document.getElementById('detailYear').textContent = book.year || translations[currentLanguage]?.noYear||'No Year'; document.getElementById('detailDescription').textContent = book.description || translations[currentLanguage]?.noDescription||'No Description'; document.getElementById('detailISBN').textContent = book.isbn || 'N/A'; document.getElementById('detailISSN').textContent = book.issn || 'N/A'; document.getElementById('detailAbstractArText').textContent = book.abstracts?.ar?.text || translations[currentLanguage]?.noArabicAbstract||'N/A'; document.getElementById('detailAbstractEnText').textContent = book.abstracts?.en?.text || translations[currentLanguage]?.noEnglishAbstract||'N/A'; document.getElementById('detailAbstractItText').textContent = book.abstracts?.it?.text || translations[currentLanguage]?.noItalianAbstract||'N/A'; const updateDownloadLink = (id, url, key) => { const link=document.getElementById(id); link.href=url||'#'; link.classList.toggle('disabled',!url); link.onclick=url?null:(e)=>{e.preventDefault();showMessageModal("unavailable",key,"alert");};}; updateDownloadLink('detailDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable'); updateDownloadLink('detailDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable'); updateDownloadLink('detailDownloadAbstractEnBtn', book.abstracts?.en?.url, 'englishAbstractPdfUnavailable'); updateDownloadLink('detailDownloadAbstractItBtn', book.abstracts?.it?.url, 'italianAbstractPdfUnavailable'); publicationDetailsModal.classList.remove('hidden'); publicationDetailsModal.classList.add('flex'); }
-        function showLoadingSpinner() { if(loadingSpinner) loadingSpinner.classList.remove('hidden'); }
-        function hideLoadingSpinner() { if(loadingSpinner) loadingSpinner.classList.add('hidden'); }
+        const messageModalElement = document.getElementById('messageModal'); const messageTextElement = document.getElementById('messageText'); const modalButtonsElement = document.getElementById('modalButtons'); const closeMessageModalElement = document.getElementById('closeMessageModal');
+        closeMessageModalElement.addEventListener('click', () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); });
+        messageModalElement.addEventListener('click', (e) => { if (e.target === messageModalElement) { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); }});
+        function showMessageModal(titleKey, messageKey, type = "alert", callback = null) {
+            messageTextElement.innerHTML = `<strong>${translations[currentLanguage]?.[titleKey] || titleKey}</strong><br>${translations[currentLanguage]?.[messageKey] || messageKey}`;
+            modalButtonsElement.innerHTML = '';
+            if (type === "confirm") {
+                const yesBtn = document.createElement('button'); yesBtn.textContent=translations[currentLanguage]?.yesButton||'Yes'; yesBtn.className='nav-button bg-red-600'; yesBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback(true);}; modalButtonsElement.appendChild(yesBtn);
+                const noBtn = document.createElement('button'); noBtn.textContent=translations[currentLanguage]?.noButton||'No'; noBtn.className='nav-button bg-gray-500'; noBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback(false);}; modalButtonsElement.appendChild(noBtn);
+            } else {
+                const okBtn = document.createElement('button'); okBtn.textContent=translations[currentLanguage]?.okButton||'OK'; okBtn.className='nav-button bg-blue-600'; okBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback();}; modalButtonsElement.appendChild(okBtn);
+            }
+            messageModalElement.classList.remove('hidden'); messageModalElement.classList.add('flex');
+        }
+        const publicationDetailsModal = document.getElementById('publicationDetailsModal'); const closePublicationDetailsModal = document.getElementById('closePublicationDetailsModal');
+        closePublicationDetailsModal.addEventListener('click', () => {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');});
+        publicationDetailsModal.addEventListener('click', (e) => { if (e.target === publicationDetailsModal) {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');}});
+        function showPublicationDetailsModal(book) {
+            document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image';
+            document.getElementById('detailTitle').textContent = book.title || translations[currentLanguage]?.noTitle||'No Title';
+            document.getElementById('detailAuthors').textContent = book.authors || translations[currentLanguage]?.noAuthors||'No Authors';
+            document.getElementById('detailYear').textContent = book.year || translations[currentLanguage]?.noYear||'No Year';
+            document.getElementById('detailDescription').textContent = book.description || translations[currentLanguage]?.noDescription||'No Description';
+            document.getElementById('detailISBN').textContent = book.isbn || 'N/A'; document.getElementById('detailISSN').textContent = book.issn || 'N/A';
+            document.getElementById('detailAbstractArText').textContent = book.abstracts?.ar?.text || translations[currentLanguage]?.noArabicAbstract||'N/A';
+            document.getElementById('detailAbstractEnText').textContent = book.abstracts?.en?.text || translations[currentLanguage]?.noEnglishAbstract||'N/A';
+            document.getElementById('detailAbstractItText').textContent = book.abstracts?.it?.text || translations[currentLanguage]?.noItalianAbstract||'N/A';
+            const updateDownloadLink = (id, url, key) => { const link=document.getElementById(id); link.href=url||'#'; link.classList.toggle('disabled',!url); link.onclick=url?null:(e)=>{e.preventDefault();showMessageModal("unavailable",key,"alert");};};
+            updateDownloadLink('detailDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable'); updateDownloadLink('detailDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable'); updateDownloadLink('detailDownloadAbstractEnBtn', book.abstracts?.en?.url, 'englishAbstractPdfUnavailable'); updateDownloadLink('detailDownloadAbstractItBtn', book.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
+            publicationDetailsModal.classList.remove('hidden'); publicationDetailsModal.classList.add('flex');
+        }
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        function showLoadingSpinner() { loadingSpinner.classList.remove('hidden'); }
+        function hideLoadingSpinner() { loadingSpinner.classList.add('hidden'); }
 
         window.onload = function() {
             views.aboutUs = document.getElementById('aboutUsView');
@@ -673,33 +1119,15 @@ html
             views.adminLogin = document.getElementById('adminLoginView');
             views.adminDashboard = document.getElementById('adminDashboardView');
             
-            document.querySelectorAll('.view-button').forEach(button => {button.addEventListener('click', (e) => showView(e.target.dataset.view));});
-            document.querySelectorAll('.lang-button').forEach(button => {button.addEventListener('click', (e) => applyTranslations(e.target.dataset.lang));});
-            document.getElementById('adminLoginBtnFooter').addEventListener('click', () => showView('adminLogin'));
-            document.getElementById('adminLogoutBtn').addEventListener('click', async () => { try { await signOut(auth); showMessageModal("successMessage", "logoutSuccessful", "success"); } catch (error) { console.error("Error logging out:", error); showMessageModal("errorMessage", "logoutFailed" + error.message, "error"); }});
-            document.getElementById('managePublicationsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.remove('hidden'); document.getElementById('adminManageNews').classList.add('hidden'); document.getElementById('adminManageSiteSettings').classList.add('hidden'); resetAddPublicationForm(); if(auth && auth.currentUser) listenForAdminPublications(); });
-            document.getElementById('manageNewsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.add('hidden'); document.getElementById('adminManageNews').classList.remove('hidden'); document.getElementById('adminManageSiteSettings').classList.add('hidden'); resetAddNewsItemForm(); if(auth && auth.currentUser) listenForAdminNews(); });
-            document.getElementById('manageSiteSettingsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.add('hidden'); document.getElementById('adminManageNews').classList.add('hidden'); document.getElementById('adminManageSiteSettings').classList.remove('hidden'); loadSiteLogosForAdmin(); });
-            document.getElementById('adminLoginForm').addEventListener('submit', async (e) => { e.preventDefault(); showLoadingSpinner(); const email = document.getElementById('adminEmail').value; const password = document.getElementById('adminPassword').value; const loginErrorMessage = document.getElementById('loginErrorMessage'); loginErrorMessage.textContent = ''; try { await signInWithEmailAndPassword(auth, email, password); document.getElementById('adminEmail').value = ''; document.getElementById('adminPassword').value = ''; } catch (error) { console.error("Admin login error:", error); loginErrorMessage.textContent = (translations[currentLanguage] && translations[currentLanguage].invalidCredentials) || "Invalid credentials."; } finally { hideLoadingSpinner(); }});
-            document.getElementById('addPublicationForm').addEventListener('submit', async (e) => { e.preventDefault(); showLoadingSpinner(); if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionAddEditPublications", "error"); hideLoadingSpinner(); return; } const title = adminPubFormElements.bookTitleInput.value.trim(), authors = adminPubFormElements.bookAuthorsInput.value.trim(), year = adminPubFormElements.bookYearInput.value ? parseInt(adminPubFormElements.bookYearInput.value,10) : null, description = adminPubFormElements.bookDescriptionInput.value.trim(), isbn = adminPubFormElements.bookISBNInput.value.trim(), issn = adminPubFormElements.bookISSNInput.value.trim(), abstractArText = adminPubFormElements.abstractArTextInput.value.trim(), abstractEnText = adminPubFormElements.abstractEnTextInput.value.trim(), abstractItText = adminPubFormElements.abstractItTextInput.value.trim(), isCurrentIssue = adminPubFormElements.bookIsCurrentIssueCheckbox.checked; try { const uploadAndUpdate = async (input, currentFile, path) => { let newUrl = currentFile.url, newName = currentFile.fileName; if (input.files[0]) { if (currentFile.fileName) await deleteFile(currentFile.fileName, path); const res = await uploadFile(input.files[0], path); newUrl = res.url; newName = res.fileName;} return { url: newUrl, fileName: newName }; }; const coverRes = await uploadAndUpdate(adminPubFormElements.bookCoverInput, {url: currentPubFiles.coverUrl, fileName: currentPubFiles.coverFileName}, STORAGE_PATH_COVERS); const pdfRes = await uploadAndUpdate(adminPubFormElements.bookPdfInput, {url: currentPubFiles.pdfUrl, fileName: currentPubFiles.pdfFileName}, STORAGE_PATH_PDFS); const absArRes = await uploadAndUpdate(adminPubFormElements.abstractArPdfInput, {url: currentPubFiles.abstracts.ar.url, fileName: currentPubFiles.abstracts.ar.fileName}, STORAGE_PATH_ABSTRACTS); const absEnRes = await uploadAndUpdate(adminPubFormElements.abstractEnPdfInput, {url: currentPubFiles.abstracts.en.url, fileName: currentPubFiles.abstracts.en.fileName}, STORAGE_PATH_ABSTRACTS); const absItRes = await uploadAndUpdate(adminPubFormElements.abstractItPdfInput, {url: currentPubFiles.abstracts.it.url, fileName: currentPubFiles.abstracts.it.fileName}, STORAGE_PATH_ABSTRACTS); const pubData = { title, authors, year, description, isbn, issn, abstracts: {ar:{text:abstractArText,url:absArRes.url,fileName:absArRes.fileName},en:{text:abstractEnText,url:absEnRes.url,fileName:absEnRes.fileName},it:{text:abstractItText,url:absItRes.url,fileName:absItRes.fileName}}, coverImageUrl:coverRes.url,coverImageFileName:coverRes.fileName,pdfUrl:pdfRes.url,pdfFileName:pdfRes.fileName, isCurrentIssue, timestamp:new Date().toISOString()}; if (isCurrentIssue) { const q = query(collection(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME),where("isCurrentIssue","==",true)); const snap = await getDocs(q); for(const d of snap.docs) if(d.id!==editingPublicationId) await updateDoc(doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,d.id),{isCurrentIssue:false});} if (editingPublicationId) { await updateDoc(doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,editingPublicationId),pubData); showMessageModal("successMessage","publicationUpdated","success");} else { await addDoc(collection(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME),pubData); showMessageModal("successMessage","publicationAdded","success");} resetAddPublicationForm(); } catch (error) { console.error("Error saving pub:", error); showMessageModal("errorMessage","errorSavingPublication"+error.message,"error"); } finally { hideLoadingSpinner(); }});
-            adminPubFormElements.cancelEditPublicationBtn.addEventListener('click', resetAddPublicationForm);
-            document.getElementById('addNewsItemForm').addEventListener('submit', async (e) => { e.preventDefault(); showLoadingSpinner(); if(!auth.currentUser){showMessageModal("permissionDenied","noPermissionAddNews","error");hideLoadingSpinner();return;} const title=adminNewsFormElements.newsTitleInput.value.trim(), description=adminNewsFormElements.newsDescriptionInput.value.trim(); let imageUrl=currentNewsImage.url, imageFileName=currentNewsImage.fileName; try { if(adminNewsFormElements.newsImageInput.files[0]){ if(currentNewsImage.fileName) await deleteFile(currentNewsImage.fileName,STORAGE_PATH_NEWS_IMAGES); const res=await uploadFile(adminNewsFormElements.newsImageInput.files[0],STORAGE_PATH_NEWS_IMAGES); imageUrl=res.url; imageFileName=res.fileName; } else if (!adminNewsFormElements.newsImageInput.files[0] && editingNewsItemId && !currentNewsImage.url) { if (currentNewsImage.fileName) await deleteFile(currentNewsImage.fileName, STORAGE_PATH_NEWS_IMAGES); imageUrl = ''; imageFileName = ''; } const newsData={title,description,imageUrl,imageFileName,timestamp:new Date().toISOString()}; if(editingNewsItemId){await updateDoc(doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME,editingNewsItemId),newsData); showMessageModal("successMessage","newsItemUpdated","success");} else{await addDoc(collection(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME),newsData); showMessageModal("successMessage","newsItemAdded","success");} resetAddNewsItemForm(); }catch(err){console.error("Save news err:",err);showMessageModal("errorMessage","errorSavingNewsItem"+err.message,"error");} finally{hideLoadingSpinner();}});
-            adminNewsFormElements.newsImageInput.addEventListener('change', (e) => { const file=e.target.files[0]; if(file){ adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=`${translations[currentLanguage].selectedLabel}: ${file.name}`; const r=new FileReader();r.onload=(ev)=>{adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=ev.target.result;adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display='block';};r.readAsDataURL(file);} else{ adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=currentNewsImage.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}`:''; adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=currentNewsImage.url; adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display=currentNewsImage.url?'block':'none';}});
-            adminNewsFormElements.cancelEditNewsBtn.addEventListener('click', resetAddNewsItemForm);
-            document.getElementById('logoUploadForm').addEventListener('submit', async (e) => { e.preventDefault(); showLoadingSpinner(); if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error"); hideLoadingSpinner(); return; } const headerFile = document.getElementById('headerLogoUpload').files[0]; const footerFile = document.getElementById('footerLogoUpload').files[0]; let newHeaderLogo = { ...currentHeaderLogo }; let newFooterLogo = { ...currentFooterLogo }; try { if (headerFile) { if (currentHeaderLogo.fileName && currentHeaderLogo.url !== DEFAULT_HEADER_LOGO_URL) await deleteFile(currentHeaderLogo.fileName, STORAGE_PATH_LOGOS); newHeaderLogo = await uploadFile(headerFile, STORAGE_PATH_LOGOS); } if (footerFile) { if (currentFooterLogo.fileName && currentFooterLogo.url !== DEFAULT_FOOTER_LOGO_URL) await deleteFile(currentFooterLogo.fileName, STORAGE_PATH_LOGOS); newFooterLogo = await uploadFile(footerFile, STORAGE_PATH_LOGOS); } await setDoc(doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID), { headerLogoUrl: newHeaderLogo.url, headerLogoFileName: newHeaderLogo.fileName, footerLogoUrl: newFooterLogo.url, footerLogoFileName: newFooterLogo.fileName }, { merge: true }); showMessageModal("successMessage", "siteLogosUpdated", "success"); currentHeaderLogo = newHeaderLogo; currentFooterLogo = newFooterLogo; updateSiteLogosUI(); document.getElementById('headerLogoUpload').value = ''; document.getElementById('footerLogoUpload').value = ''; } catch (error) { console.error("Error updating site logos:", error); showMessageModal("errorMessage", "errorUpdatingLogos" + error.message, "error"); } finally { hideLoadingSpinner(); }});
-            document.getElementById('contributorLogoUploadForm').addEventListener('submit', async (e) => { e.preventDefault(); showLoadingSpinner(); if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error"); hideLoadingSpinner(); return; } const c1File = document.getElementById('contributor1LogoUpload').files[0]; const c2File = document.getElementById('contributor2LogoUpload').files[0]; let newC1Logo = { ...currentContributor1Logo }; let newC2Logo = { ...currentContributor2Logo }; try { if (c1File) { if (currentContributor1Logo.fileName && currentContributor1Logo.url !== DEFAULT_CONTRIB1_LOGO_URL) await deleteFile(currentContributor1Logo.fileName, STORAGE_PATH_LOGOS); newC1Logo = await uploadFile(c1File, STORAGE_PATH_LOGOS); } if (c2File) { if (currentContributor2Logo.fileName && currentContributor2Logo.url !== DEFAULT_CONTRIB2_LOGO_URL) await deleteFile(currentContributor2Logo.fileName, STORAGE_PATH_LOGOS); newC2Logo = await uploadFile(c2File, STORAGE_PATH_LOGOS); } await setDoc(doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID), { contributor1LogoUrl: newC1Logo.url, contributor1LogoFileName: newC1Logo.fileName, contributor2LogoUrl: newC2Logo.url, contributor2LogoFileName: newC2Logo.fileName }, { merge: true }); showMessageModal("successMessage", "contributorLogosUpdated", "success"); currentContributor1Logo = newC1Logo; currentContributor2Logo = newC2Logo; updateSiteLogosUI(); document.getElementById('contributor1LogoUpload').value = ''; document.getElementById('contributor2LogoUpload').value = ''; } catch (error) { console.error("Error updating contributor logos:", error); showMessageModal("errorMessage", "errorUpdatingContributorLogos" + error.message, "error"); } finally { hideLoadingSpinner(); }});
-            document.getElementById('publicationSearch').addEventListener('input', () => { if(typeof listenForPublicPublications === "function") listenForPublicPublications(); });
-            document.getElementById('sortPublications').addEventListener('change', () => { if(typeof listenForPublicPublications === "function") listenForPublicPublications(); });
-            closeMessageModalElement.addEventListener('click', () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); });
-            messageModalElement.addEventListener('click', (e) => { if (e.target === messageModalElement) { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); }});
-            closePublicationDetailsModal.addEventListener('click', () => {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');});
-            publicationDetailsModal.addEventListener('click', (e) => { if (e.target === publicationDetailsModal) {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');}});
+            if (typeof translations === 'undefined' || !translations.en || !translations.it) {
+                console.error("CRITICAL: Full translations object not found or incomplete. Text will not display correctly. Ensure it's pasted above.");
+                // Provide minimal fallback if translations are missing, to prevent some errors during init
+                window.translations = { en: { noPublicationsToManage: "No publications", noNewsToManage: "No news"}, it: { noPublicationsToManage: "Nessuna pubblicazione", noNewsToManage: "Nessuna notizia" } };
+            }
 
-            if (typeof translations === 'undefined' || !translations.en || !translations.it) { console.error("CRITICAL: Full translations object not found or incomplete."); window.translations = { en: { noPublicationsToManage: "No publications", noNewsToManage: "No news"}, it: { noPublicationsToManage: "Nessuna pubblicazione", noNewsToManage: "Nessuna notizia" } };  }
-            applyTranslations(currentLanguage);
-            initializeFirebase();
+            applyTranslations(currentLanguage); // Apply initial language
+            initializeFirebase(); // Initialize Firebase and set up auth listener
             document.getElementById('currentYear').textContent = new Date().getFullYear();
-            showView('aboutUs'); 
         };
     </script>
 </body>
