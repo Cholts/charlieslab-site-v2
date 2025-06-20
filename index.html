@@ -5,299 +5,57 @@ html
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-lang-key="pageTitle">Quaderni di Archeologia della Libya - Publications</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: EB Garamond for global text and headings -->
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Global Font and Base Colors - Refined Cooler Greys */
-        body {
-            font-family: 'EB Garamond', serif; /* Apply Garamond globally */
-            background-color: #e8e9eb; /* Very light cool grey */
-            color: #3f4245; /* Dark charcoal-blue for body text */
-            line-height: 1.6;
-        }
-
-        /* Headings Font - Consistent Garamond */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'EB Garamond', serif;
-            color: #2c2f33; /* Even darker blue-grey for headings */
-            font-weight: 700;
-        }
-
-        /* Container for main content */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Header Specific Styles */
-        .header-bg {
-            background-color: #d8dbdf; /* Lighter cool grey for header */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Subtle shadow */
-            border-bottom: 1px solid #c0c4c9; /* A finer line */
-        }
-        .header-logo {
-            max-height: 120px; /* Increased logo size */
-            width: auto;
-            filter: none; /* No filter needed for lighter background */
-        }
-        .nav-button {
-            background-color: #5f6b7a; /* Muted blue-grey for buttons */
-            color: #ffffff; /* White text */
-            font-family: 'EB Garamond', serif;
-            padding: 0.75rem 1.25rem;
-            border-radius: 6px;
-            transition: all 0.2s ease-in-out;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: 600;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            white-space: nowrap;
-            border: 1px solid #505c68; /* Distinct border */
-        }
-        .nav-button:hover {
-            background-color: #72808f; /* Slightly lighter on hover */
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-
-        /* Translation Buttons */
-        .lang-button {
-            background-color: #8c98a7; /* Even lighter blue-grey for lang buttons */
-            color: #ffffff;
-            font-family: 'EB Garamond', serif;
-            padding: 0.5rem 0.8rem;
-            border-radius: 4px;
-            transition: all 0.2s ease-in-out;
-            font-weight: 600;
-            border: 1px solid #7a8694;
-        }
-        .lang-button:hover {
-            background-color: #a0aab8;
-            transform: translateY(-1px);
-        }
-        .lang-button.active {
-            background-color: #3b76a7; /* Active blue */
-            border-color: #2e5a80;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-        }
-
-        /* Search Bar Styling */
-        .header-search-container {
-            background-color: #e0e2e5; /* Lighter cool grey for search area */
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: inset 0 1px 4px rgba(0,0,0,0.03);
-            border: 1px solid #c0c4c9;
-        }
-        .search-input, .search-select {
-            border: 1px solid #a0a8b3; /* Medium cool grey border */
-            border-radius: 4px;
-            padding: 0.6rem 1rem;
-            font-family: 'EB Garamond', serif;
-            color: #3f4245; /* Dark text */
-            background-color: #f0f2f5; /* Off-white for inputs */
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-        }
-        .search-input::placeholder, .search-select option {
-            color: #7f8a94; /* Placeholder text color */
-        }
-        .search-input:focus, .search-select:focus {
-            border-color: #5f6b7a; /* Muted blue-grey on focus */
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(95, 107, 122, 0.2); /* Light blue-grey focus ring */
-        }
-        .search-select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292%22%20height%3D%22292%22%20viewBox%3D%220%200%20292%20292%22%3E%3Cpath%20fill%3D%22%237f8a94%22%20d%3D%22M287%2069.4L146.7%20209.6%206.4%2069.4c-4.2-4.1-11-4.1-15.2%200-4.2%204.1-4.2%2010.8%200%2014.9l145%20146.5c4%204%2010.4%204%2014.4%200l145-146.5c4.2-4.1%204.2-10.8%200-14.9-4.2-4.1-11-4.1-15.2%200z%22%2F%3E%3C%2Fsvg%3E');
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 0.8em;
-            padding-right: 2.5rem;
-        }
-
-        /* General Section Styling */
-        .section-content {
-            background-color: #f0f2f5; /* Off-white, slightly darker light grey for main content sections */
-            border-radius: 12px;
-            padding: 2.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 2.5rem;
-            animation: fadeIn 0.8s ease-out;
-            border: 1px solid #d0d5dc; /* Subtle cool grey border */
-        }
-
-        /* Publication Cards */
-        .publication-card {
-            background-color: #f8f9fa; /* Even lighter for cards */
-            border: 1px solid #e0e5ea; /* Very light cool grey border */
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            cursor: pointer;
-        }
-        .publication-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-        }
-        .cover-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-bottom: 1px solid #e0e5ea;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.6); /* Standard overlay */
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        .modal.flex {
-            display: flex;
-        }
-        .modal-content {
-            background-color: #e8e9eb; /* Modal content matches body background for harmony */
-            margin: auto;
-            padding: 2.5rem;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            width: 90%;
-            max-width: 700px;
-            text-align: center;
-            position: relative;
-            border: 1px solid #a0a8b3;
-        }
-        .modal-close-button {
-            position: absolute;
-            top: 15px;
-            right: 25px;
-            color: #7f8a94;
-            font-size: 32px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .modal-close-button:hover {
-            color: #2c2f33;
-        }
-        .modal-buttons button {
-            background-color: #5f6b7a;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            transition: background-color 0.2s ease;
-            font-family: 'EB Garamond', serif;
-            font-weight: 600;
-        }
-        .modal-buttons button:hover {
-            background-color: #72808f;
-        }
-
-        /* Admin Specific Styles */
-        .admin-bg {
-            background-color: #c0c4c9; /* Slightly darker cool grey for admin area */
-            color: #2c2f33; /* Dark text for admin */
-        }
-        .admin-section {
-            background-color: #d8dbdf; /* Lighter cool grey for admin sections */
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            color: #3f4245; /* Dark text inside admin sections */
-        }
-        .admin-section h3 {
-            color: #2c2f33; /* Ensure headings are dark */
-        }
-        .admin-input {
-            border: 1px solid #a0a8b3;
-            border-radius: 4px;
-            padding: 0.5rem 1rem;
-            font-family: 'EB Garamond', serif;
-            color: #3f4245;
-            background-color: #f0f2f5;
-        }
-        .admin-input::placeholder {
-            color: #7f8a94;
-        }
-        .admin-input:focus {
-            border-color: #5f6b7a;
-            box-shadow: 0 0 0 2px rgba(95, 107, 122, 0.2);
-        }
-        .admin-button {
-            background-color: #5f6b7a;
-            color: #ffffff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            transition: background-color 0.2s ease;
-            font-family: 'EB Garamond', serif;
-            font-weight: 600;
-        }
-        .admin-button:hover {
-            background-color: #72808f;
-        }
-        .admin-button.bg-red-600 { background-color: #dc2626; border-color: #b91c1c;}
-        .admin-button.bg-red-600:hover { background-color: #b91c1c; }
-        .admin-button.bg-green-600 { background-color: #16a34a; border-color: #15803d; }
-        .admin-button.bg-green-600:hover { background-color: #15803d; }
-        .admin-button.bg-blue-600 { background-color: #2563eb; border-color: #1d4ed8; }
-        .admin-button.bg-blue-600:hover { background-color: #1d4ed8; }
-
-        /* Footer Styles */
-        .footer-bg {
-            background-color: #a0a8b3;
-            color: #2c2f33;
-            padding: 2rem;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
-            border-top: 1px solid #b0b8c3;
-        }
-        .footer-logo {
-            max-height: 80px;
-            width: auto;
-            filter: none;
-        }
-        .footer-link {
-            color: #3b76a7;
-        }
-        .footer-link:hover {
-            color: #2e5a80;
-            text-decoration: underline;
-        }
-
-        .modal-download-group {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.5rem;
-        }
-        .modal-download-group a, .modal-download-group button {
-            background-color: #3b76a7; color: white; padding: 0.6rem 1.2rem; border-radius: 5px; font-size: 0.9rem;
-            transition: background-color 0.2s ease; font-family: 'EB Garamond', serif; font-weight: 600;
-            text-decoration: none; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border: 1px solid #2e5a80;
-        }
+        body { font-family: 'EB Garamond', serif; background-color: #e8e9eb; color: #3f4245; line-height: 1.6; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'EB Garamond', serif; color: #2c2f33; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .header-bg { background-color: #d8dbdf; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-bottom: 1px solid #c0c4c9; }
+        .header-logo { max-height: 120px; width: auto; filter: none; }
+        .nav-button { background-color: #5f6b7a; color: #ffffff; font-family: 'EB Garamond', serif; padding: 0.75rem 1.25rem; border-radius: 6px; transition: all 0.2s ease-in-out; text-decoration: none; display: inline-block; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1); white-space: nowrap; border: 1px solid #505c68; }
+        .nav-button:hover { background-color: #72808f; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .lang-button { background-color: #8c98a7; color: #ffffff; font-family: 'EB Garamond', serif; padding: 0.5rem 0.8rem; border-radius: 4px; transition: all 0.2s ease-in-out; font-weight: 600; border: 1px solid #7a8694; }
+        .lang-button:hover { background-color: #a0aab8; transform: translateY(-1px); }
+        .lang-button.active { background-color: #3b76a7; border-color: #2e5a80; box-shadow: inset 0 1px 3px rgba(0,0,0,0.2); }
+        .header-search-container { background-color: #e0e2e5; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: inset 0 1px 4px rgba(0,0,0,0.03); border: 1px solid #c0c4c9; }
+        .search-input, .search-select { border: 1px solid #a0a8b3; border-radius: 4px; padding: 0.6rem 1rem; font-family: 'EB Garamond', serif; color: #3f4245; background-color: #f0f2f5; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); }
+        .search-input::placeholder, .search-select option { color: #7f8a94; }
+        .search-input:focus, .search-select:focus { border-color: #5f6b7a; outline: none; box-shadow: 0 0 0 2px rgba(95, 107, 122, 0.2); }
+        .search-select { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292%22%20height%3D%22292%22%20viewBox%3D%220%200%20292%20292%22%3E%3Cpath%20fill%3D%22%237f8a94%22%20d%3D%22M287%2069.4L146.7%20209.6%206.4%2069.4c-4.2-4.1-11-4.1-15.2%200-4.2%204.1-4.2%2010.8%200%2014.9l145%20146.5c4%204%2010.4%204%2014.4%200l145-146.5c4.2-4.1%204.2-10.8%200-14.9-4.2-4.1-11-4.1-15.2%200z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 0.8em; padding-right: 2.5rem; }
+        .section-content { background-color: #f0f2f5; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 2.5rem; animation: fadeIn 0.8s ease-out; border: 1px solid #d0d5dc; }
+        .publication-card { background-color: #f8f9fa; border: 1px solid #e0e5ea; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
+        .publication-card:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        .cover-image { width: 100%; height: 250px; object-fit: cover; border-bottom: 1px solid #e0e5ea; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 1rem; }
+        .modal.flex { display: flex; }
+        .modal-content { background-color: #e8e9eb; margin: auto; padding: 2.5rem; border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); width: 90%; max-width: 700px; text-align: center; position: relative; border: 1px solid #a0a8b3; }
+        .modal-close-button { position: absolute; top: 15px; right: 25px; color: #7f8a94; font-size: 32px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
+        .modal-close-button:hover { color: #2c2f33; }
+        .modal-buttons button { background-color: #5f6b7a; color: white; padding: 0.8rem 1.5rem; border-radius: 6px; transition: background-color 0.2s ease; font-family: 'EB Garamond', serif; font-weight: 600; }
+        .modal-buttons button:hover { background-color: #72808f; }
+        .admin-bg { background-color: #c0c4c9; color: #2c2f33; }
+        .admin-section { background-color: #d8dbdf; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 2rem; color: #3f4245; }
+        .admin-section h3 { color: #2c2f33; }
+        .admin-input { border: 1px solid #a0a8b3; border-radius: 4px; padding: 0.5rem 1rem; font-family: 'EB Garamond', serif; color: #3f4245; background-color: #f0f2f5; }
+        .admin-input::placeholder { color: #7f8a94; }
+        .admin-input:focus { border-color: #5f6b7a; box-shadow: 0 0 0 2px rgba(95, 107, 122, 0.2); }
+        .admin-button { background-color: #5f6b7a; color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 6px; transition: background-color 0.2s ease; font-family: 'EB Garamond', serif; font-weight: 600; }
+        .admin-button:hover { background-color: #72808f; }
+        .admin-button.bg-red-600 { background-color: #dc2626; border-color: #b91c1c;} .admin-button.bg-red-600:hover { background-color: #b91c1c; }
+        .admin-button.bg-green-600 { background-color: #16a34a; border-color: #15803d; } .admin-button.bg-green-600:hover { background-color: #15803d; }
+        .admin-button.bg-blue-600 { background-color: #2563eb; border-color: #1d4ed8; } .admin-button.bg-blue-600:hover { background-color: #1d4ed8; }
+        .footer-bg { background-color: #a0a8b3; color: #2c2f33; padding: 2rem; box-shadow: 0 -2px 8px rgba(0,0,0,0.1); border-top: 1px solid #b0b8c3; }
+        .footer-logo { max-height: 80px; width: auto; filter: none; }
+        .footer-link { color: #3b76a7; } .footer-link:hover { color: #2e5a80; text-decoration: underline; }
+        .modal-download-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 1.5rem; }
+        .modal-download-group a, .modal-download-group button { background-color: #3b76a7; color: white; padding: 0.6rem 1.2rem; border-radius: 5px; font-size: 0.9rem; transition: background-color 0.2s ease; font-family: 'EB Garamond', serif; font-weight: 600; text-decoration: none; box-shadow: 0 1px 3px rgba(0,0,0,0.2); border: 1px solid #2e5a80; }
         .modal-download-group a:hover, .modal-download-group button:hover { background-color: #2e5a80; }
-        .modal-download-group a.disabled, .modal-download-group button.disabled {
-            background-color: #c0c4c9; color: #5f6b7a; cursor: not-allowed;
-            box-shadow: none; opacity: 0.7; border-color: #b0b8c3;
-        }
-
+        .modal-download-group a.disabled, .modal-download-group button.disabled { background-color: #c0c4c9; color: #5f6b7a; cursor: not-allowed; box-shadow: none; opacity: 0.7; border-color: #b0b8c3; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .section-separator { border-top: 1px solid #c0c4c9; margin: 3rem 0; }
-
-        .admin-table-header { background-color: #c0c4c9; }
-        .admin-table-row { background-color: #e0e2e5; color: #3f4245; }
+        .admin-table-header { background-color: #c0c4c9; } .admin-table-row { background-color: #e0e2e5; color: #3f4245; }
         .admin-table-row:nth-child(even) { background-color: #f0f2f5; }
         .admin-table-row td { border-bottom: 1px solid #d0d5dc; padding: 0.75rem 1.5rem; }
         .admin-table-row:hover { background-color: #d0d5dc; }
@@ -307,10 +65,12 @@ html
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
+    <!-- Loading Spinner -->
     <div id="loadingSpinner" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-[2000] hidden">
         <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-white"></div>
     </div>
 
+    <!-- Modals -->
     <div id="messageModal" class="modal">
         <div class="modal-content">
             <span class="modal-close-button" id="closeMessageModal">&times;</span>
@@ -458,7 +218,7 @@ html
                 <button class="admin-button" id="managePublicationsBtn" data-lang-key="managePublicationsBtn"></button><button class="admin-button" id="manageNewsBtn" data-lang-key="manageNewsBtn"></button>
                 <button class="admin-button" id="manageSiteSettingsBtn" data-lang-key="manageSiteSettingsBtn"></button><button class="admin-button bg-red-600" id="adminLogoutBtn" data-lang-key="logoutButton"></button>
             </nav>
-            <div id="adminManagePublications" class="admin-section"> <!-- Default visible admin section -->
+            <div id="adminManagePublications" class="admin-section">
                 <h3 id="adminFormTitle" class="text-2xl font-bold mb-4" data-lang-key="addPublicationTitle"></h3>
                 <form id="addPublicationForm" class="space-y-4">
                     <div><label for="bookTitle" class="block text-sm font-semibold" data-lang-key="titleLabel"></label><input type="text" id="bookTitle" class="admin-input w-full"></div>
@@ -536,7 +296,7 @@ html
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         const hardcodedFirebaseConfig = {
-            apiKey: "AIzaSyDrOjIfbI2ttZF_Dp8JSRNpl_eL8XU4JGk", // API Key from original code
+            apiKey: "AIzaSyDrOjIfbI2ttZF_Dp8JSRNpl_eL8XU4JGk",
             authDomain: "quadernilibyawebsite.firebaseapp.com",
             projectId: "quadernilibyawebsite",
             storageBucket: "quadernilibyawebsite.firebasestorage.app",
@@ -580,7 +340,6 @@ html
         let currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
 
         let currentLanguage = localStorage.getItem('siteLanguage') || 'en';
-        // Full Translations Object (from your original file)
         const translations = {
             en: {
                 pageTitle: "QAL - Publications", navAboutUs: "About Us", navEditorialBoard: "Editorial Board",
@@ -793,11 +552,17 @@ html
                 noTitle: "Nessun Titolo", noAuthors: "Nessun Autore", noYear: "Nessun Anno"
             }
         };
-        // END OF TRANSLATIONS OBJECT
+        // End of Full Translations Object
 
-        // --- Start of JavaScript functions (merged and adapted) ---
+        // --- Start of JavaScript functions ---
+        // (All functions from previous complete script, with paths verified for SITE_CONFIGURATION_DOC_ID and ADMIN_USERS_DOC_PATH)
+
+        // Initialize views object in window.onload
+        const views = {};
+
         function applyTranslations(lang) {
-            const elements = document.querySelectorAll('[data-lang-key]');
+            // ... (Implementation from previous script)
+             const elements = document.querySelectorAll('[data-lang-key]');
             elements.forEach(element => {
                 const key = element.dataset.langKey;
                 if (translations[lang] && translations[lang][key]) {
@@ -808,7 +573,7 @@ html
                     } else {
                         element.innerHTML = translations[lang][key]; 
                     }
-                } else if (translations[lang]) { // Fallback for missing keys, but log it
+                } else if (translations[lang]) {
                     // console.warn(`Translation key "${key}" not found for language "${lang}".`);
                 }
             });
@@ -820,13 +585,13 @@ html
             if (auth && auth.currentUser && views.adminDashboard && !views.adminDashboard.classList.contains('hidden')) {
                  listenForAdminPublications(); listenForAdminNews();
             }
-            // These checks help re-render empty states if language changes before data loads
             if (views.publicationsList && (views.publicationsList.textContent.includes(translations.en.loadingPublications) || views.publicationsList.textContent.includes(translations.it.loadingPublications))) listenForPublicPublications();
             if (views.newsFeed && (views.newsFeed.textContent.includes(translations.en.noNewsUpdates) || views.newsFeed.textContent.includes(translations.it.noNewsUpdates))) listenForNews();
         }
 
         async function initializeFirebase() {
-            try {
+            // ... (Implementation from previous script)
+             try {
                 app = initializeApp(firebaseConfig);             
                 db = getFirestore(app);             
                 auth = getAuth(app);               
@@ -834,17 +599,18 @@ html
                 onAuthStateChanged(auth, (user) => {
                     console.log("Auth state changed. User:", user ? user.uid : 'null');
                     document.getElementById('loggedInUserEmail').textContent = user ? (user.email || 'Admin') : '';
-                    updateAuthUI(user); // This will internally handle client-side admin check
-                    setupListeners(user); // Setup general listeners, admin listeners will be conditional inside
+                    updateAuthUI(user); 
+                    setupListeners(user);
                 });
             } catch (error) { console.error("Firebase init error:", error); showMessageModal("errorMessage", "firebaseInitError", "error"); }
         }
 
         let currentView = 'aboutUs';
-        const views = { /* Initialized in window.onload */ };
+        // views object is populated in window.onload
 
         function showView(viewId) {
-            Object.values(views).forEach(view => view && view.classList.add('hidden')); // Added null check for view
+            // ... (Implementation from previous script)
+            Object.values(views).forEach(view => view && view.classList.add('hidden'));
             const targetView = views[viewId];
             if (targetView) {
                 targetView.classList.remove('hidden');
@@ -854,30 +620,33 @@ html
                     document.getElementById('adminManagePublications').classList.remove('hidden');
                     document.getElementById('adminManageNews').classList.add('hidden');
                     document.getElementById('adminManageSiteSettings').classList.add('hidden');
-                    resetAddPublicationForm(); // Reset form when navigating to pubs management
+                    if (typeof resetAddPublicationForm === "function") resetAddPublicationForm();
                 }
             } else {
                 console.warn("View not found:", viewId);
-                if (typeof showMessageModal === "function" && translations[currentLanguage]) { // Check if defined
+                if (typeof showMessageModal === "function" && translations[currentLanguage]) { 
                    showMessageModal("errorMessage", "viewNotFound", "error");
                 }
             }
         }
         
+        // All event listeners for navigation
+        // ... (Implementation from previous script)
         document.querySelectorAll('.view-button').forEach(button => {button.addEventListener('click', (e) => showView(e.target.dataset.view));});
         document.querySelectorAll('.lang-button').forEach(button => {button.addEventListener('click', (e) => applyTranslations(e.target.dataset.lang));});
         document.getElementById('adminLoginBtnFooter').addEventListener('click', () => showView('adminLogin'));
         document.getElementById('adminLogoutBtn').addEventListener('click', async () => { try { await signOut(auth); showMessageModal("successMessage", "logoutSuccessful", "success"); } catch (error) { console.error("Error logging out:", error); showMessageModal("errorMessage", "logoutFailed" + error.message, "error"); }});
-        document.getElementById('managePublicationsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.remove('hidden'); document.getElementById('adminManageNews').classList.add('hidden'); document.getElementById('adminManageSiteSettings').classList.add('hidden'); resetAddPublicationForm(); if(auth && auth.currentUser) listenForAdminPublications(); });
-        document.getElementById('manageNewsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.add('hidden'); document.getElementById('adminManageNews').classList.remove('hidden'); document.getElementById('adminManageSiteSettings').classList.add('hidden'); resetAddNewsItemForm(); if(auth && auth.currentUser) listenForAdminNews(); });
-        document.getElementById('manageSiteSettingsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.add('hidden'); document.getElementById('adminManageNews').classList.add('hidden'); document.getElementById('adminManageSiteSettings').classList.remove('hidden'); loadSiteLogosForAdmin(); });
+        document.getElementById('managePublicationsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.remove('hidden'); document.getElementById('adminManageNews').classList.add('hidden'); document.getElementById('adminManageSiteSettings').classList.add('hidden'); if(typeof resetAddPublicationForm === "function") resetAddPublicationForm(); if(auth && auth.currentUser && typeof listenForAdminPublications === "function") listenForAdminPublications(); });
+        document.getElementById('manageNewsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.add('hidden'); document.getElementById('adminManageNews').classList.remove('hidden'); document.getElementById('adminManageSiteSettings').classList.add('hidden'); if(typeof resetAddNewsItemForm === "function") resetAddNewsItemForm(); if(auth && auth.currentUser && typeof listenForAdminNews === "function") listenForAdminNews(); });
+        document.getElementById('manageSiteSettingsBtn').addEventListener('click', () => { document.getElementById('adminManagePublications').classList.add('hidden'); document.getElementById('adminManageNews').classList.add('hidden'); document.getElementById('adminManageSiteSettings').classList.remove('hidden'); if(typeof loadSiteLogosForAdmin === "function") loadSiteLogosForAdmin(); });
         
         function updateAuthUI(user) {
+            // ... (Implementation from previous script, uses ADMIN_USERS_DOC_PATH)
             const isAdminViewActive = currentView === 'adminDashboard' || currentView === 'adminLogin';
-            let isClientSideAdmin = false; // Assume not admin until verified
+            let isClientSideAdmin = false; 
 
             if (user) {
-                const adminUserDocRef = doc(db, ADMIN_USERS_DOC_PATH);
+                const adminUserDocRef = doc(db, ADMIN_USERS_DOC_PATH); 
                 console.log("updateAuthUI: Checking admin status at path:", ADMIN_USERS_DOC_PATH);
                 getDoc(adminUserDocRef).then(docSnap => {
                     if (docSnap.exists() && docSnap.data().uids && docSnap.data().uids[user.uid] === true) {
@@ -889,7 +658,7 @@ html
                     finishAuthUIUpdate(user, isClientSideAdmin, isAdminViewActive);
                 }).catch(err => {
                     console.warn("updateAuthUI: Could not verify client-side admin status for UI due to Firestore read error:", err.message, "Path attempted:", ADMIN_USERS_DOC_PATH);
-                    finishAuthUIUpdate(user, false, isAdminViewActive); // Proceed as non-admin for UI
+                    finishAuthUIUpdate(user, false, isAdminViewActive); 
                 });
             } else {
                 console.log("updateAuthUI: No user logged in.");
@@ -898,17 +667,18 @@ html
         }
 
         function finishAuthUIUpdate(user, isClientSideAdmin, isAdminViewActiveCurrently) {
+            // ... (Implementation from previous script)
             console.log(`finishAuthUIUpdate: User: ${user ? user.uid : 'null'}, isClientAdmin: ${isClientSideAdmin}, isAdminViewActive: ${isAdminViewActiveCurrently}, currentView: ${currentView}`);
             document.getElementById('adminLoginBtnFooter').classList.toggle('hidden', isClientSideAdmin);
             document.getElementById('adminLogoutBtn').classList.toggle('hidden', !isClientSideAdmin);
 
             if (isClientSideAdmin) {
-                if (currentView !== 'adminDashboard') { // If admin and not on dashboard, go there
+                if (currentView !== 'adminDashboard') { 
                     console.log("Redirecting admin to dashboard.");
                     showView('adminDashboard');
                 }
-            } else { // Not an admin (or no user)
-                if (isAdminViewActiveCurrently) { // If on an admin page, redirect to public home
+            } else { 
+                if (isAdminViewActiveCurrently) { 
                     console.log("User not admin or no user, redirecting from admin view to aboutUs.");
                     showView('aboutUs');
                 }
@@ -916,15 +686,14 @@ html
         }
 
         document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+            // ... (Implementation from previous script)
             e.preventDefault(); showLoadingSpinner();
             const email = document.getElementById('adminEmail').value; const password = document.getElementById('adminPassword').value; 
             const loginErrorMessage = document.getElementById('loginErrorMessage'); loginErrorMessage.textContent = '';
             try { 
                 console.log("Attempting admin login for:", email);
                 await signInWithEmailAndPassword(auth, email, password); 
-                // onAuthStateChanged will trigger updateAuthUI, which handles redirection
                 document.getElementById('adminEmail').value = ''; document.getElementById('adminPassword').value = '';
-                // No explicit showMessageModal for success here, redirection is the success indicator.
             } catch (error) { 
                 console.error("Admin login error:", error.code, error.message); 
                 loginErrorMessage.textContent = (translations[currentLanguage] && translations[currentLanguage].invalidCredentials) ? translations[currentLanguage].invalidCredentials : "Invalid credentials.";
@@ -932,11 +701,16 @@ html
         });
 
         function setupListeners(user) {
-            if (!db) { console.error("Firestore not initialized for setupListeners."); return; }
-            listenForPublicPublications(); listenForCurrentIssue(); listenForNews(); listenForSiteLogos();
-            if (user) { // Only set up admin listeners if a user is logged in. Rules will enforce actual admin rights.
+            // ... (Implementation from previous script)
+             if (!db) { console.error("Firestore not initialized for setupListeners."); return; }
+            if(typeof listenForPublicPublications === "function") listenForPublicPublications(); 
+            if(typeof listenForCurrentIssue === "function") listenForCurrentIssue(); 
+            if(typeof listenForNews === "function") listenForNews(); 
+            if(typeof listenForSiteLogos === "function") listenForSiteLogos();
+            if (user) { 
                 console.log("User logged in, setting up admin listeners.");
-                listenForAdminPublications(); listenForAdminNews();
+                if(typeof listenForAdminPublications === "function") listenForAdminPublications(); 
+                if(typeof listenForAdminNews === "function") listenForAdminNews();
             } else {
                 console.log("No user, clearing admin tables.");
                 const noPubsMsg = (translations[currentLanguage] && translations[currentLanguage].noPublicationsToManage) || 'No publications to manage.';
@@ -947,6 +721,7 @@ html
         }
         
         function getOriginalFileNameFromUnique(uniqueFileName) {
+            // ... (Implementation from previous script)
             if (!uniqueFileName) return '';
             const parts = uniqueFileName.split('_');
             if (parts.length > 1 && !isNaN(Number(parts[0]))) {
@@ -956,6 +731,7 @@ html
         }
 
         async function uploadFile(file, path) {
+            // ... (Implementation from previous script)
             if (!file) return { url: '', fileName: '' };
             const uniqueFileName = `${Date.now()}_${file.name}`;
             const storageRef = ref(storage, `${path}/${uniqueFileName}`);
@@ -972,6 +748,7 @@ html
         }
 
         async function deleteFile(uniqueFileName, path) {
+            // ... (Implementation from previous script)
             if (!uniqueFileName || !path) { console.warn("deleteFile: Missing filename or path."); return; }
             try {
                 const fileRef = ref(storage, `${path}/${uniqueFileName}`);
@@ -989,8 +766,9 @@ html
         }
         
         function listenForSiteLogos() {
-            const docRef = doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID);
+            const docRef = doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID); // CORRECT PATH
             onSnapshot(docRef, (docSnap) => {
+                // ... (Rest of implementation from previous script)
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     currentHeaderLogo.url = data.headerLogoUrl || DEFAULT_HEADER_LOGO_URL;
@@ -1012,13 +790,12 @@ html
             }, (error) => {
                 console.error("Error listening for site logos:", error);
                 showMessageModal("errorMessage", "couldNotLoadLogos", "error");
-                // Fallback to defaults on error
                 currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' }; currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' }; currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
                 updateSiteLogosUI();
             });
         }
-
         function updateSiteLogosUI() {
+            // ... (Implementation from previous script)
             document.getElementById('mainHeaderLogo').src = currentHeaderLogo.url;
             document.getElementById('mainFooterLogo').src = currentFooterLogo.url;
             document.getElementById('contributor1Logo').src = currentContributor1Logo.url;
@@ -1034,16 +811,15 @@ html
                 const { imgId, textId, current, defaultUrl, noMsgKey } = adminPreviews[key];
                 const imgEl = document.getElementById(imgId); const textEl = document.getElementById(textId);
                 if (imgEl && textEl) {
-                    imgEl.src = current.url || defaultUrl; // Show default if current.url is empty
-                    imgEl.style.display = (current.url && current.fileName) ? 'block' : 'none'; // Only show if custom exists
+                    imgEl.src = current.url || defaultUrl; 
+                    imgEl.style.display = (current.url && current.fileName) ? 'block' : 'none'; 
                     textEl.textContent = current.fileName ? `${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(current.fileName)}` : translations[currentLanguage][noMsgKey];
                 }
             }
         }
-
         function loadSiteLogosForAdmin() { updateSiteLogosUI(); }
-
         function handleLogoFileInput(inputElement, previewImgElement, fileNameDisplayElement, currentLogoState, defaultUrl, noMsgKey) {
+            // ... (Implementation from previous script)
             const file = inputElement.files[0];
             if (file) {
                 fileNameDisplayElement.textContent = `${translations[currentLanguage].selectedLabel}: ${file.name}`;
@@ -1059,6 +835,7 @@ html
         document.getElementById('contributor2LogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('contributor2LogoPreview'), document.getElementById('contributor2FileNameDisplayAdmin'), currentContributor2Logo, DEFAULT_CONTRIB2_LOGO_URL, 'noMEDALogo'));
 
         document.getElementById('logoUploadForm').addEventListener('submit', async (e) => {
+            // ... (Full implementation from previous script, using doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID))
             e.preventDefault(); showLoadingSpinner();
             if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error"); hideLoadingSpinner(); return; }
             const headerFile = document.getElementById('headerLogoUpload').files[0]; const footerFile = document.getElementById('footerLogoUpload').files[0];
@@ -1073,6 +850,7 @@ html
             } catch (error) { console.error("Error updating site logos:", error); showMessageModal("errorMessage", "errorUpdatingLogos" + error.message, "error"); } finally { hideLoadingSpinner(); }
         });
         document.getElementById('contributorLogoUploadForm').addEventListener('submit', async (e) => {
+            // ... (Full implementation from previous script, using doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID))
             e.preventDefault(); showLoadingSpinner();
             if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error"); hideLoadingSpinner(); return; }
             const c1File = document.getElementById('contributor1LogoUpload').files[0]; const c2File = document.getElementById('contributor2LogoUpload').files[0];
@@ -1088,6 +866,7 @@ html
         });
 
         function listenForPublicPublications() {
+            // ... (Implementation from previous script, uses PUBLIC_PUB_COLLECTION_NAME)
             const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME);
             const q = query(pubCollRef, orderBy("year", "desc"));
             onSnapshot(q, (snapshot) => {
@@ -1096,7 +875,8 @@ html
             }, (error) => { console.error("Error listening to public publications:", error); const errorMsg = `<p class="col-span-full text-center text-red-500">${(translations[currentLanguage] && translations[currentLanguage].errorLoadingPublications) || 'Error loading publications.'}</p>`; document.getElementById('publicationsList').innerHTML = errorMsg; document.getElementById('archivalPublicationsList').innerHTML = errorMsg; });
         }
         function listenForCurrentIssue() {
-            const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME);
+            // ... (Implementation from previous script, uses PUBLIC_PUB_COLLECTION_NAME)
+             const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME);
             const q = query(pubCollRef, where("isCurrentIssue", "==", true));
             onSnapshot(q, (snapshot) => {
                 const card = document.getElementById('currentIssuePublicationCard'); const noIssueMsg = document.getElementById('currentIssueContent').querySelector('p[data-lang-key="noCurrentIssue"]');
@@ -1113,6 +893,7 @@ html
             }, (error) => { console.error("Error listening to current issue:", error); showMessageModal("errorMessage", "errorLoadingCurrentIssue", "error");});
         }
         function listenForNews() {
+            // ... (Implementation from previous script, uses PUBLIC_NEWS_COLLECTION_NAME)
             const newsCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME);
             const q = query(newsCollRef, orderBy("timestamp", "desc"));
             onSnapshot(q, (snapshot) => {
@@ -1125,6 +906,7 @@ html
             }, (error) => { console.error("Error listening to news:", error); document.getElementById('newsFeed').innerHTML = `<p class="col-span-full text-center text-red-500">${translations[currentLanguage]?.errorLoadingNews || 'Error loading news.'}</p>`;});
         }
         function displayPublications(publications) {
+            // ... (Implementation from previous script, uses PUBLIC_PUB_COLLECTION_NAME for details modal)
             const listDiv = document.getElementById('publicationsList'); const archivalDiv = document.getElementById('archivalPublicationsList');
             listDiv.innerHTML = ''; archivalDiv.innerHTML = '';
             const noPubsMsg = `<p class="col-span-full text-center text-gray-400" data-lang-key="noPubsFound">${translations[currentLanguage]?.noPubsFound || 'No publications found.'}</p>`;
@@ -1140,10 +922,11 @@ html
             });
             document.querySelectorAll('.view-publication-details').forEach(btn => btn.addEventListener('click', async (e) => { const bookId = e.target.dataset.id; const docRef = doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME, bookId); const docSnap = await getDoc(docRef); if (docSnap.exists()) showPublicationDetailsModal(docSnap.data()); else showMessageModal("errorMessage", "pubDetailsNotFound", "error"); }));
         }
-        document.getElementById('publicationSearch').addEventListener('input', () => listenForPublicPublications());
-        document.getElementById('sortPublications').addEventListener('change', () => listenForPublicPublications());
+        document.getElementById('publicationSearch').addEventListener('input', () => { if(typeof listenForPublicPublications === "function") listenForPublicPublications(); });
+        document.getElementById('sortPublications').addEventListener('change', () => { if(typeof listenForPublicPublications === "function") listenForPublicPublications(); });
         
         function listenForAdminPublications() {
+            // ... (Implementation from previous script, uses PUBLIC_PUB_COLLECTION_NAME)
             const pubCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME); const q = query(pubCollRef, orderBy("timestamp", "desc"));
             onSnapshot(q, (snapshot) => {
                 const listBody = document.getElementById('adminPublicationsList'); listBody.innerHTML = '';
@@ -1157,60 +940,19 @@ html
             }, (error) => { console.error("Error admin publications:", error); document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 text-red-500">${translations[currentLanguage]?.errorLoadingAdminPublications||'Error loading.'}</td></tr>`;});
         }
 
-        const bookTitleInput = document.getElementById('bookTitle'), bookAuthorsInput = document.getElementById('bookAuthors'), bookYearInput = document.getElementById('bookYear'), bookDescriptionInput = document.getElementById('bookDescription'), bookISBNInput = document.getElementById('bookISBN'), bookISSNInput = document.getElementById('bookISSN'), abstractArTextInput = document.getElementById('abstractArText'), abstractEnTextInput = document.getElementById('abstractEnText'), abstractItTextInput = document.getElementById('abstractItText'), bookIsCurrentIssueCheckbox = document.getElementById('bookIsCurrentIssue'), bookCoverInput = document.getElementById('bookCover'), bookPdfInput = document.getElementById('bookPdf'), abstractArPdfInput = document.getElementById('abstractArPdf'), abstractEnPdfInput = document.getElementById('abstractEnPdf'), abstractItPdfInput = document.getElementById('abstractItPdf'), adminFormTitle = document.getElementById('adminFormTitle'), submitPublicationBtn = document.getElementById('submitPublicationBtn'), cancelEditPublicationBtn = document.getElementById('cancelEditPublicationBtn'), uploadedCoverPreviewAdmin = document.getElementById('uploadedCoverPreviewAdmin'), coverImageFileNameDisplayAdmin = document.getElementById('coverImageFileNameDisplayAdmin'), pdfFileNameDisplayAdmin = document.getElementById('pdfFileNameDisplayAdmin'), abstractArPdfFileNameDisplayAdmin = document.getElementById('abstractArPdfFileNameDisplayAdmin'), abstractEnPdfFileNameDisplayAdmin = document.getElementById('abstractEnPdfFileNameDisplayAdmin'), abstractItPdfFileNameDisplayAdmin = document.getElementById('abstractItPdfFileNameDisplayAdmin');
+        const adminPubFormElements = { bookTitleInput, bookAuthorsInput, bookYearInput, bookDescriptionInput, bookISBNInput, bookISSNInput, abstractArTextInput, abstractEnTextInput, abstractItTextInput, bookIsCurrentIssueCheckbox, bookCoverInput, bookPdfInput, abstractArPdfInput, abstractEnPdfInput, abstractItPdfInput, adminFormTitle, submitPublicationBtn, cancelEditPublicationBtn, uploadedCoverPreviewAdmin, coverImageFileNameDisplayAdmin, pdfFileNameDisplayAdmin, abstractArPdfFileNameDisplayAdmin, abstractEnPdfFileNameDisplayAdmin, abstractItPdfFileNameDisplayAdmin };
         
-        document.getElementById('addPublicationForm').addEventListener('submit', async (e) => { /* ... (Full function as provided before, using new path constants) ... */ });
-        function resetAddPublicationForm() { /* ... (Full function as provided before) ... */ }
-        cancelEditPublicationBtn.addEventListener('click', resetAddPublicationForm);
-        async function editPublication(pubId) { /* ... (Full function as provided before, using new path constants) ... */ }
-        function confirmDeletePublication(pubId) { /* ... (Full function as provided before, using new path constants) ... */ }
-
-        const newsTitleInput = document.getElementById('newsTitle'), newsDescriptionInput = document.getElementById('newsDescription'), newsImageInput = document.getElementById('newsImage'), uploadedNewsImagePreviewAdmin = document.getElementById('uploadedNewsImagePreviewAdmin'), newsImageFileNameDisplayAdmin = document.getElementById('newsImageFileNameDisplayAdmin'), submitNewsBtn = document.getElementById('submitNewsBtn'), cancelEditNewsBtn = document.getElementById('cancelEditNewsBtn');
-        function resetAddNewsItemForm() { /* ... (Full function as provided before) ... */ }
-        document.getElementById('addNewsItemForm').addEventListener('submit', async (e) => { /* ... (Full function as provided before, using new path constants) ... */ });
-        newsImageInput.addEventListener('change', (e) => { /* ... (Full function as provided before) ... */ });
-        cancelEditNewsBtn.addEventListener('click', resetAddNewsItemForm);
-        async function editNewsItem(newsId){ /* ... (Full function as provided before, using new path constants) ... */ }
-        function confirmDeleteNewsItem(newsId){ /* ... (Full function as provided before, using new path constants) ... */ }
-        function listenForAdminNews() { /* ... (Full function as provided before, using new path constants) ... */ }
-        
-        const messageModalElement = document.getElementById('messageModal'); const messageTextElement = document.getElementById('messageText'); const modalButtonsElement = document.getElementById('modalButtons'); const closeMessageModalElement = document.getElementById('closeMessageModal');
-        closeMessageModalElement.addEventListener('click', () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); });
-        messageModalElement.addEventListener('click', (e) => { if (e.target === messageModalElement) { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); }});
-        function showMessageModal(titleKey, messageKey, type = "alert", callback = null) { /* ... (Full function as provided before) ... */ }
-        const publicationDetailsModal = document.getElementById('publicationDetailsModal'); const closePublicationDetailsModal = document.getElementById('closePublicationDetailsModal');
-        closePublicationDetailsModal.addEventListener('click', () => {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');});
-        publicationDetailsModal.addEventListener('click', (e) => { if (e.target === publicationDetailsModal) {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');}});
-        function showPublicationDetailsModal(book) { /* ... (Full function as provided before) ... */ }
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        function showLoadingSpinner() { loadingSpinner.classList.remove('hidden'); }
-        function hideLoadingSpinner() { loadingSpinner.classList.add('hidden'); }
-
-        // Paste the full implementations of the functions I marked with /* ... */ above
-        // from your original script or my previous "fully working HTML" response,
-        // ensuring all Firestore paths use the new constants:
-        // - PUBLIC_DATA_BASE_PATH
-        // - PUBLIC_PUB_COLLECTION_NAME
-        // - PUBLIC_NEWS_COLLECTION_NAME
-        // - SITE_CONFIGURATION_DOC_ID (for doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID))
-        // - ADMIN_USERS_DOC_PATH (for doc(db, ADMIN_USERS_DOC_PATH))
-
-        // Example: Re-pasting one of the more complex functions with correct paths
         document.getElementById('addPublicationForm').addEventListener('submit', async (e) => {
             e.preventDefault(); showLoadingSpinner();
             if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionAddEditPublications", "error"); hideLoadingSpinner(); return; }
-            const title = bookTitleInput.value.trim(), authors = bookAuthorsInput.value.trim(), year = bookYearInput.value ? parseInt(bookYearInput.value,10) : null, description = bookDescriptionInput.value.trim(), isbn = bookISBNInput.value.trim(), issn = bookISSNInput.value.trim(), abstractArText = abstractArTextInput.value.trim(), abstractEnText = abstractEnTextInput.value.trim(), abstractItText = abstractItTextInput.value.trim(), isCurrentIssue = bookIsCurrentIssueCheckbox.checked;
+            const title = adminPubFormElements.bookTitleInput.value.trim(), authors = adminPubFormElements.bookAuthorsInput.value.trim(), year = adminPubFormElements.bookYearInput.value ? parseInt(adminPubFormElements.bookYearInput.value,10) : null, description = adminPubFormElements.bookDescriptionInput.value.trim(), isbn = adminPubFormElements.bookISBNInput.value.trim(), issn = adminPubFormElements.bookISSNInput.value.trim(), abstractArText = adminPubFormElements.abstractArTextInput.value.trim(), abstractEnText = adminPubFormElements.abstractEnTextInput.value.trim(), abstractItText = adminPubFormElements.abstractItTextInput.value.trim(), isCurrentIssue = adminPubFormElements.bookIsCurrentIssueCheckbox.checked;
             try {
-                const uploadAndUpdate = async (input, currentFile, path) => {
-                    let newUrl = currentFile.url, newName = currentFile.fileName;
-                    if (input.files[0]) { if (currentFile.fileName) await deleteFile(currentFile.fileName, path); const res = await uploadFile(input.files[0], path); newUrl = res.url; newName = res.fileName;}
-                    return { url: newUrl, fileName: newName };
-                };
-                const coverRes = await uploadAndUpdate(bookCoverInput, {url: currentPubFiles.coverUrl, fileName: currentPubFiles.coverFileName}, STORAGE_PATH_COVERS);
-                const pdfRes = await uploadAndUpdate(bookPdfInput, {url: currentPubFiles.pdfUrl, fileName: currentPubFiles.pdfFileName}, STORAGE_PATH_PDFS);
-                const absArRes = await uploadAndUpdate(abstractArPdfInput, {url: currentPubFiles.abstracts.ar.url, fileName: currentPubFiles.abstracts.ar.fileName}, STORAGE_PATH_ABSTRACTS);
-                const absEnRes = await uploadAndUpdate(abstractEnPdfInput, {url: currentPubFiles.abstracts.en.url, fileName: currentPubFiles.abstracts.en.fileName}, STORAGE_PATH_ABSTRACTS);
-                const absItRes = await uploadAndUpdate(abstractItPdfInput, {url: currentPubFiles.abstracts.it.url, fileName: currentPubFiles.abstracts.it.fileName}, STORAGE_PATH_ABSTRACTS);
+                const uploadAndUpdate = async (input, currentFile, path) => { let newUrl = currentFile.url, newName = currentFile.fileName; if (input.files[0]) { if (currentFile.fileName) await deleteFile(currentFile.fileName, path); const res = await uploadFile(input.files[0], path); newUrl = res.url; newName = res.fileName;} return { url: newUrl, fileName: newName }; };
+                const coverRes = await uploadAndUpdate(adminPubFormElements.bookCoverInput, {url: currentPubFiles.coverUrl, fileName: currentPubFiles.coverFileName}, STORAGE_PATH_COVERS);
+                const pdfRes = await uploadAndUpdate(adminPubFormElements.bookPdfInput, {url: currentPubFiles.pdfUrl, fileName: currentPubFiles.pdfFileName}, STORAGE_PATH_PDFS);
+                const absArRes = await uploadAndUpdate(adminPubFormElements.abstractArPdfInput, {url: currentPubFiles.abstracts.ar.url, fileName: currentPubFiles.abstracts.ar.fileName}, STORAGE_PATH_ABSTRACTS);
+                const absEnRes = await uploadAndUpdate(adminPubFormElements.abstractEnPdfInput, {url: currentPubFiles.abstracts.en.url, fileName: currentPubFiles.abstracts.en.fileName}, STORAGE_PATH_ABSTRACTS);
+                const absItRes = await uploadAndUpdate(adminPubFormElements.abstractItPdfInput, {url: currentPubFiles.abstracts.it.url, fileName: currentPubFiles.abstracts.it.fileName}, STORAGE_PATH_ABSTRACTS);
                 const pubData = { title, authors, year, description, isbn, issn, abstracts: {ar:{text:abstractArText,url:absArRes.url,fileName:absArRes.fileName},en:{text:abstractEnText,url:absEnRes.url,fileName:absEnRes.fileName},it:{text:abstractItText,url:absItRes.url,fileName:absItRes.fileName}}, coverImageUrl:coverRes.url,coverImageFileName:coverRes.fileName,pdfUrl:pdfRes.url,pdfFileName:pdfRes.fileName, isCurrentIssue, timestamp:new Date().toISOString()};
                 if (isCurrentIssue) { const q = query(collection(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME),where("isCurrentIssue","==",true)); const snap = await getDocs(q); for(const d of snap.docs) if(d.id!==editingPublicationId) await updateDoc(doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,d.id),{isCurrentIssue:false});}
                 if (editingPublicationId) { await updateDoc(doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,editingPublicationId),pubData); showMessageModal("successMessage","publicationUpdated","success");}
@@ -1219,7 +961,153 @@ html
             } catch (error) { console.error("Error saving pub:", error); showMessageModal("errorMessage","errorSavingPublication"+error.message,"error");
             } finally { hideLoadingSpinner(); }
         });
-        // You would need to do this for ALL functions that interact with Firestore or Storage.
+        function resetAddPublicationForm() {
+            document.getElementById('addPublicationForm').reset(); editingPublicationId = null;
+            adminPubFormElements.adminFormTitle.textContent = translations[currentLanguage]?.addPublicationTitle || 'Add Publication';
+            adminPubFormElements.submitPublicationBtn.textContent = translations[currentLanguage]?.addPublicationButton || 'Add';
+            adminPubFormElements.cancelEditPublicationBtn.classList.add('hidden');
+            adminPubFormElements.uploadedCoverPreviewAdmin.src = ''; adminPubFormElements.uploadedCoverPreviewAdmin.style.display = 'none';
+            adminPubFormElements.coverImageFileNameDisplayAdmin.textContent = ''; adminPubFormElements.pdfFileNameDisplayAdmin.textContent = '';
+            adminPubFormElements.abstractArPdfFileNameDisplayAdmin.textContent = ''; adminPubFormElements.abstractEnPdfFileNameDisplayAdmin.textContent = ''; adminPubFormElements.abstractItPdfFileNameDisplayAdmin.textContent = '';
+            currentPubFiles = {coverUrl:'',coverFileName:'',pdfUrl:'',pdfFileName:'',abstracts:{ar:{text:'',url:'',fileName:''},en:{text:'',url:'',fileName:''},it:{text:'',url:'',fileName:''}}};
+        }
+        adminPubFormElements.cancelEditPublicationBtn.addEventListener('click', resetAddPublicationForm);
+        async function editPublication(pubId) {
+            showLoadingSpinner(); try {
+                const docRef = doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,pubId); const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const d = docSnap.data(); editingPublicationId = pubId;
+                    adminPubFormElements.bookTitleInput.value=d.title||''; adminPubFormElements.bookAuthorsInput.value=d.authors||''; adminPubFormElements.bookYearInput.value=d.year!=null?d.year:''; adminPubFormElements.bookDescriptionInput.value=d.description||''; adminPubFormElements.bookISBNInput.value=d.isbn||''; adminPubFormElements.bookISSNInput.value=d.issn||''; adminPubFormElements.abstractArTextInput.value=d.abstracts?.ar?.text||''; adminPubFormElements.abstractEnTextInput.value=d.abstracts?.en?.text||''; adminPubFormElements.abstractItTextInput.value=d.abstracts?.it?.text||''; adminPubFormElements.bookIsCurrentIssueCheckbox.checked=d.isCurrentIssue||false;
+                    currentPubFiles={coverUrl:d.coverImageUrl||'',coverFileName:d.coverImageFileName||'',pdfUrl:d.pdfUrl||'',pdfFileName:d.pdfFileName||'',abstracts:{ar:d.abstracts?.ar||{text:'',url:'',fileName:''},en:d.abstracts?.en||{text:'',url:'',fileName:''},it:d.abstracts?.it||{text:'',url:'',fileName:''}}};
+                    adminPubFormElements.uploadedCoverPreviewAdmin.src=currentPubFiles.coverUrl; adminPubFormElements.uploadedCoverPreviewAdmin.style.display=currentPubFiles.coverUrl?'block':'none';
+                    adminPubFormElements.coverImageFileNameDisplayAdmin.textContent=currentPubFiles.coverFileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.coverFileName)}`:'';
+                    adminPubFormElements.pdfFileNameDisplayAdmin.textContent=currentPubFiles.pdfFileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.pdfFileName)}`:'';
+                    adminPubFormElements.abstractArPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.ar.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.ar.fileName)}`:'';
+                    adminPubFormElements.abstractEnPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.en.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.en.fileName)}`:'';
+                    adminPubFormElements.abstractItPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.it.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.it.fileName)}`:'';
+                    adminPubFormElements.bookCoverInput.value=''; adminPubFormElements.bookPdfInput.value=''; adminPubFormElements.abstractArPdfInput.value=''; adminPubFormElements.abstractEnPdfInput.value=''; adminPubFormElements.abstractItPdfInput.value='';
+                    adminPubFormElements.adminFormTitle.textContent=translations[currentLanguage].updatePublicationButton; adminPubFormElements.submitPublicationBtn.textContent=translations[currentLanguage].updatePublicationButton; adminPubFormElements.cancelEditPublicationBtn.classList.remove('hidden');
+                    window.scrollTo({top:0,behavior:'smooth'});
+                } else showMessageModal("errorMessage","publicationNotFoundForEdit","error");
+            }catch(e){console.error("Edit pub error:",e);showMessageModal("errorMessage","errorLoadingPublicationForEdit"+e.message,"error");}
+            finally{hideLoadingSpinner();}
+        }
+        function confirmDeletePublication(pubId) {
+            showMessageModal("confirmDelete","confirmDeleteMsg","confirm", async (confirmed) => {
+                if(confirmed){ showLoadingSpinner(); try {
+                    const docRef=doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_PUB_COLLECTION_NAME,pubId); const docSnap=await getDoc(docRef);
+                    if(docSnap.exists()){ const d=docSnap.data();
+                        if(d.coverImageFileName) await deleteFile(d.coverImageFileName,STORAGE_PATH_COVERS); if(d.pdfFileName) await deleteFile(d.pdfFileName,STORAGE_PATH_PDFS);
+                        if(d.abstracts?.ar?.fileName) await deleteFile(d.abstracts.ar.fileName,STORAGE_PATH_ABSTRACTS); if(d.abstracts?.en?.fileName) await deleteFile(d.abstracts.en.fileName,STORAGE_PATH_ABSTRACTS); if(d.abstracts?.it?.fileName) await deleteFile(d.abstracts.it.fileName,STORAGE_PATH_ABSTRACTS);
+                        await deleteDoc(docRef); showMessageModal("successMessage","publicationDeleted","success");
+                    } else showMessageModal("errorMessage","publicationNotFoundForDeletion","error");
+                } catch(e){console.error("Del pub error:",e);showMessageModal("errorMessage","errorDeletingPublication"+e.message,"error");}
+                finally{hideLoadingSpinner();} }
+            });
+        }
+
+        const adminNewsFormElements = { newsTitleInput, newsDescriptionInput, newsImageInput, uploadedNewsImagePreviewAdmin, newsImageFileNameDisplayAdmin, submitNewsBtn, cancelEditNewsBtn };
+        function resetAddNewsItemForm() {
+            document.getElementById('addNewsItemForm').reset(); adminNewsFormElements.newsTitleInput.value='';adminNewsFormElements.newsDescriptionInput.value='';adminNewsFormElements.newsImageInput.value=''; adminNewsFormElements.uploadedNewsImagePreviewAdmin.src='';adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display='none'; adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=''; currentNewsImage={url:'',fileName:''}; editingNewsItemId=null; adminNewsFormElements.submitNewsBtn.textContent=translations[currentLanguage]?.addNewsItemButton||'Add News'; adminNewsFormElements.cancelEditNewsBtn.classList.add('hidden');
+        }
+        document.getElementById('addNewsItemForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); showLoadingSpinner();
+            if(!auth.currentUser){showMessageModal("permissionDenied","noPermissionAddNews","error");hideLoadingSpinner();return;}
+            const title=adminNewsFormElements.newsTitleInput.value.trim(), description=adminNewsFormElements.newsDescriptionInput.value.trim();
+            let imageUrl=currentNewsImage.url, imageFileName=currentNewsImage.fileName;
+            try {
+                if(adminNewsFormElements.newsImageInput.files[0]){ if(currentNewsImage.fileName) await deleteFile(currentNewsImage.fileName,STORAGE_PATH_NEWS_IMAGES); const res=await uploadFile(adminNewsFormElements.newsImageInput.files[0],STORAGE_PATH_NEWS_IMAGES); imageUrl=res.url; imageFileName=res.fileName;
+                } else if (!adminNewsFormElements.newsImageInput.files[0] && editingNewsItemId && !currentNewsImage.url) { // If field is cleared during edit and there was no previous image or it was removed
+                     if(currentNewsImage.fileName) await deleteFile(currentNewsImage.fileName, STORAGE_PATH_NEWS_IMAGES); // Delete if one was there but input cleared
+                    imageUrl = ''; imageFileName = '';
+                } // else: keep existing image if no new one is selected and one exists
+
+                const newsData={title,description,imageUrl,imageFileName,timestamp:new Date().toISOString()};
+                if(editingNewsItemId){await updateDoc(doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME,editingNewsItemId),newsData); showMessageModal("successMessage","newsItemUpdated","success");}
+                else{await addDoc(collection(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME),newsData); showMessageModal("successMessage","newsItemAdded","success");}
+                resetAddNewsItemForm();
+            }catch(err){console.error("Save news err:",err);showMessageModal("errorMessage","errorSavingNewsItem"+err.message,"error");}
+            finally{hideLoadingSpinner();}
+        });
+        adminNewsFormElements.newsImageInput.addEventListener('change', (e) => {
+            const file=e.target.files[0];
+            if(file){ adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=`${translations[currentLanguage].selectedLabel}: ${file.name}`; const r=new FileReader();r.onload=(ev)=>{adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=ev.target.result;adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display='block';};r.readAsDataURL(file);}
+            else{ adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=currentNewsImage.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}`:''; adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=currentNewsImage.url; adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display=currentNewsImage.url?'block':'none';}
+        });
+        adminNewsFormElements.cancelEditNewsBtn.addEventListener('click', resetAddNewsItemForm);
+        async function editNewsItem(newsId){
+            showLoadingSpinner(); try{
+                const docRef=doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME,newsId); const docSnap=await getDoc(docRef);
+                if(docSnap.exists()){ const d=docSnap.data(); editingNewsItemId=newsId;
+                    adminNewsFormElements.newsTitleInput.value=d.title||''; adminNewsFormElements.newsDescriptionInput.value=d.description||'';
+                    currentNewsImage={url:d.imageUrl||'',fileName:d.imageFileName||''};
+                    adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=currentNewsImage.fileName?`${translations[currentLanguage].currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}`:'';
+                    adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=currentNewsImage.url; adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display=currentNewsImage.url?'block':'none';
+                    adminNewsFormElements.newsImageInput.value=''; adminNewsFormElements.submitNewsBtn.textContent=translations[currentLanguage].updateNewsItemButton; adminNewsFormElements.cancelEditNewsBtn.classList.remove('hidden');
+                    window.scrollTo({top:0,behavior:'smooth'});
+                }else showMessageModal("errorMessage","newsItemNotFoundForEdit","error");
+            }catch(e){console.error("Edit news err:",e);showMessageModal("errorMessage","errorLoadingNewsItemForEdit"+e.message,"error");}
+            finally{hideLoadingSpinner();}
+        }
+        function confirmDeleteNewsItem(newsId){
+            showMessageModal("confirmDelete","confirmDeleteMsg","confirm",async(confirmed)=>{
+                if(confirmed){showLoadingSpinner();try{
+                    const newsRef=doc(db,PUBLIC_DATA_BASE_PATH,PUBLIC_NEWS_COLLECTION_NAME,newsId); const newsDoc=await getDoc(newsRef);
+                    if(newsDoc.exists()){ const d=newsDoc.data(); if(d.imageFileName) await deleteFile(d.imageFileName,STORAGE_PATH_NEWS_IMAGES); await deleteDoc(newsRef); showMessageModal("successMessage","newsItemDeleted","success");}
+                    else showMessageModal("errorMessage","newsItemNotFoundForDeletion","error");
+                }catch(e){console.error("Del news err:",e);showMessageModal("errorMessage","errorDeletingNewsItem"+e.message,"error");}
+                finally{hideLoadingSpinner();}}
+            });
+        }
+        function listenForAdminNews() {
+            const newsCollRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME); const q = query(newsCollRef, orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const listBody = document.getElementById('adminNewsList'); listBody.innerHTML = '';
+                const noNewsMsg = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4" data-lang-key="noNewsToManage">${translations[currentLanguage]?.noNewsToManage||'No news.'}</td></tr>`;
+                if (snapshot.empty) { listBody.innerHTML = noNewsMsg; return; }
+                snapshot.forEach(d => {
+                    const news = { id: d.id, ...d.data() }; const row = listBody.insertRow(); row.className = 'admin-table-row';
+                    row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm">${news.title||translations[currentLanguage]?.noTitle||'No Title'}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${new Date(news.timestamp).toLocaleDateString(currentLanguage==='it'?'it-IT':'en-US')}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm flex space-x-2"><button class="text-blue-600 hover:text-blue-800 edit-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="editButton">${translations[currentLanguage]?.editButton||'Edit'}</button><button class="text-red-600 hover:text-red-800 delete-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="deleteButton">${translations[currentLanguage]?.deleteButton||'Delete'}</button></td>`;
+                });
+                document.querySelectorAll('.edit-news-button').forEach(btn => btn.addEventListener('click', (e) => editNewsItem(e.target.dataset.id)));
+                document.querySelectorAll('.delete-news-button').forEach(btn => btn.addEventListener('click', (e) => confirmDeleteNewsItem(e.target.dataset.id)));
+            }, (error) => { console.error("Error admin news:", error); document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 text-red-500">${translations[currentLanguage]?.errorLoadingAdminNews||'Error.'}</td></tr>`;});
+        }
+        
+        const messageModalElement = document.getElementById('messageModal'); const messageTextElement = document.getElementById('messageText'); const modalButtonsElement = document.getElementById('modalButtons'); const closeMessageModalElement = document.getElementById('closeMessageModal');
+        closeMessageModalElement.addEventListener('click', () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); });
+        messageModalElement.addEventListener('click', (e) => { if (e.target === messageModalElement) { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); }});
+        function showMessageModal(titleKey, messageKey, type = "alert", callback = null) {
+            messageTextElement.innerHTML = `<strong>${translations[currentLanguage]?.[titleKey] || titleKey}</strong><br>${translations[currentLanguage]?.[messageKey] || messageKey}`;
+            modalButtonsElement.innerHTML = '';
+            if (type === "confirm") {
+                const yesBtn = document.createElement('button'); yesBtn.textContent=translations[currentLanguage]?.yesButton||'Yes'; yesBtn.className='nav-button bg-red-600'; yesBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback(true);}; modalButtonsElement.appendChild(yesBtn);
+                const noBtn = document.createElement('button'); noBtn.textContent=translations[currentLanguage]?.noButton||'No'; noBtn.className='nav-button bg-gray-500'; noBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback(false);}; modalButtonsElement.appendChild(noBtn);
+            } else {
+                const okBtn = document.createElement('button'); okBtn.textContent=translations[currentLanguage]?.okButton||'OK'; okBtn.className='nav-button bg-blue-600'; okBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback();}; modalButtonsElement.appendChild(okBtn);
+            }
+            messageModalElement.classList.remove('hidden'); messageModalElement.classList.add('flex');
+        }
+        const publicationDetailsModal = document.getElementById('publicationDetailsModal'); const closePublicationDetailsModal = document.getElementById('closePublicationDetailsModal');
+        closePublicationDetailsModal.addEventListener('click', () => {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');});
+        publicationDetailsModal.addEventListener('click', (e) => { if (e.target === publicationDetailsModal) {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');}});
+        function showPublicationDetailsModal(book) {
+            document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image';
+            document.getElementById('detailTitle').textContent = book.title || translations[currentLanguage]?.noTitle||'No Title';
+            document.getElementById('detailAuthors').textContent = book.authors || translations[currentLanguage]?.noAuthors||'No Authors';
+            document.getElementById('detailYear').textContent = book.year || translations[currentLanguage]?.noYear||'No Year';
+            document.getElementById('detailDescription').textContent = book.description || translations[currentLanguage]?.noDescription||'No Description';
+            document.getElementById('detailISBN').textContent = book.isbn || 'N/A'; document.getElementById('detailISSN').textContent = book.issn || 'N/A';
+            document.getElementById('detailAbstractArText').textContent = book.abstracts?.ar?.text || translations[currentLanguage]?.noArabicAbstract||'N/A';
+            document.getElementById('detailAbstractEnText').textContent = book.abstracts?.en?.text || translations[currentLanguage]?.noEnglishAbstract||'N/A';
+            document.getElementById('detailAbstractItText').textContent = book.abstracts?.it?.text || translations[currentLanguage]?.noItalianAbstract||'N/A';
+            const updateDownloadLink = (id, url, key) => { const link=document.getElementById(id); link.href=url||'#'; link.classList.toggle('disabled',!url); link.onclick=url?null:(e)=>{e.preventDefault();showMessageModal("unavailable",key,"alert");};};
+            updateDownloadLink('detailDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable'); updateDownloadLink('detailDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable'); updateDownloadLink('detailDownloadAbstractEnBtn', book.abstracts?.en?.url, 'englishAbstractPdfUnavailable'); updateDownloadLink('detailDownloadAbstractItBtn', book.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
+            publicationDetailsModal.classList.remove('hidden'); publicationDetailsModal.classList.add('flex');
+        }
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        function showLoadingSpinner() { loadingSpinner.classList.remove('hidden'); }
+        function hideLoadingSpinner() { loadingSpinner.classList.add('hidden'); }
 
         window.onload = function() {
             views.aboutUs = document.getElementById('aboutUsView');
@@ -1232,12 +1120,13 @@ html
             views.adminDashboard = document.getElementById('adminDashboardView');
             
             if (typeof translations === 'undefined' || !translations.en || !translations.it) {
-                console.error("CRITICAL: Translations object not found or incomplete.");
-                window.translations = { en: {}, it: {} }; // Minimal fallback
+                console.error("CRITICAL: Full translations object not found or incomplete. Text will not display correctly. Ensure it's pasted above.");
+                // Provide minimal fallback if translations are missing, to prevent some errors during init
+                window.translations = { en: { noPublicationsToManage: "No publications", noNewsToManage: "No news"}, it: { noPublicationsToManage: "Nessuna pubblicazione", noNewsToManage: "Nessuna notizia" } };
             }
 
-            applyTranslations(currentLanguage);
-            initializeFirebase();
+            applyTranslations(currentLanguage); // Apply initial language
+            initializeFirebase(); // Initialize Firebase and set up auth listener
             document.getElementById('currentYear').textContent = new Date().getFullYear();
         };
     </script>
