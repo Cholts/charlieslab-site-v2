@@ -108,7 +108,6 @@
         <div class="container flex flex-col gap-4">
             <div class="flex flex-col md:flex-row items-center justify-between w-full gap-4">
                 <div class="flex-shrink-0">
-                    <!-- Default logo paths with hardcoded URLs -->
                     <img id="mainHeaderLogo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee" alt="Quaderni di Archeologia della Libya Logo" class="header-logo">
                 </div>
                 <div class="header-search-container flex flex-col sm:flex-row items-center gap-4 flex-grow md:max-w-xl lg:max-w-2xl">
@@ -119,7 +118,10 @@
                         <option value="author-asc" data-lang-key="sortAuthorAZ"></option><option value="author-desc" data-lang-key="sortAuthorZA"></option>
                     </select>
                 </div>
-                <div class="flex space-x-2 mt-4 md:mt-0"><button class="lang-button" data-lang="en">ENG</button><button class="lang-button" data-lang="it">ITA</button></div>
+                <div class="flex space-x-2 mt-4 md:mt-0">
+                    <button class="lang-button" data-lang="en">ENG</button>
+                    <button class="lang-button" data-lang="it">ITA</button>
+                </div>
             </div>
             <nav class="flex flex-wrap justify-center items-center space-x-2 md:space-x-4 w-full pt-4 md:pt-0">
                 <button class="nav-button view-button" data-view="aboutUs" data-lang-key="navAboutUs"></button>
@@ -128,8 +130,8 @@
                 <button class="nav-button view-button" data-view="archivalVolumes" data-lang-key="navArchivalVolumes"></button>
                 <button class="nav-button view-button" data-view="editorialAndEthics" data-lang-key="navEditorialEthics"></button>
                 <button class="nav-button view-button" data-view="newsEvents" data-lang-key="navNewsEvents"></button>
-                <!-- Admin Login Button added to main navigation -->
-                <button class="nav-button view-button" data-view="adminLogin" data-lang-key="adminLoginButton"></button>
+                <!-- Admin Login button added to main navigation -->
+                <button class="nav-button view-button" data-view="adminLogin" data-lang-key="adminLoginButton" id="adminNavButton"></button>
             </nav>
         </div>
     </header>
@@ -288,7 +290,6 @@
     <footer class="footer-bg py-6 mt-8 shadow-inner">
         <div class="container flex flex-col md:flex-row items-center justify-between text-sm">
             <div class="flex items-center space-x-4 mb-4 md:mb-0">
-                <!-- Default footer logo path -->
                 <img id="mainFooterLogo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/footer_logos%2Ffooter-logo.png?alt=media&token=YOUR_TOKEN" alt="Quaderni di Archeologia della Libya Logo" class="footer-logo">
                 <p>&copy; <span id="currentYear"></span> <span data-lang-key="copyrightText"></span></p>
             </div>
@@ -301,16 +302,12 @@
                 <p class="font-bold" data-lang-key="contributorsLabel"></p>
                 <div class="flex justify-center md:justify-end items-center gap-4">
                     <div id="contributor1LogoContainer" class="h-16 flex items-center justify-center">
-                        <!-- Default contributor 1 logo path -->
                         <img id="contributor1Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20lerma.png?alt=media&token=f6966fec-902a-4e2a-b39e-a3ddb633e983" alt="L'ERMA di Bretschneider Logo" class="h-16">
                     </div>
                     <div id="contributor2LogoContainer" class="h-16 flex items-center justify-center">
-                        <!-- Default contributor 2 logo path -->
                         <img id="contributor2Logo" src="https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20meda%20ets%20max.jpg?alt=media&token=c2071e4e-bf59-4f06-b99b-4b739737f51b" alt="Fondazione MEDA Logo" class="h-16">
                     </div>
                 </div>
-                <!-- Admin Login Button removed from footer as it's now in main nav -->
-                <button id="adminLogoutBtnFooter" class="nav-button bg-transparent hover:bg-gray-700 border border-white text-white mt-4 hidden" data-lang-key="logoutButton"></button>
             </div>
         </div>
     </footer>
@@ -321,56 +318,71 @@
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, onSnapshot, query, orderBy, where, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-        // IMPORTANT: Replace with your actual Firebase project configuration
-        // This is a placeholder. In a real environment, __firebase_config would be provided dynamically.
+        // --- Firebase Configuration ---
+        // !!! IMPORTANT !!!
+        // REPLACE THE ENTIRE 'hardcodedFirebaseConfig' OBJECT BELOW WITH YOUR ACTUAL FIREBASE PROJECT CONFIGURATION.
+        // You can find this in your Firebase Console -> Project settings -> Your apps -> Web app.
         const hardcodedFirebaseConfig = {
-            apiKey: "AIzaSyDrOjIfbI2ttZF_Dp8JSRNpl_eL8XU4JGk",
-            authDomain: "quadernilibyawebsite.firebaseapp.com",
-            projectId: "quadernilibyawebsite",
-            storageBucket: "quadernilibyawebsite.firebasestorage.app",
-            messagingSenderId: "8372415971",
-            appId: "1:8372415971:web:76fdcc247797cac05784d6",
-            measurementId: "G-G74YV94Y52"
+            apiKey: "AIzaSyDrOjIfbI2ttZF_Dp8JSRNpl_eL8XU4JGx", // YOUR_API_KEY
+            authDomain: "quadernilibyawebsite.firebaseapp.com", // YOUR_AUTH_DOMAIN
+            projectId: "quadernilibyawebsite", // YOUR_PROJECT_ID
+            storageBucket: "quadernilibyawebsite.firebasestorage.app", // YOUR_STORAGE_BUCKET
+            messagingSenderId: "8372415971", // YOUR_MESSAGING_SENDER_ID
+            appId: "1:8372415971:web:76fdcc247797cac05784d6", // YOUR_APP_ID
+            measurementId: "G-G74YV94Y52" // Optional, Example: "G-ABCDEFG"
         };
         
-        // Use provided __firebase_config if available, otherwise use hardcoded.
+        // This attempts to use Canvas provided config (__firebase_config), else falls back to hardcoded
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : hardcodedFirebaseConfig;
-        // Use provided __app_id for the document ID under 'artifacts', fallback to projectId if not defined.
-        const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId;
+        
+        // --- IMPORTANT: APP_ID FOR FIRESTORE PATHS ---
+        // This 'appId' constant should match the *document ID* you use under the 'artifacts' collection
+        // in your Firebase Firestore. Based on your screenshots, this is 'charlieslab-site-v2'.
+        // If your document ID is different, you MUST change this value.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'charlieslab-site-v2'; 
         console.log("Using appId for Firestore paths:", appId);
 
-        // Default hardcoded logo URLs for initial display (overridden by site settings if available)
+        // --- Default Logo URLs (Hardcoded for initial display) ---
+        // These are used if custom logos are not set in Firebase Storage via site settings
         const DEFAULT_HEADER_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/header_logos%2FLogo%20QAL%20arabo%20300%20dpi.jpeg?alt=media&token=c2d438d9-9ba2-49ec-a32a-517ed18775ee';
-        const DEFAULT_FOOTER_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/footer_logos%2Ffooter-logo.png?alt=media&token=YOUR_TOKEN'; // Replace YOUR_TOKEN
+        const DEFAULT_FOOTER_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/footer_logos%2Ffooter-logo.png?alt=media&token=YOUR_TOKEN'; // Update token if needed
         const DEFAULT_CONTRIB1_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20lerma.png?alt=media&token=f6966fec-902a-4e2a-b39e-a3ddb633e983';
         const DEFAULT_CONTRIB2_LOGO_URL = 'https://firebasestorage.googleapis.com/v0/b/quadernilibyawebsite.firebasestorage.app/o/contributor_logos%2Flogo%20meda%20ets%20max.jpg?alt=media&token=c2071e4e-bf59-4f06-b99b-4b739737f51b';
 
-        // Refactored Firebase path constants for correct usage with doc() and collection()
-        const ROOT_COLLECTION_ID = 'artifacts'; // Top-level collection
-        const PUBLIC_SUBCOLLECTION_ID = 'public'; // Subcollection under the appId document
-        const DATA_SUBCOLLECTION_ID = 'data'; // Subcollection under 'public'
-        const ADMIN_MANAGEMENT_COLLECTION_ID = 'adminManagement'; // Subcollection under 'data'
+        // --- Firestore and Storage Paths Constants ---
+        // IMPORTANT: These paths now reflect your Firebase structure: artifacts/{appId}/public/data/...
+        const PUBLIC_DATA_BASE_PATH = `artifacts/${appId}/public/data`;
+        
+        // ADMIN_USERS_DOC_ID is crucial and refers to the 'adminUsers' document within the 'users' collection
+        const ADMIN_USERS_DOC_ID = 'adminUsers'; 
 
-        // Document IDs that are direct children of the 'data' subcollection
-        const SITE_CONFIGURATION_DOC_ID = 'siteConfiguration';
-        const CURRENT_ISSUE_DOC_ID = 'currentIssue'; // Renamed for clarity
-
-        // Collection IDs that are direct children of the 'data' subcollection
         const PUBLIC_PUB_COLLECTION_NAME = 'publications';
         const PUBLIC_NEWS_COLLECTION_NAME = 'news';
+        const PUBLIC_CURRENT_ISSUE_DOC_ID = 'currentIssue'; // This is a document directly under public/data
+        const SITE_CONFIGURATION_DOC_ID = 'siteConfiguration'; // Document for site logos and settings
 
-        // Storage Paths
-        const STORAGE_BASE_PATH = `${ROOT_COLLECTION_ID}/${appId}/${PUBLIC_SUBCOLLECTION_ID}/files`;
-        const STORAGE_PATH_COVERS = `${STORAGE_BASE_PATH}/publications/covers`;
-        const STORAGE_PATH_PDFS = `${STORAGE_BASE_PATH}/publications/pdfs`;
-        const STORAGE_PATH_ABSTRACTS = `${STORAGE_BASE_PATH}/publications/abstracts`;
+        const STORAGE_BASE_PATH = `artifacts/${appId}/public/files`; // Base path for all uploaded files
+        const STORAGE_PATH_COVERS = `${STORAGE_BASE_PATH}/covers`;
+        const STORAGE_PATH_PDFS = `${STORAGE_BASE_PATH}/pdfs`;
+        const STORAGE_PATH_ABSTRACTS = `${STORAGE_BASE_PATH}/abstracts`;
         const STORAGE_PATH_NEWS_IMAGES = `${STORAGE_BASE_PATH}/news`;
-        const STORAGE_PATH_LOGOS = `${STORAGE_BASE_PATH}/siteSettings/logos`; // Centralized logos storage
+        const STORAGE_PATH_SITE_LOGOS = `${STORAGE_BASE_PATH}/siteLogos`; // Unified path for site and contributor logos
 
-        let app, db, auth, storage;
-        let editingPublicationId = null;
-        let editingNewsItemId = null;
-        let currentPubFiles = {coverUrl:'',coverFileName:'',pdfUrl:'',pdfFileName:'',abstracts:{ar:{text:'',url:'',fileName:''},en:{text:'',url:'',fileName:''},it:{text:'',url:'',fileName:''}}};
+        // --- Firebase App Initialization ---
+        let app, db, auth, storage; // Declared here for global access
+        let editingPublicationId = null; // Stores ID of publication being edited
+        let editingNewsItemId = null;   // Stores ID of news item being edited
+
+        // Current file URLs/names for admin form pre-population and deletion tracking
+        let currentPubFiles = {
+            coverUrl: '', coverFileName: '',
+            pdfUrl: '', pdfFileName: '',
+            abstracts: {
+                ar: { text: '', url: '', fileName: '' },
+                en: { text: '', url: '', fileName: '' },
+                it: { text: '', url: '', fileName: '' }
+            }
+        };
         let currentNewsImage = { url: '', fileName: '' };
         let currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' };
         let currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
@@ -378,8 +390,8 @@
         let currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
 
         let currentLanguage = localStorage.getItem('siteLanguage') || 'en';
-        // --- Full Translations Object ---
-        // (This object remains as provided in your previous input)
+
+        // --- Translations Object (Extended) ---
         const translations = {
             en: {
                 pageTitle: "QAL - Publications", navAboutUs: "About Us", navEditorialBoard: "Editorial Board",
@@ -387,7 +399,7 @@
                 navNewsEvents: "News & Events", adminLoginButton: "Admin Login", logoutButton: "Logout",
                 searchPlaceholder: "Search...", sortYearNewest: "Year (Newest)", sortYearOldest: "Year (Oldest)",
                 sortTitleAZ: "Title (A-Z)", sortTitleZA: "Title (Z-A)", sortAuthorAZ: "Author (A-Z)",
-                sortAuthorZA: "Author (Z-A)", loadingPublications: "Loading publications...", noPubsFound: "No publications found.",
+                sortAuthorZA: "Author (A-Z)", loadingPublications: "Loading publications...", noPubsFound: "No publications found.",
                 noSearchResults: "No results match your search/filter criteria.", viewDetailsButton: "View Details",
                 confirmDelete: "Confirm Delete", confirmDeleteMsg: "Are you sure you want to delete this item? This action cannot be undone and will remove associated files from storage.",
                 successMessage: "Success", errorMessage: "Error", permissionDenied: "Permission Denied",
@@ -434,7 +446,7 @@
                 abbrNp: "n.p. = no place", abbrNote: "note = note", abbrP: "p./pp. = page/pages", abbrSee: "see = see",
                 abbrSv: "s.v. (italics) = sub voce", abbrPl: "pl./pls = plate / plates", abbrVol: "vol. / vols = volume / volumes",
                 fullGuidelinesNote: "Note: This is a summary of the full editorial guidelines. For complete bibliographic rules, please refer to the comprehensive document.",
-                ethicsStatementTitle: "Code of Ethics and Malpractice Statement", ethicsStatementPara1: "This document outlines the ethics principles and good practices applied by the publishing house L'ERMA di Bretschneider (hereafter L'ERMA) to the process of editing and publishing monographs, scientific journals, and other editorial content of scientific, educational, and outreach nature. L'ERMA is inspired by the ethical principles outlined by the Committee on Publication Ethics (hereinafter COPE), an international non-profit organization that aims to support publishers and editors in pursuing high standards of publishing ethics. Although COPE mainly provides guidelines and and resources for publishers and editors of scientific journals, these can also be applied to the publication of monographs and other academic content.",
+                ethicsStatementTitle: "Code of Ethics and Malpractice Statement", ethicsStatementPara1: "This document outlines the ethics principles and good practices applied by the publishing house L'ERMA di Bretschneider (hereafter L'ERMA) to the process of editing and publishing monographs, scientific journals, and other editorial content of scientific, educational, and outreach nature. L'ERMA is inspired by the ethical principles outlined by the Committee on Publication Ethics (hereafter COPE), an international non-profit organization that aims to support publishers and editors in pursuing high standards of publishing ethics. Although COPE mainly provides guidelines and resources for publishers and editors of scientific journals, these can also be applied to the publication of monographs and other academic content.",
                 researchEthicsTitle: "I. Research ethics and integrity", researchEthicsPara1: "L'ERMA publications respect the ethical principles of COPE, which are: Reliability; honesty, respect, and responsibility in all aspects of research; Care, accuracy, and excellence in research practice; Transparency, reproducibility, traceability, and open communication; Attention and respect for all participants and research subjects.",
                 researchEthicsPara2: "Whoever believes that research published by L'ERMA has not been conducted in line with these ethical practices is invited to raise the issue with the publisher at lerma@lerma.it. Where possible, each report will be handled following COPE guidelines, and/or by submitting the matter to the Chairman of the Board of Directors of the publishing house and, if necessary, to the members of the Editorial Board of the publishing house.",
                 lastUpdatedDate: "Last updated 27 February 2024", newsEventsHeading: "News & Current Events",
@@ -486,7 +498,7 @@
                 noItalianAbstract: "No Italian abstract text available.", fileNotFoundInStorage: "File not found in storage: ", fileDeletionFailed: "File deletion failed: ",
                 noTitle: "No Title", noAuthors: "No Authors", noYear: "No Year"
             },
-            it: {
+            it: { 
                 pageTitle: "QAL - Pubblicazioni", navAboutUs: "Chi Siamo", navEditorialBoard: "Comitato Editoriale",
                 navCurrentIssue: "Numero Corrente", navArchivalVolumes: "Volumi di Archivio", navEditorialEthics: "Linee Guida & Etica",
                 navNewsEvents: "Notizie & Eventi", adminLoginButton: "Accesso Admin", logoutButton: "Esci",
@@ -507,7 +519,7 @@
                 aboutUsHeading: "Chi Siamo Quaderni di Archeologia della Libya",
                 aboutUsPara1: "Benvenuti nel sito ufficiale di <strong>Quaderni di Archeologia della Libya</strong>, una prestigiosa rivista accademica dedicata alla ricerca archeologica in Libia. Avviata nel 1950, questa stimata serie documenta i significativi contributi delle missioni archeologiche italiane nella regione, promuovendo una comprensione più profonda della sua ricca storia antica.",
                 aboutUsPara2: "Dopo una breve pausa, la rivista ha ripreso con orgoglio la pubblicazione nel 2018 con una nuova serie, ristabilendosi come piattaforma scientifica di spicco. Forniamo un luogo essenziale per gli studiosi interessati all'archeologia e alla storia della Libia e del Maghreb più ampio, garantendo contenuti di alta qualità e sottoposti a revisione paritaria.",
-                aboutUsPara3: "I nostri volumi adottano un approccio multidisciplinare, presentando articoli su epigrafia, storia antica e coloniale, storia dell'archeologia, e studi territoriali. I contributi sono pubblicati nelle principali lingue europee, accompagnati da riassunti completi in inglese e arabo, per promuovere lo scambio accademico e la collaborazione internazionale.",
+                aboutUsPara3: "I nostri volumi adottano un approccio multidisciplinare, presentando articoli su epigrafia, storia antica e colonica, storia dell'archeologia, e studi territoriali. I contributi sono pubblicati nelle principali lingue europee, accompagnati da riassunti completi in inglese e arabo, per promuovere lo scambio accademico e la collaborazione internazionale.",
                 aboutUsPara4: "Questo sito web funge da risorsa dedicata alla serie, gestita da L'Erma di Bretschneider, una rinomata casa editrice accademica di Roma. Ci impegniamo a mantenere i più alti standard di eccellenza accademica e a garantire la continua diffusione globale della ricerca innovativa presentata nei \"Quaderni di Archeologia della Libya.\"",
                 currentPublicationsHeading: "Pubblicazioni Correnti", editorialBoardHeading: "Incontra il Comitato Editoriale",
                 editorialBoardIntro: "La nostra rivista è guidata da un illustre gruppo di studiosi ed esperti di archeologia libica e settori correlati. La loro competenza garantisce l'alta qualità e il rigore accademico delle nostre pubblicazioni.",
@@ -527,7 +539,7 @@
                 articleRequirements4: "Note a piè di pagina.", articleRequirements5: "Indirizzo e e-mail dell'autore.",
                 articleRequirements6: "Affiliazione istituzionale dell'autore.", formattingGuidelinesTitle: "Linee Guida di Formattazione:",
                 formattingGuidelines1: "Le citazioni sono inserite tra virgolette doppie \"...\"", formattingGuidelines2: "Le virgolette singole sono usate per enfatizzare parole o espressioni '...'.",
-                formattingGuidelines3: "Le traslitterazioni da altre lingue (come, ad esempio, dal greco o dall'arabo) sono in corsivo.",
+                formattingGuidelines3: "Le traslitterazioni da altre lingue (as, ad esempio, dal greco o dall'arabo) sono in corsivo.",
                 formattingGuidelines4: "Se nel testo vengono usati caratteri speciali (come nel caso del greco), il font deve essere specificato.",
                 formattingGuidelines5: "Latin and Greek sources must be cited using the abbreviations in: Thesaurus Linguae Latinae, The Online Liddell-Scott-Jones Greek-English Lexicon (http://stephanus.tlg.uci.edu/lsj/01-authors_and_works.html) and, if not present, G.W.H. LAMPE, A Patristic Greek Lexicon, Oxford 1961.",
                 commonAbbreviationsTitle: "Abbreviazioni Comuni:", abbrCat: "cat. = catalogo", abbrCf: "cf. = confronta",
@@ -539,7 +551,7 @@
                 abbrNp: "s.l. = senza luogo", abbrNote: "nota = nota", abbrP: "p./pp. = pagina/pagine", abbrSee: "vedi = vedi",
                 abbrSv: "s.v. (corsivo) = sub voce", abbrPl: "tav./tavv. = tavola / tavole", abbrVol: "vol. / voll. = volume / volumi",
                 fullGuidelinesNote: "Nota: Questo è un riassunto delle linee guida editoriali complete. Per le regole bibliografiche complete, si prega di fare riferimento al documento completo.",
-                ethicsStatementTitle: "Codice Etico e Dichiarazione di Malpractice", ethicsStatementPara1: "This document outlines the ethics principles and good practices applied by the publishing house L'ERMA di Bretschneider (hereafter L'ERMA) to the process of editing and publishing monographs, scientific journals, and other editorial content of scientific, educational, and outreach nature. L'ERMA is inspired by the ethical principles outlined by the Committee on Publication Ethics (hereinafter COPE), an international non-profit organization that aims to support publishers and editors in pursuing high standards of publishing ethics. Although COPE mainly provides guidelines and and resources for publishers and editors of scientific journals, these can also be applied to the publication of monographs and other academic content.",
+                ethicsStatementTitle: "Codice Etico e Dichiarazione di Malpractice", ethicsStatementPara1: "This document outlines the ethics principles and good practices applied by the publishing house L'ERMA di Bretschneider (hereafter L'ERMA) to the process of editing and publishing monographs, scientific journals, and other editorial content of scientific, educational, and outreach nature. L'ERMA is inspired by the ethical principles outlined by the Committee on Publication Ethics (hereafter COPE), an international non-profit organization that aims to support publishers and editors in pursuing high standards of publishing ethics. Although COPE mainly provides guidelines and resources for publishers and editors of scientific journals, these can also be applied to the publication of monographs and other academic content.",
                 researchEthicsTitle: "I. Research ethics and integrity", researchEthicsPara1: "L'ERMA publications respect the ethical principles of COPE, which are: Reliability; honesty, respect, and responsibility in all aspects of research; Care, accuracy, and excellence in research practice; Transparency, reproducibility, traceability, and open communication; Attention and respect for all participants and research subjects.",
                 researchEthicsPara2: "Whoever believes that research published by L'ERMA has not been conducted in line with these ethical practices is invited to raise the issue with the publisher at lerma@lerma.it. Where possible, each report will be handled following COPE guidelines, and/or by submitting the matter to the Chairman of the Board of Directors of the publishing house and, if necessary, to the members of the Editorial Board of the publishing house.",
                 lastUpdatedDate: "Ultimo aggiornamento 27 febbraio 2024", newsEventsHeading: "Notizie & Eventi Correnti",
@@ -562,7 +574,7 @@
                 headerLogoUploadLabel: "Carica Logo Intestazione:", footerLogoUploadLabel: "Carica Logo Piè di Pagina:", updateLogosButton: "Aggiorna Loghi",
                 manageContributorLogosHeading: "Gestisci Loghi Contributori", contributor1LogoLabel: "Carica Logo L'ERMA:",
                 contributor2LogoLabel: "Carica Logo Fondazione MEDA:", updateContributorLogosButton: "Aggiorna Loghi Contributori",
-                copyrightText: "Quaderni di Archeologia della Libya. Tutti i diritti Riservati.", contactUsLabel: "Contattaci:",
+                copyrightText: "Quaderni di Archeologia della Libya. Tutti i diritti riservati.", contactUsLabel: "Contattaci:",
                 emailLabelShort: "Email:", phoneLabelShort: "Telefono:", selectedLabel: "Selezionato", currentLabel: "Attuale",
                 currentLabelShort: "Corrente", noCustomHeaderLogo: "Nessun logo intestazione personalizzato.", noCustomFooterLogo: "Nessun logo piè di pagina personalizzato.",
                 noLERMALogo: "Nessun logo L'ERMA.", noMEDALogo: "Nessun logo MEDA.", fileUploadFailed: "Caricamento file fallito: ",
@@ -586,22 +598,47 @@
                 newsItemNotFoundForEdit: "Notizia non trovata per la modifica.", errorLoadingNewsItemForEdit: "Errore caricamento notizia per modifica: ",
                 newsItemDeleted: "Notizia eliminata con successo!", newsItemNotFoundForDeletion: "Notizia non trovata per l'eliminazione.",
                 errorDeletingNewsItem: "Errore eliminazione notizia: ",
-                yesButton: "Sì", noButton: "No", okButton: "OK", editButton: "Modifica", deleteButton: "Elimina",
-                noArabicAbstract: "Nessun abstract arabo disponibile.", noEnglishAbstract: "Nessun abstract inglese disponibile.",
-                noItalianAbstract: "Nessun abstract italiano disponibile.", fileNotFoundInStorage: "File non trovato nello storage: ", fileDeletionFailed: "Eliminazione file fallita: ",
-                noTitle: "Nessun Titolo", noAuthors: "Nessun Autore", noYear: "Nessun Anno"
+                yesButton: "Yes", noButton: "No", okButton: "OK", editButton: "Edit", deleteButton: "Delete",
+                noArabicAbstract: "No Arabic abstract text available.", noEnglishAbstract: "No English abstract text available.",
+                noItalianAbstract: "No Italian abstract text available.", fileNotFoundInStorage: "File not found in storage: ", fileDeletionFailed: "File deletion failed: ",
+                noTitle: "No Title", noAuthors: "No Authors", noYear: "No Year"
             }
         };
-        // End of Full Translations Object
 
-        // --- Start of JavaScript functions ---
-        
-        // Initialize views object in window.onload
-        const views = {};
+        // --- View Management ---
+        const views = {}; // Populated in window.onload
+        let currentView = 'aboutUs'; // Default view
 
+        function showView(viewId) {
+            Object.values(views).forEach(view => view && view.classList.add('hidden')); // Hide all views
+            const targetView = views[viewId];
+            if (targetView) {
+                targetView.classList.remove('hidden'); // Show target view
+                currentView = viewId; // Update current view tracking
+                // Apply/remove admin background based on view
+                document.body.classList.toggle('admin-bg', viewId === 'adminLogin' || viewId === 'adminDashboard');
+                
+                // Specific setup for admin dashboard sub-sections
+                if (viewId === 'adminDashboard') {
+                    // Default to manage publications on dashboard entry
+                    document.getElementById('adminManagePublications').classList.remove('hidden');
+                    document.getElementById('adminManageNews').classList.add('hidden');
+                    document.getElementById('adminManageSiteSettings').classList.add('hidden');
+                    resetAddPublicationForm(); // Clear form on dashboard entry
+                    if (auth && auth.currentUser) { // Only load admin data if user is authenticated
+                        listenForAdminPublications();
+                        listenForAdminNews();
+                    }
+                }
+            } else {
+                console.warn("View not found:", viewId);
+                showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.viewNotFound || "View not found.", "error");
+            }
+        }
+
+        // --- Translation Functionality ---
         function applyTranslations(lang) {
-            const elements = document.querySelectorAll('[data-lang-key]');
-            elements.forEach(element => {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
                 const key = element.dataset.langKey;
                 if (translations[lang] && translations[lang][key]) {
                     if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
@@ -609,237 +646,208 @@
                     } else if (element.tagName === 'OPTION') {
                         element.textContent = translations[lang][key];
                     } else {
-                        element.innerHTML = translations[lang][key]; 
+                        element.innerHTML = translations[lang][key]; // Use innerHTML for rich text
                     }
                 } else if (translations[lang]) {
                     // console.warn(`Translation key "${key}" not found for language "${lang}".`);
                 }
             });
+            // Update active language button style
             document.querySelectorAll('.lang-button').forEach(button => {
                 button.classList.toggle('active', button.dataset.lang === lang);
             });
-            currentLanguage = lang;
-            localStorage.setItem('siteLanguage', lang);
-            // Re-call data listeners to update displayed content with new language
+            currentLanguage = lang; // Update global language variable
+            localStorage.setItem('siteLanguage', lang); // Persist language choice
+
+            // Re-render content that depends on language or has dynamic text
+            // This is a simplified re-trigger; for complex apps, consider a re-render function
+            if (views.publicationsList) listenForPublicPublications();
+            if (views.newsFeed) listenForNews();
+            if (views.currentIssue) listenForCurrentIssue();
+            listenForSiteLogos(); // To update image alt texts if they were translation keys
             if (auth && auth.currentUser && views.adminDashboard && !views.adminDashboard.classList.contains('hidden')) {
-                 listenForAdminPublications(); listenForAdminNews();
-            }
-            // Only re-listen if content might not be loaded, to avoid redundant fetches
-            if (views.publicationsList && (views.publicationsList.textContent.includes(translations.en.loadingPublications) || views.publicationsList.textContent.includes(translations.it.loadingPublications) || views.publicationsList.innerHTML === `<p class="col-span-full text-center text-gray-400" data-lang-key="noPubsFound">${translations[currentLanguage]?.noPubsFound || 'No publications found.'}</p>`)) {
-                listenForPublicPublications();
-            }
-            if (views.newsFeed && (views.newsFeed.textContent.includes(translations.en.noNewsUpdates) || views.newsFeed.textContent.includes(translations.it.noNewsUpdates))) {
-                listenForNews();
+                 listenForAdminPublications(); 
+                 listenForAdminNews();
             }
         }
 
-        async function initializeFirebase() {
+        // --- Modals ---
+        const messageModalElement = document.getElementById('messageModal');
+        const messageTextElement = document.getElementById('messageText');
+        const modalButtonsElement = document.getElementById('modalButtons');
+        const closeMessageModalElement = document.getElementById('closeMessageModal');
+
+        closeMessageModalElement.addEventListener('click', () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); });
+        messageModalElement.addEventListener('click', (e) => { if (e.target === messageModalElement) { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); }});
+
+        function showMessageModal(titleKey, messageKey, type = "alert", callback = null) {
+            messageTextElement.innerHTML = `<strong>${translations[currentLanguage]?.[titleKey] || titleKey}</strong><br>${translations[currentLanguage]?.[messageKey] || messageKey}`;
+            modalButtonsElement.innerHTML = ''; // Clear previous buttons
+
+            if (type === "confirm") {
+                const yesBtn = document.createElement('button');
+                yesBtn.textContent = translations[currentLanguage]?.yesButton || 'Yes';
+                yesBtn.className = 'nav-button bg-red-600';
+                yesBtn.onclick = () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); if(callback) callback(true); };
+                modalButtonsElement.appendChild(yesBtn);
+
+                const noBtn = document.createElement('button');
+                noBtn.textContent = translations[currentLanguage]?.noButton || 'No';
+                noBtn.className = 'nav-button bg-gray-500';
+                noBtn.onclick = () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); if(callback) callback(false); };
+                modalButtonsElement.appendChild(noBtn);
+            } else {
+                const okBtn = document.createElement('button');
+                okBtn.textContent = translations[currentLanguage]?.okButton || 'OK';
+                okBtn.className = 'nav-button bg-blue-600';
+                okBtn.onclick = () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); if(callback) callback(); };
+                modalButtonsElement.appendChild(okBtn);
+            }
+            messageModalElement.classList.remove('hidden');
+            messageModalElement.classList.add('flex');
+        }
+
+        const publicationDetailsModal = document.getElementById('publicationDetailsModal');
+        const closePublicationDetailsModal = document.getElementById('closePublicationDetailsModal');
+        closePublicationDetailsModal.addEventListener('click', () => { publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden'); });
+        publicationDetailsModal.addEventListener('click', (e) => { if (e.target === publicationDetailsModal) { publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden'); }});
+
+        function showPublicationDetailsModal(book) {
+            document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image';
+            document.getElementById('detailTitle').textContent = book.title || translations[currentLanguage]?.noTitle || 'No Title';
+            document.getElementById('detailAuthors').textContent = book.authors || translations[currentLanguage]?.noAuthors || 'No Authors';
+            document.getElementById('detailYear').textContent = book.year || translations[currentLanguage]?.noYear || 'No Year';
+            document.getElementById('detailDescription').textContent = book.description || translations[currentLanguage]?.noDescription || 'No Description';
+            document.getElementById('detailISBN').textContent = book.isbn || 'N/A';
+            document.getElementById('detailISSN').textContent = book.issn || 'N/A';
+            document.getElementById('detailAbstractArText').textContent = book.abstracts?.ar?.text || translations[currentLanguage]?.noArabicAbstract || 'N/A';
+            document.getElementById('detailAbstractEnText').textContent = book.abstracts?.en?.text || translations[currentLanguage]?.noEnglishAbstract || 'N/A';
+            document.getElementById('detailAbstractItText').textContent = book.abstracts?.it?.text || translations[currentLanguage]?.noItalianAbstract || 'N/A';
+            
+            const updateDownloadLink = (id, url, key) => { 
+                const link = document.getElementById(id); 
+                link.href = url || '#'; 
+                link.classList.toggle('disabled', !url); 
+                link.target = url ? '_blank' : '_self'; // Open in new tab only if URL exists
+                link.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", key, "alert"); };
+            };
+            updateDownloadLink('detailDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable');
+            updateDownloadLink('detailDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable');
+            updateDownloadLink('detailDownloadAbstractEnBtn', book.abstracts?.en?.url, 'englishAbstractPdfUnavailable');
+            updateDownloadLink('detailDownloadAbstractItBtn', book.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
+            
+            publicationDetailsModal.classList.remove('hidden');
+            publicationDetailsModal.classList.add('flex');
+        }
+
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        function showLoadingSpinner() { loadingSpinner.classList.remove('hidden'); }
+        function hideLoadingSpinner() { loadingSpinner.classList.add('hidden'); }
+
+        // --- Firebase Init & Auth State Management ---
+        function initializeFirebase() {
             try {
                 app = initializeApp(firebaseConfig);             
                 db = getFirestore(app);             
                 auth = getAuth(app);               
                 storage = getStorage(app);
+
                 onAuthStateChanged(auth, (user) => {
                     console.log("Auth state changed. User:", user ? user.uid : 'null');
+                    // Update the displayed email in the dashboard
                     document.getElementById('loggedInUserEmail').textContent = user ? (user.email || 'Admin') : '';
                     updateAuthUI(user); 
-                    setupListeners(user);
+                    setupListeners(user); // Set up/refresh listeners based on auth state
                 });
             } catch (error) { 
                 console.error("Firebase init error:", error); 
-                showMessageModal("errorMessage", "firebaseInitError", "error"); 
+                showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.firebaseInitError || "Firebase initialization error.", "error"); 
             }
         }
 
-        let currentView = 'aboutUs';
-        // views object is populated in window.onload
-
-        function showView(viewId) {
-            Object.values(views).forEach(view => view && view.classList.add('hidden'));
-            const targetView = views[viewId];
-            if (targetView) {
-                targetView.classList.remove('hidden');
-                currentView = viewId;
-                document.body.classList.toggle('admin-bg', viewId === 'adminLogin' || viewId === 'adminDashboard');
-                if (viewId === 'adminDashboard') {
-                    // Ensure only publications management is shown by default in admin dashboard
-                    document.getElementById('adminManagePublications').classList.remove('hidden');
-                    document.getElementById('adminManageNews').classList.add('hidden');
-                    document.getElementById('adminManageSiteSettings').classList.add('hidden');
-                    if (typeof resetAddPublicationForm === "function") resetAddPublicationForm();
-                }
-            } else {
-                console.warn("View not found:", viewId);
-                if (typeof showMessageModal === "function" && translations[currentLanguage]) { 
-                   showMessageModal("errorMessage", "viewNotFound", "error");
-                }
-            }
-        }
-        
-        // All event listeners for navigation
-        document.querySelectorAll('.view-button').forEach(button => {
-            button.addEventListener('click', (e) => showView(e.target.dataset.view));
-        });
-        document.querySelectorAll('.lang-button').forEach(button => {
-            button.addEventListener('click', (e) => applyTranslations(e.target.dataset.lang));
-        });
-        
-        // Admin Logout button in dashboard
-        document.getElementById('adminLogoutBtn').addEventListener('click', async () => { 
-            try { 
-                await signOut(auth); 
-                showMessageModal("successMessage", "logoutSuccessful", "success"); 
-                // Hide admin button from nav and show login button in footer after logout
-                document.getElementById('adminNavButton').classList.remove('hidden');
-                document.getElementById('adminLogoutBtn').classList.add('hidden');
-                showView('aboutUs'); // Redirect to public view after logout
-            } catch (error) { 
-                console.error("Error logging out:", error); 
-                showMessageModal("errorMessage", "logoutFailed" + error.message, "error"); 
-            }
-        });
-
-        // Admin Dashboard Navigation
-        document.getElementById('managePublicationsBtn').addEventListener('click', () => { 
-            document.getElementById('adminManagePublications').classList.remove('hidden'); 
-            document.getElementById('adminManageNews').classList.add('hidden'); 
-            document.getElementById('adminManageSiteSettings').classList.add('hidden'); 
-            if(typeof resetAddPublicationForm === "function") resetAddPublicationForm(); 
-            if(auth && auth.currentUser && typeof listenForAdminPublications === "function") listenForAdminPublications(); 
-        });
-        document.getElementById('manageNewsBtn').addEventListener('click', () => { 
-            document.getElementById('adminManagePublications').classList.add('hidden'); 
-            document.getElementById('adminManageNews').classList.remove('hidden'); 
-            document.getElementById('adminManageSiteSettings').classList.add('hidden'); 
-            if(typeof resetAddNewsItemForm === "function") resetAddNewsItemForm(); 
-            if(auth && auth.currentUser && typeof listenForAdminNews === "function") listenForAdminNews(); 
-        });
-        document.getElementById('manageSiteSettingsBtn').addEventListener('click', () => { 
-            document.getElementById('adminManagePublications').classList.add('hidden'); 
-            document.getElementById('adminManageNews').classList.add('hidden'); 
-            document.getElementById('adminManageSiteSettings').classList.remove('hidden'); 
-            if(typeof loadSiteLogosForAdmin === "function") loadSiteLogosForAdmin(); 
-        });
-        
         function updateAuthUI(user) {
-            const isAdminViewActive = currentView === 'adminDashboard' || currentView === 'adminLogin';
-            let isClientSideAdmin = false; 
+            const adminNavButton = document.getElementById('adminNavButton');
 
             if (user) {
-                // Corrected Firestore path construction for adminUsers document
-                const adminUserDocRef = doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, ADMIN_MANAGEMENT_COLLECTION_ID, ADMIN_USERS_DOC_ID); 
-                console.log("updateAuthUI: Checking admin status at path:", adminUserDocRef.path);
-                getDoc(adminUserDocRef).then(docSnap => {
-                    if (docSnap.exists() && docSnap.data().uids && docSnap.data().uids[user.uid] === true) {
-                        isClientSideAdmin = true;
-                        console.log("updateAuthUI: User IS client-side admin.");
+                // User is signed in. Check if they are an admin.
+                // Path to adminUsers document: users/adminUsers
+                const adminUsersDocRef = doc(db, "users", ADMIN_USERS_DOC_ID);
+                console.log("updateAuthUI: Checking admin status at path:", adminUsersDocRef.path);
+
+                getDoc(adminUsersDocRef).then(docSnap => {
+                    if (docSnap.exists()) {
+                        const adminData = docSnap.data();
+                        // Assuming 'adminUIDs' is an array of UIDs in your adminUsers document
+                        const adminUIDs = adminData.adminUIDs || []; 
+
+                        if (adminUIDs.includes(user.uid)) {
+                            console.log("updateAuthUI: User IS client-side admin. UID:", user.uid);
+                            views.adminLogin.classList.add('hidden'); // Hide login form
+                            views.adminDashboard.classList.remove('hidden'); // Show dashboard
+                            showView('adminDashboard'); // Navigate to dashboard
+                            adminNavButton.classList.remove('hidden'); // Show admin nav button
+                        } else {
+                            console.log("updateAuthUI: User is NOT client-side admin. UID:", user.uid);
+                            views.adminLogin.classList.add('hidden'); // Hide login form
+                            views.adminDashboard.classList.add('hidden'); // Hide dashboard
+                            showView('aboutUs'); // Redirect to a public view for non-admins
+                            adminNavButton.classList.add('hidden'); // Hide admin nav button
+                        }
                     } else {
-                        console.log("updateAuthUI: User is NOT client-side admin. Doc exists:", docSnap.exists(), "UIDs field in doc:", docSnap.data()?.uids, "User UID:", user.uid);
+                        console.warn("updateAuthUI: Admin users document ('users/adminUsers') not found! Please create it in Firestore.");
+                        // If admin list doesn't exist, treat as non-admin
+                        views.adminLogin.classList.add('hidden');
+                        views.adminDashboard.classList.add('hidden');
+                        showView('aboutUs'); // Default to public view
+                        adminNavButton.classList.add('hidden'); // Hide admin nav button
                     }
-                    finishAuthUIUpdate(user, isClientSideAdmin, isAdminViewActive);
                 }).catch(err => {
-                    console.warn("updateAuthUI: Could not verify client-side admin status for UI due to Firestore read error:", err.message, "Path attempted:", adminUserDocRef.path);
-                    finishAuthUIUpdate(user, false, isAdminViewActive); 
+                    console.error("updateAuthUI: Error fetching admin user roles:", err.message);
+                    // On error, assume not admin for safety
+                    views.adminLogin.classList.add('hidden');
+                    views.adminDashboard.classList.add('hidden');
+                    showView('aboutUs');
+                    adminNavButton.classList.add('hidden');
                 });
             } else {
-                console.log("updateAuthUI: No user logged in.");
-                finishAuthUIUpdate(null, false, isAdminViewActive);
-            }
-        }
-
-        function finishAuthUIUpdate(user, isClientSideAdmin, isAdminViewActiveCurrently) {
-            console.log(`finishAuthUIUpdate: User: ${user ? user.uid : 'null'}, isClientAdmin: ${isClientSideAdmin}, isAdminViewActive: ${isAdminViewActiveCurrently}, currentView: ${currentView}`);
-            
-            // Toggle admin navigation button visibility
-            const adminLoginNavButton = document.querySelector('.nav-button[data-view="adminLogin"]');
-            const adminLogoutDashboardButton = document.getElementById('adminLogoutBtn');
-
-            if (isClientSideAdmin) {
-                adminLoginNavButton.classList.add('hidden'); // Hide Admin Login button
-                adminLogoutDashboardButton.classList.remove('hidden'); // Show Logout button in dashboard
-                if (currentView !== 'adminDashboard') { 
-                    console.log("Redirecting admin to dashboard.");
-                    showView('adminDashboard');
+                // User is signed out.
+                console.log("Auth state changed: User logged out.");
+                views.adminDashboard.classList.add('hidden'); // Ensure dashboard is hidden
+                adminNavButton.classList.remove('hidden'); // Keep admin login button visible in nav
+                // If currently on admin dashboard, redirect to login view. Otherwise, stay put.
+                if (currentView === 'adminDashboard') {
+                    showView('adminLogin');
                 }
-            } else { 
-                adminLoginNavButton.classList.remove('hidden'); // Show Admin Login button
-                adminLogoutDashboardButton.classList.add('hidden'); // Hide Logout button in dashboard
-                if (isAdminViewActiveCurrently) { // If user was in an admin view (login or dashboard)
-                    console.log("User not admin or no user, redirecting from admin view to aboutUs.");
-                    showView('aboutUs'); // Redirect to a public view
-                }
-            }
-        }
-
-        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
-            e.preventDefault(); showLoadingSpinner();
-            const email = document.getElementById('adminEmail').value; 
-            const password = document.getElementById('adminPassword').value; 
-            const loginErrorMessage = document.getElementById('loginErrorMessage'); 
-            loginErrorMessage.textContent = ''; // Clear previous error
-
-            try { 
-                console.log("Attempting admin login for:", email);
-                await signInWithEmailAndPassword(auth, email, password); 
-                document.getElementById('adminEmail').value = ''; 
-                document.getElementById('adminPassword').value = '';
-                showMessageModal("successMessage", "adminLoginSuccessful", "success");
-            } catch (error) { 
-                console.error("Admin login error:", error.code, error.message); 
-                let errorMessage = translations[currentLanguage]?.errorMessage || "An unexpected error occurred.";
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') { // Include invalid-credential for newer Firebase versions
-                    errorMessage = translations[currentLanguage]?.invalidCredentials || "Invalid email or password.";
-                } else if (error.code === 'auth/too-many-requests') {
-                    errorMessage = translations[currentLanguage]?.tooManyLoginAttempts || "Too many failed login attempts. Please try again later.";
-                }
-                loginErrorMessage.textContent = errorMessage;
-            } finally { hideLoadingSpinner(); }
-        });
-
-        function setupListeners(user) {
-            if (!db) { console.error("Firestore not initialized for setupListeners."); return; }
-            // Always listen for public data
-            if(typeof listenForPublicPublications === "function") listenForPublicPublications(); 
-            if(typeof listenForCurrentIssue === "function") listenForCurrentIssue(); 
-            if(typeof listenForNews === "function") listenForNews(); 
-            if(typeof listenForSiteLogos === "function") listenForSiteLogos();
-
-            // Only listen for admin-specific data if user is authenticated
-            if (user) { 
-                console.log("User logged in, setting up admin listeners.");
-                if(typeof listenForAdminPublications === "function") listenForAdminPublications(); 
-                if(typeof listenForAdminNews === "function") listenForAdminNews();
-            } else {
-                console.log("No user, clearing admin tables.");
-                const noPubsMsg = (translations[currentLanguage] && translations[currentLanguage].noPublicationsToManage) || 'No publications to manage.';
-                const noNewsMsg = (translations[currentLanguage] && translations[currentLanguage].noNewsToManage) || 'No news to manage.';
-                document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4" data-lang-key="noPublicationsToManage">${noPubsMsg}</td></tr>`;
-                document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4" data-lang-key="noNewsToManage">${noNewsMsg}</td></tr>`;
             }
         }
         
+        // --- File Upload & Deletion Utilities ---
         function getOriginalFileNameFromUnique(uniqueFileName) {
             if (!uniqueFileName) return '';
+            // Files are stored as TIMESTAMP_ORIGINALFILENAME.EXT
             const parts = uniqueFileName.split('_');
-            if (parts.length > 1 && !isNaN(Number(parts[0]))) { // Checks if the first part is a number (timestamp)
+            if (parts.length > 1 && !isNaN(Number(parts[0]))) {
                 parts.shift(); // Remove the timestamp part
-                return parts.join('_');
+                return parts.join('_'); // Rejoin the rest as the original filename
             }
-            return uniqueFileName; // Return as is if no timestamp prefix
+            return uniqueFileName; // If not in expected format, return as is
         }
 
         async function uploadFile(file, path) {
-            if (!file) return { url: '', fileName: '' };
-            const uniqueFileName = `${Date.now()}_${file.name}`; // Prefix with timestamp for uniqueness
+            if (!file) return { url: '', fileName: '' }; // Handle no file selected
+            showLoadingSpinner();
+            const uniqueFileName = `${Date.now()}_${file.name}`; // Prepend timestamp for uniqueness
             const storageRef = ref(storage, `${path}/${uniqueFileName}`);
             try {
                 const snapshot = await uploadBytes(storageRef, file);
                 const downloadURL = await getDownloadURL(snapshot.ref);
+                hideLoadingSpinner();
                 return { url: downloadURL, fileName: uniqueFileName };
             } catch (error) {
+                hideLoadingSpinner();
                 console.error("Error uploading file:", file.name, "to path:", path, error);
-                const errorMsg = (translations[currentLanguage] && translations[currentLanguage].fileUploadFailed) || "File upload failed: ";
-                const checkRulesMsg = (translations[currentLanguage] && translations[currentLanguage].checkStorageRules) || "Check Firebase Storage rules.";
+                const errorMsg = translations[currentLanguage]?.fileUploadFailed || "File upload failed: ";
+                const checkRulesMsg = translations[currentLanguage]?.checkStorageRules || "Check Firebase Storage rules.";
                 throw new Error(`${errorMsg} ${file.name}. ${checkRulesMsg}`);
             }
         }
@@ -849,56 +857,173 @@
                 console.warn("deleteFile: Missing filename or path."); 
                 return; 
             }
+            // Do not attempt to delete placeholder or default hardcoded images
+            if (uniqueFileName.includes('placehold.co') || 
+                uniqueFileName.includes(DEFAULT_HEADER_LOGO_URL) || 
+                uniqueFileName.includes(DEFAULT_FOOTER_LOGO_URL) ||
+                uniqueFileName.includes(DEFAULT_CONTRIB1_LOGO_URL) ||
+                uniqueFileName.includes(DEFAULT_CONTRIB2_LOGO_URL)) {
+                console.warn("Attempted to delete a placeholder or default logo URL. Skipping.");
+                return;
+            }
+
+            showLoadingSpinner();
             try {
                 const fileRef = ref(storage, `${path}/${uniqueFileName}`);
                 await deleteObject(fileRef);
+                hideLoadingSpinner();
                 console.log("Successfully deleted file:", uniqueFileName, "from", path);
             } catch (error) {
-                const notFoundMsg = (translations[currentLanguage] && translations[currentLanguage].fileNotFoundInStorage) || "File not found in storage: ";
-                const deletionFailedMsg = (translations[currentLanguage] && translations[currentLanguage].fileDeletionFailed) || "File deletion failed: ";
+                hideLoadingSpinner();
+                const notFoundMsg = translations[currentLanguage]?.fileNotFoundInStorage || "File not found in storage: ";
+                const deletionFailedMsg = translations[currentLanguage]?.fileDeletionFailed || "File deletion failed: ";
                 if (error.code === 'storage/object-not-found') {
                     console.warn(`${notFoundMsg} ${uniqueFileName}`);
                 } else {
                     console.error(`${deletionFailedMsg} ${uniqueFileName}`, error);
+                    // showMessageModal("errorMessage", `${deletionFailedMsg} ${error.message}`, "error"); // Only show if critical
                 }
             }
         }
-        
-        function listenForSiteLogos() {
-            // Corrected Firestore path construction for siteConfiguration document
-            const docRef = doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, SITE_CONFIGURATION_DOC_ID); 
-            console.log("Listening for site configuration at:", docRef.path);
-            onSnapshot(docRef, (docSnap) => {
-                console.log("Site config snapshot received. Exists:", docSnap.exists());
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    currentHeaderLogo.url = data.headerLogoUrl || DEFAULT_HEADER_LOGO_URL;
-                    currentHeaderLogo.fileName = data.headerLogoFileName || '';
-                    currentFooterLogo.url = data.footerLogoUrl || DEFAULT_FOOTER_LOGO_URL;
-                    currentFooterLogo.fileName = data.footerLogoFileName || '';
-                    currentContributor1Logo.url = data.contributor1LogoUrl || DEFAULT_CONTRIB1_LOGO_URL;
-                    currentContributor1Logo.fileName = data.contributor1LogoFileName || '';
-                    currentContributor2Logo.url = data.contributor2LogoUrl || DEFAULT_CONTRIB2_LOGO_URL;
-                    currentContributor2Logo.fileName = data.contributor2LogoFileName || '';
+
+        // Helper to update file input preview displays (for admin forms)
+        function updateFileUploadPreviewDisplay(previewContainerId, imgElementId, textElementId, url, fileName, isImage) {
+            const previewContainer = document.getElementById(previewContainerId);
+            const previewImg = document.getElementById(imgElementId);
+            const previewText = document.getElementById(textElementId);
+
+            if (url && fileName) {
+                previewContainer.classList.remove('hidden');
+                if (isImage) {
+                    previewImg.src = url;
+                    previewImg.style.display = 'block';
+                    previewText.style.display = 'none';
                 } else {
-                    console.warn(`Site configuration document '${SITE_CONFIGURATION_DOC_ID}' not found. Using defaults.`);
+                    previewImg.style.display = 'none';
+                    previewText.textContent = `${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(fileName)}`;
+                    previewText.style.display = 'block';
+                }
+            } else {
+                previewContainer.classList.add('hidden');
+                previewImg.src = '';
+                previewImg.style.display = 'none';
+                previewText.textContent = '';
+                previewText.style.display = 'none';
+            }
+        }
+
+        function resetFileUploadPreviews(prefix) {
+            const inputs = [`${prefix}Cover`, `${prefix}Pdf`, `${prefix}AbstractArPdf`, `${prefix}AbstractEnPdf`, `${prefix}AbstractItPdf`];
+            inputs.forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) input.value = '';
+            });
+            // Specific resets for admin publication/news file previews
+            document.getElementById('uploadedCoverPreviewAdmin').src = '';
+            document.getElementById('uploadedCoverPreviewAdmin').style.display = 'none';
+            document.getElementById('coverImageFileNameDisplayAdmin').textContent = '';
+
+            document.getElementById('pdfFileNameDisplayAdmin').textContent = '';
+            document.getElementById('abstractArPdfFileNameDisplayAdmin').textContent = '';
+            document.getElementById('abstractEnPdfFileNameDisplayAdmin').textContent = '';
+            document.getElementById('abstractItPdfFileNameDisplayAdmin').textContent = '';
+
+            // For news
+            document.getElementById('uploadedNewsImagePreviewAdmin').src = '';
+            document.getElementById('uploadedNewsImagePreviewAdmin').style.display = 'none';
+            document.getElementById('newsImageFileNameDisplayAdmin').textContent = '';
+            
+            // For site settings logos
+            document.getElementById('headerLogoUpload').value = '';
+            document.getElementById('footerLogoUpload').value = '';
+            document.getElementById('contributor1LogoUpload').value = '';
+            document.getElementById('contributor2LogoUpload').value = '';
+            updateSiteLogosUI(); // Re-apply current/default state to previews
+        }
+
+
+        // --- Firestore Listeners for Public Data ---
+        let unsubscribePublications = null;
+        let unsubscribeCurrentIssue = null;
+        let unsubscribeNews = null;
+        let unsubscribeSiteConfig = null;
+
+        function setupListeners(user) {
+            // Unsubscribe existing listeners to prevent duplicates
+            if (unsubscribePublications) unsubscribePublications();
+            if (unsubscribeCurrentIssue) unsubscribeCurrentIssue();
+            if (unsubscribeNews) unsubscribeNews();
+            if (unsubscribeSiteConfig) unsubscribeSiteConfig();
+
+            // Always listen for public data regardless of auth state
+            listenForPublicPublications();
+            listenForCurrentIssue();
+            listenForNews();
+            listenForSiteLogos();
+
+            // Only set up admin listeners if a user is authenticated (Firebase auth listener handles isAdmin check)
+            if (user) {
+                listenForAdminPublications();
+                listenForAdminNews();
+            } else {
+                // Clear admin tables if no user is logged in
+                document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4" data-lang-key="noPublicationsToManage">${translations[currentLanguage]?.noPublicationsToManage || 'No publications to manage.'}</td></tr>`;
+                document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4" data-lang-key="noNewsToManage">${translations[currentLanguage]?.noNewsToManage || 'No news to manage.'}</td></tr>`;
+            }
+        }
+
+        async function listenForSiteLogos() {
+            try {
+                // Correct path using specific document ID and subcollections
+                const docRef = doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID); // Site config is a document
+                console.log("Listening for site configuration at:", docRef.path);
+
+                unsubscribeSiteConfig = onSnapshot(docRef, (docSnap) => {
+                    console.log("Site config snapshot received. Exists:", docSnap.exists());
+                    if (docSnap.exists()) {
+                        const config = docSnap.data();
+                        console.log("Site config data:", config);
+
+                        // Update global current logo states
+                        currentHeaderLogo.url = config.headerLogoUrl || DEFAULT_HEADER_LOGO_URL;
+                        currentHeaderLogo.fileName = config.headerLogoFileName || '';
+                        currentFooterLogo.url = config.footerLogoUrl || DEFAULT_FOOTER_LOGO_URL;
+                        currentFooterLogo.fileName = config.footerLogoFileName || '';
+                        currentContributor1Logo.url = config.contributor1LogoUrl || DEFAULT_CONTRIB1_LOGO_URL;
+                        currentContributor1Logo.fileName = config.contributor1LogoFileName || '';
+                        currentContributor2Logo.url = config.contributor2LogoUrl || DEFAULT_CONTRIB2_LOGO_URL;
+                        currentContributor2Logo.fileName = config.contributor2LogoFileName || '';
+                    } else {
+                        console.warn(`Site configuration document '${SITE_CONFIGURATION_DOC_ID}' not found. Using defaults.`);
+                        // Ensure global states revert to defaults if doc doesn't exist
+                        currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; 
+                        currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
+                        currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' };
+                        currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
+                    }
+                    updateSiteLogosUI(); // Always update UI after snapshot
+                }, (error) => {
+                    console.error("Error listening for site configuration:", error);
+                    showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.couldNotLoadLogos || "Could not load site logos.", "error");
+                    // Ensure global states revert to defaults on error
                     currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; 
                     currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
                     currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' };
                     currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
-                }
-                updateSiteLogosUI();
-            }, (error) => {
-                console.error("Error listening for site logos:", error);
-                showMessageModal("errorMessage", "couldNotLoadLogos", "error");
+                    updateSiteLogosUI();
+                });
+            } catch (error) {
+                console.error("Failed to set up listener for site configuration:", error);
+                // Ensure global states revert to defaults if listener setup fails
                 currentHeaderLogo = { url: DEFAULT_HEADER_LOGO_URL, fileName: '' }; 
-                currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' }; 
-                currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' }; 
+                currentFooterLogo = { url: DEFAULT_FOOTER_LOGO_URL, fileName: '' };
+                currentContributor1Logo = { url: DEFAULT_CONTRIB1_LOGO_URL, fileName: '' };
                 currentContributor2Logo = { url: DEFAULT_CONTRIB2_LOGO_URL, fileName: '' };
-                updateSiteLogosUI(); // Ensure UI is updated even on error
-            });
+                updateSiteLogosUI();
+            }
         }
 
+        // Function to update the actual image elements on the page
         function updateSiteLogosUI() {
             document.getElementById('mainHeaderLogo').src = currentHeaderLogo.url;
             document.getElementById('mainFooterLogo').src = currentFooterLogo.url;
@@ -912,252 +1037,298 @@
                 contributor1: { imgId: 'contributor1LogoPreview', textId: 'contributor1FileNameDisplayAdmin', current: currentContributor1Logo, defaultUrl: DEFAULT_CONTRIB1_LOGO_URL, noMsgKey: 'noLERMALogo' },
                 contributor2: { imgId: 'contributor2LogoPreview', textId: 'contributor2FileNameDisplayAdmin', current: currentContributor2Logo, defaultUrl: DEFAULT_CONTRIB2_LOGO_URL, noMsgKey: 'noMEDALogo' }
             };
+
             for (const key in adminPreviews) {
                 const { imgId, textId, current, defaultUrl, noMsgKey } = adminPreviews[key];
-                const imgEl = document.getElementById(imgId); 
+                const imgEl = document.getElementById(imgId);
                 const textEl = document.getElementById(textId);
                 if (imgEl && textEl) {
                     imgEl.src = current.url || defaultUrl; 
-                    imgEl.style.display = (current.url && current.fileName) ? 'block' : 'none'; 
+                    imgEl.style.display = (current.url && current.fileName) ? 'block' : 'none'; // Only show if a custom file is uploaded
                     textEl.textContent = current.fileName ? `${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(current.fileName)}` : (translations[currentLanguage]?.[noMsgKey] || '');
+                    // Ensure the container is visible if there's an image or text
+                    if (imgEl.parentElement) imgEl.parentElement.classList.toggle('hidden', !(current.url || current.fileName));
                 }
             }
         }
-        function loadSiteLogosForAdmin() { updateSiteLogosUI(); }
-
-        function handleLogoFileInput(inputElement, previewImgElement, fileNameDisplayElement, currentLogoState, defaultUrl, noMsgKey) {
-            const file = inputElement.files[0];
-            if (file) {
-                fileNameDisplayElement.textContent = `${translations[currentLanguage]?.selectedLabel}: ${file.name}`;
-                if (previewImgElement) { 
-                    const reader = new FileReader(); 
-                    reader.onload = (event) => { 
-                        previewImgElement.src = event.target.result; 
-                        previewImgElement.style.display = 'block'; 
-                    }; 
-                    reader.readAsDataURL(file); 
-                }
-            } else {
-                fileNameDisplayElement.textContent = currentLogoState.fileName ? `${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentLogoState.fileName)}` : (translations[currentLanguage]?.[noMsgKey] || '');
-                if (previewImgElement) { 
-                    previewImgElement.src = currentLogoState.url || defaultUrl; 
-                    previewImgElement.style.display = (currentLogoState.url && currentLogoState.fileName) ? 'block' : 'none'; 
-                }
-            }
-        }
-        document.getElementById('headerLogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('headerLogoPreview'), document.getElementById('headerLogoFileNameDisplayAdmin'), currentHeaderLogo, DEFAULT_HEADER_LOGO_URL, 'noCustomHeaderLogo'));
-        document.getElementById('footerLogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('footerLogoPreview'), document.getElementById('footerLogoFileNameDisplayAdmin'), currentFooterLogo, DEFAULT_FOOTER_LOGO_URL, 'noCustomFooterLogo'));
-        document.getElementById('contributor1LogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('contributor1LogoPreview'), document.getElementById('contributor1FileNameDisplayAdmin'), currentContributor1Logo, DEFAULT_CONTRIB1_LOGO_URL, 'noLERMALogo'));
-        document.getElementById('contributor2LogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('contributor2LogoPreview'), document.getElementById('contributor2FileNameDisplayAdmin'), currentContributor2Logo, DEFAULT_CONTRIB2_LOGO_URL, 'noMEDALogo'));
-
-        document.getElementById('logoUploadForm').addEventListener('submit', async (e) => {
-            e.preventDefault(); showLoadingSpinner();
-            if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error"); hideLoadingSpinner(); return; }
-            const headerFile = document.getElementById('headerLogoUpload').files[0]; 
-            const footerFile = document.getElementById('footerLogoUpload').files[0];
-            let newHeaderLogo = { ...currentHeaderLogo }; 
-            let newFooterLogo = { ...currentFooterLogo };
-            try {
-                if (headerFile) { 
-                    if (currentHeaderLogo.fileName && currentHeaderLogo.url !== DEFAULT_HEADER_LOGO_URL) await deleteFile(currentHeaderLogo.fileName, STORAGE_PATH_LOGOS); 
-                    newHeaderLogo = await uploadFile(headerFile, STORAGE_PATH_LOGOS); 
-                }
-                if (footerFile) { 
-                    if (currentFooterLogo.fileName && currentFooterLogo.url !== DEFAULT_FOOTER_LOGO_URL) await deleteFile(currentFooterLogo.fileName, STORAGE_PATH_LOGOS); 
-                    newFooterLogo = await uploadFile(footerFile, STORAGE_PATH_LOGOS); 
-                }
-                // Corrected Firestore path construction for siteConfiguration document
-                await setDoc(doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, SITE_CONFIGURATION_DOC_ID), { 
-                    headerLogoUrl: newHeaderLogo.url, 
-                    headerLogoFileName: newHeaderLogo.fileName, 
-                    footerLogoUrl: newFooterLogo.url, 
-                    footerLogoFileName: newFooterLogo.fileName 
-                }, { merge: true });
-                showMessageModal("successMessage", "siteLogosUpdated", "success");
-                currentHeaderLogo = newHeaderLogo; 
-                currentFooterLogo = newFooterLogo; 
-                updateSiteLogosUI();
-                document.getElementById('headerLogoUpload').value = ''; 
-                document.getElementById('footerLogoUpload').value = '';
-            } catch (error) { 
-                console.error("Error updating site logos:", error); 
-                showMessageModal("errorMessage", (translations[currentLanguage]?.errorUpdatingLogos || "Error updating logos: ") + error.message, "error"); 
-            } finally { hideLoadingSpinner(); }
-        });
-
-        document.getElementById('contributorLogoUploadForm').addEventListener('submit', async (e) => {
-            e.preventDefault(); showLoadingSpinner();
-            if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionUpdateSiteSettings", "error"); hideLoadingSpinner(); return; }
-            const c1File = document.getElementById('contributor1LogoUpload').files[0]; 
-            const c2File = document.getElementById('contributor2LogoUpload').files[0];
-            let newC1Logo = { ...currentContributor1Logo }; 
-            let newC2Logo = { ...currentContributor2Logo };
-            try {
-                if (c1File) { 
-                    if (currentContributor1Logo.fileName && currentContributor1Logo.url !== DEFAULT_CONTRIB1_LOGO_URL) await deleteFile(currentContributor1Logo.fileName, STORAGE_PATH_LOGOS); 
-                    newC1Logo = await uploadFile(c1File, STORAGE_PATH_LOGOS); 
-                }
-                if (c2File) { 
-                    if (currentContributor2Logo.fileName && currentContributor2Logo.url !== DEFAULT_CONTRIB2_LOGO_URL) await deleteFile(currentContributor2Logo.fileName, STORAGE_PATH_LOGOS); 
-                    newC2Logo = await uploadFile(c2File, STORAGE_PATH_LOGOS); 
-                }
-                // Corrected Firestore path construction for siteConfiguration document
-                await setDoc(doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, SITE_CONFIGURATION_DOC_ID), { 
-                    contributor1LogoUrl: newC1Logo.url, 
-                    contributor1LogoFileName: newC1Logo.fileName, 
-                    contributor2LogoUrl: newC2Logo.url, 
-                    contributor2LogoFileName: newC2Logo.fileName 
-                }, { merge: true });
-                showMessageModal("successMessage", "contributorLogosUpdated", "success");
-                currentContributor1Logo = newC1Logo; 
-                currentContributor2Logo = newC2Logo; 
-                updateSiteLogosUI();
-                document.getElementById('contributor1LogoUpload').value = ''; 
-                document.getElementById('contributor2LogoUpload').value = '';
-            } catch (error) { 
-                console.error("Error updating contributor logos:", error); 
-                showMessageModal("errorMessage", (translations[currentLanguage]?.errorUpdatingContributorLogos || "Error updating contributor logos: ") + error.message, "error"); 
-            } finally { hideLoadingSpinner(); }
-        });
 
         function listenForPublicPublications() {
-            // Corrected Firestore path construction for publications collection
-            const pubCollRef = collection(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_PUB_COLLECTION_NAME);
-            const q = query(pubCollRef, orderBy("year", "desc"));
-            console.log("Listening for public publications at:", q.path); // Log the path property of the query
-            onSnapshot(q, (snapshot) => {
-                const publications = []; snapshot.forEach(doc => publications.push({ id: doc.id, ...doc.data() }));
-                displayPublications(publications);
-            }, (error) => { 
-                console.error("Error listening to public publications:", error); 
-                const errorMsg = `<p class="col-span-full text-center text-red-500">${(translations[currentLanguage] && translations[currentLanguage].errorLoadingPublications) || 'Error loading publications.'}</p>`; 
-                document.getElementById('publicationsList').innerHTML = errorMsg; 
-                document.getElementById('archivalPublicationsList').innerHTML = errorMsg; 
-            });
-        }
-        function listenForCurrentIssue() {
-            // Corrected Firestore path construction for currentIssue document
-            const currentIssueDocRef = doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, CURRENT_ISSUE_DOC_ID);
-            console.log("Listening for current issue at:", currentIssueDocRef.path); // Log the path
-            onSnapshot(currentIssueDocRef, (docSnap) => {
-                const card = document.getElementById('currentIssuePublicationCard'); 
-                const noIssueMsg = document.getElementById('currentIssueContent').querySelector('p[data-lang-key="noCurrentIssue"]');
-                if (docSnap.exists()) {
-                    const book = docSnap.data(); 
-                    noIssueMsg.classList.add('hidden'); 
-                    card.classList.remove('hidden');
-                    document.getElementById('currentIssueCover').src = book.coverImageUrl || 'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image';
-                    document.getElementById('currentIssueTitle').textContent = book.title || translations[currentLanguage]?.noTitle || 'No Title';
-                    document.getElementById('currentIssueAuthors').textContent = book.authors || translations[currentLanguage]?.noAuthors || 'No Authors';
-                    document.getElementById('currentIssueYear').textContent = book.year || translations[currentLanguage]?.noYear || 'No Year';
-                    document.getElementById('currentIssueDescription').textContent = book.description || translations[currentLanguage]?.noDescription || 'No description.';
-                    const updateBtn = (id, url, key) => { 
-                        const btn=document.getElementById(id); 
-                        btn.href=url||'#'; 
-                        btn.classList.toggle('disabled',!url); 
-                        btn.onclick=url?null:(e)=>{e.preventDefault();showMessageModal("unavailable",key,"alert");};
-                    };
-                    updateBtn('currentIssueDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable'); 
-                    updateBtn('currentIssueDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable'); 
-                    updateBtn('currentIssueDownloadAbstractEnBtn', book.abstracts?.en?.url, 'englishAbstractPdfUnavailable'); 
-                    updateBtn('currentIssueDownloadAbstractItBtn', book.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
-                } else { 
-                    noIssueMsg.classList.remove('hidden'); 
-                    card.classList.add('hidden'); 
-                }
-            }, (error) => { 
-                console.error("Error listening to current issue:", error); 
-                showMessageModal("errorMessage", "errorLoadingCurrentIssue", "error");
-            });
-        }
-        function listenForNews() {
-            // Corrected Firestore path construction for news collection
-            const newsCollRef = collection(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_NEWS_COLLECTION_NAME);
-            const q = query(newsCollRef, orderBy("timestamp", "desc"));
-            console.log("Listening for news at:", q.path); // Log the path property of the query
-            onSnapshot(q, (snapshot) => {
-                const newsFeedDiv = document.getElementById('newsFeed'); newsFeedDiv.innerHTML = '';
-                if (snapshot.empty) { newsFeedDiv.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="noNewsUpdates">${translations[currentLanguage]?.noNewsUpdates || 'No news.'}</p>`; return; }
+            // Use the correct collection reference
+            const publicationsRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME);
+            const q = query(publicationsRef, orderBy("year", "desc"));
+            console.log("Listening for public publications at:", q._query.path.segments.join('/'));
+
+            unsubscribePublications = onSnapshot(q, (snapshot) => {
+                console.log("Public publications snapshot received. Docs count:", snapshot.docs.length);
+                const publications = [];
                 snapshot.forEach(doc => {
-                    const news = { id: doc.id, ...doc.data() };
-                    newsFeedDiv.innerHTML += `<div class="bg-gray-100 p-6 rounded-lg shadow-md border"><h3 class="text-xl font-bold mb-2">${news.title}</h3><p class="text-sm mb-3">${new Date(news.timestamp).toLocaleDateString(currentLanguage==='it'?'it-IT':'en-US')}</p><p class="text-base">${news.description}</p>${news.imageUrl ? `<img src="${news.imageUrl}" alt="${news.title}" class="w-full h-48 object-cover rounded-md mt-4 shadow-sm" onerror="this.style.display='none';">` : ''}</div>`;
+                    publications.push({ id: doc.id, ...doc.data() });
                 });
-            }, (error) => { 
-                console.error("Error listening to news:", error); 
+                displayPublications(publications); // Call display function with fetched data
+            }, (error) => {
+                console.error("Error listening for public publications:", error);
+                const publicationsList = document.getElementById('publicationsList');
+                publicationsList.innerHTML = `<p class="col-span-full text-center text-red-500">${translations[currentLanguage]?.errorLoadingPublications || 'Error loading publications.'}</p>`;
+                document.getElementById('archivalPublicationsList').innerHTML = `<p class="col-span-full text-center text-red-500">${translations[currentLanguage]?.errorLoadingPublications || 'Error loading publications.'}</p>`;
+            });
+        }
+
+        function listenForCurrentIssue() {
+            // Use the correct document reference
+            const currentIssueDocRef = doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_CURRENT_ISSUE_DOC_ID);
+            console.log("Listening for current issue at:", currentIssueDocRef.path);
+
+            unsubscribeCurrentIssue = onSnapshot(currentIssueDocRef, (docSnap) => {
+                const currentIssuePublicationCard = document.getElementById('currentIssuePublicationCard');
+                const noCurrentIssueText = document.querySelector('#currentIssueContent > p');
+
+                if (docSnap.exists()) {
+                    const issue = docSnap.data();
+                    document.getElementById('currentIssueCover').src = issue.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image';
+                    document.getElementById('currentIssueTitle').textContent = issue.title || translations[currentLanguage]?.noTitle || 'No Title';
+                    document.getElementById('currentIssueAuthors').textContent = issue.authors || translations[currentLanguage]?.noAuthors || 'No Authors';
+                    document.getElementById('currentIssueYear').textContent = issue.year || translations[currentLanguage]?.noYear || 'No Year';
+                    document.getElementById('currentIssueDescription').textContent = issue.description || translations[currentLanguage]?.noDescription || 'No description.';
+
+                    const updateBtn = (id, url, key) => { 
+                        const btn = document.getElementById(id); 
+                        btn.href = url || '#'; 
+                        btn.classList.toggle('disabled', !url); 
+                        btn.target = url ? '_blank' : '_self';
+                        btn.onclick = url ? null : (e) => { e.preventDefault(); showMessageModal("unavailable", key, "alert"); };
+                    };
+                    updateBtn('currentIssueDownloadPdfBtn', issue.pdfUrl, 'fullPdfUnavailable');
+                    updateBtn('currentIssueDownloadAbstractArBtn', issue.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable');
+                    updateBtn('currentIssueDownloadAbstractEnBtn', issue.abstracts?.en?.url, 'englishAbstractPdfUnavailable');
+                    updateBtn('currentIssueDownloadAbstractItBtn', issue.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
+
+                    noCurrentIssueText.classList.add('hidden');
+                    currentIssuePublicationCard.classList.remove('hidden');
+                } else {
+                    noCurrentIssueText.classList.remove('hidden');
+                    currentIssuePublicationCard.classList.add('hidden');
+                }
+            }, (error) => {
+                console.error("Error listening for current issue:", error);
+                const noCurrentIssueText = document.querySelector('#currentIssueContent > p');
+                noCurrentIssueText.textContent = translations[currentLanguage]?.errorLoadingCurrentIssue || 'Error loading current issue.';
+                noCurrentIssueText.classList.remove('hidden');
+                document.getElementById('currentIssuePublicationCard').classList.add('hidden');
+            });
+        }
+
+        function listenForNews() {
+            // Use the correct collection reference
+            const newsRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME);
+            const q = query(newsRef, orderBy("timestamp", "desc"));
+            console.log("Listening for news at:", q._query.path.segments.join('/'));
+
+            unsubscribeNews = onSnapshot(q, (snapshot) => {
+                const newsFeedDiv = document.getElementById('newsFeed');
+                newsFeedDiv.innerHTML = ''; // Clear previous news
+                if (snapshot.empty) {
+                    newsFeedDiv.innerHTML = `<p class="col-span-full text-center text-gray-400" data-lang-key="noNewsUpdates">${translations[currentLanguage]?.noNewsUpdates || 'No news updates at this time.'}</p>`;
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const newsItem = { id: doc.id, ...doc.data() };
+                    const newsCard = document.createElement('div');
+                    newsCard.className = 'bg-gray-100 p-6 rounded-lg shadow-md border';
+                    const date = newsItem.timestamp ? new Date(newsItem.timestamp).toLocaleDateString(currentLanguage === 'it' ? 'it-IT' : 'en-US') : 'N/A';
+                    newsCard.innerHTML = `
+                        <h3 class="text-xl font-bold mb-2">${newsItem.title || translations[currentLanguage]?.noTitle || 'No Title'}</h3>
+                        <p class="text-gray-600 text-sm mb-3">${date}</p>
+                        <p class="text-gray-700 text-base">${newsItem.description || translations[currentLanguage]?.noDescription || 'No description.'}</p>
+                        ${newsItem.imageUrl ? `<img src="${newsItem.imageUrl}" alt="${newsItem.title}" class="w-full h-48 object-cover rounded-md mt-4 shadow-sm" onerror="this.style.display='none';">` : ''}
+                    `;
+                    newsFeedDiv.appendChild(newsCard);
+                });
+            }, (error) => {
+                console.error("Error listening for news:", error);
                 document.getElementById('newsFeed').innerHTML = `<p class="col-span-full text-center text-red-500">${translations[currentLanguage]?.errorLoadingNews || 'Error loading news.'}</p>`;
             });
         }
-        function displayPublications(publications) {
-            const listDiv = document.getElementById('publicationsList'); 
-            const archivalDiv = document.getElementById('archivalPublicationsList');
-            listDiv.innerHTML = ''; 
-            archivalDiv.innerHTML = '';
-            const noPubsMsg = `<p class="col-span-full text-center text-gray-400" data-lang-key="noPubsFound">${translations[currentLanguage]?.noPubsFound || 'No publications found.'}</p>`;
-            if (!publications || publications.length === 0) { 
-                listDiv.innerHTML = noPubsMsg; 
-                archivalDiv.innerHTML = noPubsMsg; 
-                return; 
-            }
-            const searchTerm = document.getElementById('publicationSearch').value.toLowerCase(); 
-            const sortBy = document.getElementById('sortPublications').value;
-            let filtered = publications.filter(p => ((p.title||'').toLowerCase().includes(searchTerm) || (p.authors||'').toLowerCase().includes(searchTerm) || String(p.year||'').includes(searchTerm) || (p.description||'').toLowerCase().includes(searchTerm) || (p.isbn||'').toLowerCase().includes(searchTerm) || (p.issn||'').toLowerCase().includes(searchTerm) || (p.abstracts?.ar?.text||'').toLowerCase().includes(searchTerm) || (p.abstracts?.en?.text||'').toLowerCase().includes(searchTerm) || (p.abstracts?.it?.text||'').toLowerCase().includes(searchTerm) ));
-            
-            if (sortBy === 'year-desc') filtered.sort((a,b)=>(b.year||0)-(a.year||0)); 
-            else if (sortBy === 'year-asc') filtered.sort((a,b)=>(a.year||0)-(b.year||0)); 
-            else if (sortBy === 'title-asc') filtered.sort((a,b)=>(a.title||'').localeCompare(b.title||'')); 
-            else if (sortBy === 'title-desc') filtered.sort((a,b)=>(b.title||'').localeCompare(a.title||'')); 
-            else if (sortBy === 'author-asc') filtered.sort((a,b)=>(a.authors||'').localeCompare(b.authors||'')); 
-            else if (sortBy === 'author-desc') filtered.sort((a,b)=>(b.authors||'').localeCompare(a.authors||''));
-            
-            const noResultsMsg = `<p class="col-span-full text-center text-gray-400" data-lang-key="noSearchResults">${translations[currentLanguage]?.noSearchResults || 'No results match.'}</p>`;
-            if (filtered.length === 0) { 
-                listDiv.innerHTML = noResultsMsg; 
-                archivalDiv.innerHTML = noResultsMsg; 
-                return; 
-            }
-            filtered.forEach(book => {
-                const cardHtml = `<div class="publication-card p-4 flex flex-col items-center text-center"><img src="${book.coverImageUrl||'https://placehold.co/400x600/e0e2e5/3f4245?text=No+Image'}" alt="${book.title||translations[currentLanguage]?.noTitle||'No Title'} Cover" class="cover-image rounded-md mb-4"><h3 class="text-xl font-bold mb-2">${book.title||translations[currentLanguage]?.noTitle||'No Title'}</h3><p class="mb-1">${book.authors||translations[currentLanguage]?.noAuthors||'No Authors'}</p><p class="text-sm font-medium">${book.year||translations[currentLanguage]?.noYear||'No Year'}</p><p class="text-sm mt-2 flex-grow overflow-hidden line-clamp-3">${book.description||translations[currentLanguage]?.noDescription||'No description.'}</p><button class="nav-button text-sm mt-4 view-publication-details" data-id="${book.id}" data-lang-key="viewDetailsButton">${translations[currentLanguage]?.viewDetailsButton||'View Details'}</button></div>`;
-                listDiv.innerHTML += cardHtml; 
-                archivalDiv.innerHTML += cardHtml;
-            });
-            document.querySelectorAll('.view-publication-details').forEach(btn => btn.addEventListener('click', async (e) => { 
-                const bookId = e.target.dataset.id; 
-                // Corrected Firestore path construction for publication document
-                const docRef = doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_PUB_COLLECTION_NAME, bookId); 
-                const docSnap = await getDoc(docRef); 
-                if (docSnap.exists()) showPublicationDetailsModal(docSnap.data()); 
-                else showMessageModal("errorMessage", "pubDetailsNotFound", "error"); 
-            }));
-        }
-        document.getElementById('publicationSearch').addEventListener('input', () => { if(typeof listenForPublicPublications === "function") listenForPublicPublications(); });
-        document.getElementById('sortPublications').addEventListener('change', () => { if(typeof listenForPublicPublications === "function") listenForPublicPublications(); });
         
-        function listenForAdminPublications() {
-            // Corrected Firestore path construction for publications collection
-            const pubCollRef = collection(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_PUB_COLLECTION_NAME); 
-            const q = query(pubCollRef, orderBy("timestamp", "desc"));
-            console.log("Listening for admin publications at:", q.path); // Log the path property of the query
-            onSnapshot(q, (snapshot) => {
-                const listBody = document.getElementById('adminPublicationsList'); 
-                listBody.innerHTML = '';
-                const noPubsMsg = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4" data-lang-key="noPublicationsToManage">${translations[currentLanguage]?.noPublicationsToManage || 'No publications.'}</td></tr>`;
-                if (snapshot.empty) { listBody.innerHTML = noPubsMsg; return; }
-                snapshot.forEach(d => { 
-                    const book = { id: d.id, ...d.data() }; 
-                    const row = listBody.insertRow(); 
-                    row.className = 'admin-table-row'; 
-                    const currentIndicator = book.isCurrentIssue ? `<span class="ml-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-full" data-lang-key="currentLabelShort">${translations[currentLanguage]?.currentLabelShort||'Current'}</span>` : '';
-                    row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm">${book.title||translations[currentLanguage]?.noTitle||'No Title'}${currentIndicator}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${book.authors||translations[currentLanguage]?.noAuthors||'No Authors'}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${book.year||translations[currentLanguage]?.noYear||'No Year'}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm flex space-x-2"><button class="text-blue-600 hover:text-blue-800 edit-publication-button admin-button text-xs p-2" data-id="${book.id}" data-lang-key="editButton">${translations[currentLanguage]?.editButton||'Edit'}</button><button class="text-red-600 hover:text-red-800 delete-publication-button admin-button text-xs p-2" data-id="${book.id}" data-lang-key="deleteButton">${translations[currentLanguage]?.deleteButton||'Delete'}</button></td>`;
+        // --- Display Functions for Public Views ---
+        let allPublications = []; // Store all fetched publications for client-side filtering/sorting
+
+        function displayPublications(publications) {
+            allPublications = publications; // Store the full list
+            filterAndSortPublications('publicationsList'); // Display in main list
+            filterAndSortPublications('archivalPublicationsList'); // Display in archival list
+        }
+
+        function filterAndSortPublications(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return; // Exit if container doesn't exist
+
+            let filteredPublications = [...allPublications]; // Start with all
+            const searchTerm = document.getElementById('publicationSearch').value.toLowerCase();
+            const sortBy = document.getElementById('sortPublications').value;
+
+            if (searchTerm) {
+                filteredPublications = filteredPublications.filter(pub =>
+                    (pub.title?.toLowerCase() || '').includes(searchTerm) ||
+                    (pub.authors?.toLowerCase() || '').includes(searchTerm) ||
+                    String(pub.year || '').includes(searchTerm) ||
+                    (pub.description?.toLowerCase() || '').includes(searchTerm) ||
+                    (pub.isbn?.toLowerCase() || '').includes(searchTerm) ||
+                    (pub.issn?.toLowerCase() || '').includes(searchTerm) ||
+                    (pub.abstracts?.ar?.text?.toLowerCase() || '').includes(searchTerm) ||
+                    (pub.abstracts?.en?.text?.toLowerCase() || '').includes(searchTerm) ||
+                    (pub.abstracts?.it?.text?.toLowerCase() || '').includes(searchTerm)
+                );
+            }
+
+            filteredPublications.sort((a, b) => {
+                switch (sortBy) {
+                    case 'year-desc': return (b.year || 0) - (a.year || 0);
+                    case 'year-asc': return (a.year || 0) - (b.year || 0);
+                    case 'title-asc': return (a.title || '').localeCompare(b.title || '');
+                    case 'title-desc': return (b.title || '').localeCompare(a.title || '');
+                    case 'author-asc': return (a.authors || '').localeCompare(b.authors || '');
+                    case 'author-desc': return (b.authors || '').localeCompare(a.authors || '');
+                    default: return 0;
+                }
+            });
+
+            container.innerHTML = ''; // Clear previous content
+
+            const noPubsMsg = `<p class="col-span-full text-center text-gray-400" data-lang-key="noPubsFound">${translations[currentLanguage]?.noPubsFound || 'No publications found.'}</p>`;
+            const noResultsMsg = `<p class="col-span-full text-center text-gray-400" data-lang-key="noSearchResults">${translations[currentLanguage]?.noSearchResults || 'No results match your search/filter criteria.'}</p>`;
+
+            if (allPublications.length === 0) {
+                container.innerHTML = noPubsMsg;
+                return;
+            }
+            if (filteredPublications.length === 0) {
+                container.innerHTML = noResultsMsg;
+                return;
+            }
+
+            filteredPublications.forEach(book => {
+                const card = document.createElement('div');
+                card.className = 'publication-card p-4 flex flex-col items-center text-center';
+                card.dataset.id = book.id; // Store ID for click event
+                card.innerHTML = `
+                    <img src="${book.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image'}" alt="${book.title || translations[currentLanguage]?.noTitle || 'No Title'} Cover" class="cover-image rounded-md mb-4">
+                    <div class="flex-grow flex flex-col justify-between w-full">
+                        <h3 class="text-xl font-bold mb-2">${book.title || translations[currentLanguage]?.noTitle || 'No Title'}</h3>
+                        <p class="mb-1">${book.authors || translations[currentLanguage]?.noAuthors || 'No Authors'}</p>
+                        <p class="text-sm font-medium">${book.year || translations[currentLanguage]?.noYear || 'No Year'}</p>
+                        <p class="text-sm mt-2 overflow-hidden line-clamp-3">${book.description || translations[currentLanguage]?.noDescription || 'No description.'}</p>
+                        <button class="nav-button text-sm mt-4 view-publication-details" data-id="${book.id}" data-lang-key="viewDetailsButton">${translations[currentLanguage]?.viewDetailsButton || 'View Details'}</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Attach event listeners for dynamically created publication detail buttons
+            document.querySelectorAll(`#${containerId} .view-publication-details`).forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const bookId = e.target.dataset.id;
+                    const docRef = doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME, bookId);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        showPublicationDetailsModal(docSnap.data());
+                    } else {
+                        showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.pubDetailsNotFound || "Publication details not found.", "error");
+                    }
                 });
-                document.querySelectorAll('.edit-publication-button').forEach(btn => btn.addEventListener('click', (e) => editPublication(e.target.dataset.id)));
-                document.querySelectorAll('.delete-publication-button').forEach(btn => btn.addEventListener('click', (e) => confirmDeletePublication(e.target.dataset.id)));
-            }, (error) => { 
-                console.error("Error admin publications:", error); 
-                document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 text-red-500">${translations[currentLanguage]?.errorLoadingAdminPublications||'Error loading.'}</td></tr>`;
             });
         }
 
-        // Helper object for admin publication form elements for cleaner code
+
+        // --- Admin Data Listeners (only active when admin is logged in) ---
+        let unsubscribeAdminPublications = null;
+        let unsubscribeAdminNews = null;
+
+        function listenForAdminPublications() {
+            // Use the correct collection reference
+            const publicationsRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME);
+            const q = query(publicationsRef, orderBy("timestamp", "desc")); // Order by timestamp for consistent listing
+
+            // Unsubscribe previous listener to avoid memory leaks/duplicates
+            if (unsubscribeAdminPublications) unsubscribeAdminPublications();
+
+            unsubscribeAdminPublications = onSnapshot(q, (snapshot) => {
+                const listBody = document.getElementById('adminPublicationsList');
+                listBody.innerHTML = ''; // Clear existing rows
+
+                const noPubsMsg = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 text-center text-gray-500" data-lang-key="noPublicationsToManage">${translations[currentLanguage]?.noPublicationsToManage || 'No publications to manage.'}</td></tr>`;
+                if (snapshot.empty) {
+                    listBody.innerHTML = noPubsMsg;
+                    return;
+                }
+
+                snapshot.forEach(d => {
+                    const book = { id: d.id, ...d.data() };
+                    const row = listBody.insertCell(); // Use insertCell for td elements
+                    row.className = 'admin-table-row';
+                    const currentIndicator = book.isCurrentIssue ? `<span class="ml-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-full" data-lang-key="currentLabelShort">${translations[currentLanguage]?.currentLabelShort||'Current'}</span>` : '';
+                    
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">${book.title || translations[currentLanguage]?.noTitle || 'No Title'}${currentIndicator}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">${book.authors || translations[currentLanguage]?.noAuthors || 'No Authors'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">${book.year || translations[currentLanguage]?.noYear || 'No Year'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 edit-publication-button admin-button text-xs p-2" data-id="${book.id}" data-lang-key="editButton">${translations[currentLanguage]?.editButton||'Edit'}</button>
+                            <button class="text-red-600 hover:text-red-800 delete-publication-button admin-button text-xs p-2" data-id="${book.id}" data-lang-key="deleteButton">${translations[currentLanguage]?.deleteButton||'Delete'}</button>
+                        </td>
+                    `;
+                });
+                // Attach listeners to newly created buttons
+                document.querySelectorAll('.edit-publication-button').forEach(btn => btn.addEventListener('click', (e) => editPublication(e.target.dataset.id)));
+                document.querySelectorAll('.delete-publication-button').forEach(btn => btn.addEventListener('click', (e) => confirmDeletePublication(e.target.dataset.id)));
+            }, (error) => {
+                console.error("Error listening for admin publications:", error);
+                document.getElementById('adminPublicationsList').innerHTML = `<tr class="admin-table-row"><td colspan="4" class="px-6 py-4 text-center text-red-500">${translations[currentLanguage]?.errorLoadingAdminPublications || 'Error loading publications.'}</td></tr>`;
+            });
+        }
+
+        function listenForAdminNews() {
+            // Use the correct collection reference
+            const newsRef = collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME);
+            const q = query(newsRef, orderBy("timestamp", "desc"));
+
+            // Unsubscribe previous listener
+            if (unsubscribeAdminNews) unsubscribeAdminNews();
+
+            unsubscribeAdminNews = onSnapshot(q, (snapshot) => {
+                const listBody = document.getElementById('adminNewsList');
+                listBody.innerHTML = ''; // Clear existing rows
+
+                const noNewsMsg = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 text-center text-gray-500" data-lang-key="noNewsToManage">${translations[currentLanguage]?.noNewsToManage || 'No news items to manage.'}</td></tr>`;
+                if (snapshot.empty) {
+                    listBody.innerHTML = noNewsMsg;
+                    return;
+                }
+                snapshot.forEach(d => {
+                    const news = { id: d.id, ...d.data() };
+                    const row = listBody.insertCell(); // Use insertCell for td elements
+                    row.className = 'admin-table-row';
+                    const date = news.timestamp ? new Date(news.timestamp).toLocaleDateString(currentLanguage === 'it' ? 'it-IT' : 'en-US') : 'N/A';
+                    
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">${news.title || translations[currentLanguage]?.noTitle || 'No Title'}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">${date}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 edit-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="editButton">${translations[currentLanguage]?.editButton||'Edit'}</button>
+                            <button class="text-red-600 hover:text-red-800 delete-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="deleteButton">${translations[currentLanguage]?.deleteButton||'Delete'}</button>
+                        </td>
+                    `;
+                });
+                // Attach listeners to newly created buttons
+                document.querySelectorAll('.edit-news-button').forEach(btn => btn.addEventListener('click', (e) => editNewsItem(e.target.dataset.id)));
+                document.querySelectorAll('.delete-news-button').forEach(btn => btn.addEventListener('click', (e) => confirmDeleteNewsItem(e.target.dataset.id)));
+            }, (error) => {
+                console.error("Error listening for admin news:", error);
+                document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 text-center text-red-500">${translations[currentLanguage]?.errorLoadingAdminNews || 'Error loading news.'}</td></tr>`;
+            });
+        }
+        
+        // --- Admin Form Handling ---
+        // Cache form elements for performance and cleaner code
         const adminPubFormElements = {
             bookTitleInput: document.getElementById('bookTitle'),
             bookAuthorsInput: document.getElementById('bookAuthors'),
@@ -1184,388 +1355,511 @@
             abstractEnPdfFileNameDisplayAdmin: document.getElementById('abstractEnPdfFileNameDisplayAdmin'),
             abstractItPdfFileNameDisplayAdmin: document.getElementById('abstractItPdfFileNameDisplayAdmin')
         };
-        
+
+        const adminNewsFormElements = {
+            newsTitleInput: document.getElementById('newsTitle'),
+            newsDescriptionInput: document.getElementById('newsDescription'),
+            newsImageInput: document.getElementById('newsImage'),
+            uploadedNewsImagePreviewAdmin: document.getElementById('uploadedNewsImagePreviewAdmin'),
+            newsImageFileNameDisplayAdmin: document.getElementById('newsImageFileNameDisplayAdmin'),
+            submitNewsBtn: document.getElementById('submitNewsBtn'),
+            cancelEditNewsBtn: document.getElementById('cancelEditNewsBtn')
+        };
+
+        // Publication Form Actions
         document.getElementById('addPublicationForm').addEventListener('submit', async (e) => {
-            e.preventDefault(); showLoadingSpinner();
-            if (!auth.currentUser) { showMessageModal("permissionDenied", "noPermissionAddEditPublications", "error"); hideLoadingSpinner(); return; }
-            const title = adminPubFormElements.bookTitleInput.value.trim();
-            const authors = adminPubFormElements.bookAuthorsInput.value.trim();
-            const year = adminPubFormElements.bookYearInput.value ? parseInt(adminPubFormElements.bookYearInput.value,10) : null;
-            const description = adminPubFormElements.bookDescriptionInput.value.trim();
-            const isbn = adminPubFormElements.bookISBNInput.value.trim();
-            const issn = adminPubFormElements.bookISSNInput.value.trim();
-            const abstractArText = adminPubFormElements.abstractArTextInput.value.trim();
-            const abstractEnText = adminPubFormElements.abstractEnTextInput.value.trim();
-            const abstractItText = adminPubFormElements.abstractItTextInput.value.trim();
-            const isCurrentIssue = adminPubFormElements.bookIsCurrentIssueCheckbox.checked;
+            e.preventDefault();
+            showLoadingSpinner();
+            if (!auth.currentUser) { 
+                showMessageModal(translations[currentLanguage]?.permissionDenied || "Permission Denied", translations[currentLanguage]?.noPermissionAddEditPublications || "You do not have permission to add/edit publications.", "error"); 
+                hideLoadingSpinner(); 
+                return; 
+            }
+
+            const { bookTitleInput, bookAuthorsInput, bookYearInput, bookDescriptionInput, bookISBNInput, bookISSNInput, 
+                    abstractArTextInput, abstractEnTextInput, abstractItTextInput, bookIsCurrentIssueCheckbox,
+                    bookCoverInput, bookPdfInput, abstractArPdfInput, abstractEnPdfInput, abstractItPdfInput } = adminPubFormElements;
+
+            const title = bookTitleInput.value.trim();
+            const authors = bookAuthorsInput.value.trim();
+            const year = bookYearInput.value ? parseInt(bookYearInput.value, 10) : null;
+            const description = bookDescriptionInput.value.trim();
+            const isbn = bookISBNInput.value.trim();
+            const issn = bookISSNInput.value.trim();
+            const abstractArText = abstractArTextInput.value.trim();
+            const abstractEnText = abstractEnTextInput.value.trim();
+            const abstractItText = abstractItTextInput.value.trim();
+            const isCurrentIssue = bookIsCurrentIssueCheckbox.checked;
 
             try {
-                const uploadAndUpdate = async (input, currentFile, path) => { 
-                    let newUrl = currentFile.url;
-                    let newName = currentFile.fileName; 
-                    if (input.files && input.files[0]) { 
-                        if (currentFile.fileName) await deleteFile(currentFile.fileName, path); 
-                        const res = await uploadFile(input.files[0], path); 
-                        newUrl = res.url; 
-                        newName = res.fileName;
-                    } else if (input.value === '') { // If input is cleared
-                        if (currentFile.fileName) await deleteFile(currentFile.fileName, path);
-                        newUrl = '';
-                        newName = '';
+                // Helper to upload file and return new URL/filename, handling old file deletion
+                const uploadAndUpdate = async (input, currentFileState, storagePath) => {
+                    let newUrl = currentFileState.url;
+                    let newFileName = currentFileState.fileName;
+                    if (input.files[0]) {
+                        // If a new file is selected, delete the old one if it exists and is not a default
+                        if (currentFileState.fileName) {
+                            await deleteFile(currentFileState.fileName, storagePath);
+                        }
+                        const res = await uploadFile(input.files[0], storagePath);
+                        newUrl = res.url;
+                        newFileName = res.fileName;
                     }
-                    return { url: newUrl, fileName: newName }; 
+                    return { url: newUrl, fileName: newFileName };
                 };
 
-                const coverRes = await uploadAndUpdate(adminPubFormElements.bookCoverInput, {url: currentPubFiles.coverUrl, fileName: currentPubFiles.coverFileName}, STORAGE_PATH_COVERS);
-                const pdfRes = await uploadAndUpdate(adminPubFormElements.bookPdfInput, {url: currentPubFiles.pdfUrl, fileName: currentPubFiles.pdfFileName}, STORAGE_PATH_PDFS);
-                const absArRes = await uploadAndUpdate(adminPubFormElements.abstractArPdfInput, {url: currentPubFiles.abstracts.ar.url, fileName: currentPubFiles.abstracts.ar.fileName}, STORAGE_PATH_ABSTRACTS);
-                const absEnRes = await uploadAndUpdate(adminPubFormElements.abstractEnPdfInput, {url: currentPubFiles.abstracts.en.url, fileName: currentPubFiles.abstracts.en.fileName}, STORAGE_PATH_ABSTRACTS);
-                const absItRes = await uploadAndUpdate(adminPubFormElements.abstractItPdfInput, {url: currentPubFiles.abstracts.it.url, fileName: currentPubFiles.abstracts.it.fileName}, STORAGE_PATH_ABSTRACTS);
-                
-                const pubData = { 
-                    title, 
-                    authors, 
-                    year, 
-                    description, 
-                    isbn, 
-                    issn, 
+                const coverRes = await uploadAndUpdate(bookCoverInput, {url: currentPubFiles.coverUrl, fileName: currentPubFiles.coverFileName}, STORAGE_PATH_COVERS);
+                const pdfRes = await uploadAndUpdate(bookPdfInput, {url: currentPubFiles.pdfUrl, fileName: currentPubFiles.pdfFileName}, STORAGE_PATH_PDFS);
+                const absArRes = await uploadAndUpdate(abstractArPdfInput, {url: currentPubFiles.abstracts.ar.url, fileName: currentPubFiles.abstracts.ar.fileName}, STORAGE_PATH_ABSTRACTS);
+                const absEnRes = await uploadAndUpdate(abstractEnPdfInput, {url: currentPubFiles.abstracts.en.url, fileName: currentPubFiles.abstracts.en.fileName}, STORAGE_PATH_ABSTRACTS);
+                const absItRes = await uploadAndUpdate(abstractItPdfInput, {url: currentPubFiles.abstracts.it.url, fileName: currentPubFiles.abstracts.it.fileName}, STORAGE_PATH_ABSTRACTS);
+
+                const pubData = {
+                    title, authors, year, description, isbn, issn,
                     abstracts: {
-                        ar:{text:abstractArText,url:absArRes.url,fileName:absArRes.fileName},
-                        en:{text:abstractEnText,url:absEnRes.url,fileName:absEnRes.fileName},
-                        it:{text:abstractItText,url:absItRes.url,fileName:absItRes.fileName}
-                    }, 
-                    coverImageUrl:coverRes.url,
-                    coverImageFileName:coverRes.fileName,
-                    pdfUrl:pdfRes.url,
-                    pdfFileName:pdfRes.fileName, 
-                    isCurrentIssue, 
-                    timestamp:new Date().toISOString()
+                        ar: { text: abstractArText, url: absArRes.url, fileName: absArRes.fileName },
+                        en: { text: abstractEnText, url: absEnRes.url, fileName: absEnRes.fileName },
+                        it: { text: abstractItText, url: absItRes.url, fileName: absItRes.fileName }
+                    },
+                    coverImageUrl: coverRes.url, coverImageFileName: coverRes.fileName,
+                    pdfUrl: pdfRes.url, pdfFileName: pdfRes.fileName,
+                    isCurrentIssue,
+                    timestamp: new Date().toISOString() // Use ISO string for consistent date storage
                 };
 
-                // Handle setting only one publication as current issue
-                if (isCurrentIssue) { 
-                    const q = query(collection(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_PUB_COLLECTION_NAME), where("isCurrentIssue","==",true)); 
-                    const snap = await getDocs(q); 
-                    for(const d of snap.docs) {
-                        if(d.id!==editingPublicationId) { // Only unset if it's not the current one being edited
-                            await updateDoc(doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_PUB_COLLECTION_NAME, d.id),{isCurrentIssue:false});
+                // Handle setting/unsetting current issue
+                if (isCurrentIssue) {
+                    const q = query(collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME), where("isCurrentIssue", "==", true));
+                    const snap = await getDocs(q);
+                    for (const d of snap.docs) {
+                        // Unset isCurrentIssue for all other publications, unless it's the one being edited
+                        if (d.id !== editingPublicationId) {
+                            await updateDoc(doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME, d.id), { isCurrentIssue: false });
                         }
                     }
-                    // Also update the dedicated 'currentIssue' document for faster lookup on main site
-                    await setDoc(doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, CURRENT_ISSUE_DOC_ID), pubData, { merge: true });
-                } else if (editingPublicationId) { // If the current publication was the current issue and it's being unset
-                    // Check if this was the currentIssue and remove it from the dedicated document
-                    const currentIssueDocRef = doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, CURRENT_ISSUE_DOC_ID);
-                    const currentIssueSnap = await getDoc(currentIssueDocRef);
-                    if (currentIssueSnap.exists() && currentIssueSnap.data().id === editingPublicationId) {
-                        // If the currently edited pub is the one marked as current issue and we are unsetting it
-                        await deleteDoc(currentIssueDocRef);
-                    }
                 }
 
-                if (editingPublicationId) { 
+                if (editingPublicationId) {
                     // Update existing publication
-                    await updateDoc(doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_PUB_COLLECTION_NAME, editingPublicationId), pubData); 
-                    showMessageModal("successMessage","publicationUpdated","success");
-                } else { 
+                    await updateDoc(doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME, editingPublicationId), pubData);
+                    showMessageModal(translations[currentLanguage]?.successMessage || "Success", translations[currentLanguage]?.publicationUpdated || "Publication updated successfully!", "success");
+                } else {
                     // Add new publication
-                    await addDoc(collection(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_PUB_COLLECTION_NAME), pubData); 
-                    showMessageModal("successMessage","publicationAdded","success");
+                    await addDoc(collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME), pubData);
+                    showMessageModal(translations[currentLanguage]?.successMessage || "Success", translations[currentLanguage]?.publicationAdded || "Publication added successfully!", "success");
                 }
-                resetAddPublicationForm();
-            } catch (error) { 
-                console.error("Error saving pub:", error); 
-                showMessageModal("errorMessage", (translations[currentLanguage]?.errorSavingPublication || "Error saving publication: ") + error.message, "error");
-            } finally { hideLoadingSpinner(); }
+                resetAddPublicationForm(); // Clear form after submission
+            } catch (error) {
+                console.error("Error saving publication:", error);
+                showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.errorSavingPublication + error.message, "error");
+            } finally {
+                hideLoadingSpinner();
+            }
         });
 
+        // Reset Publication Form
         function resetAddPublicationForm() {
-            document.getElementById('addPublicationForm').reset(); 
-            editingPublicationId = null;
+            document.getElementById('addPublicationForm').reset();
+            editingPublicationId = null; // Clear editing ID
             adminPubFormElements.adminFormTitle.textContent = translations[currentLanguage]?.addPublicationTitle || 'Add Publication';
-            adminPubFormElements.submitPublicationBtn.textContent = translations[currentLanguage]?.addPublicationButton || 'Add';
-            adminPubFormElements.cancelEditPublicationBtn.classList.add('hidden');
-            adminPubFormElements.uploadedCoverPreviewAdmin.src = ''; 
+            adminPubFormElements.submitPublicationBtn.textContent = translations[currentLanguage]?.addPublicationButton || 'Add Publication';
+            adminPubFormElements.cancelEditPublicationBtn.classList.add('hidden'); // Hide cancel button
+            
+            // Reset preview displays
+            adminPubFormElements.uploadedCoverPreviewAdmin.src = '';
             adminPubFormElements.uploadedCoverPreviewAdmin.style.display = 'none';
-            adminPubFormElements.coverImageFileNameDisplayAdmin.textContent = ''; 
+            adminPubFormElements.coverImageFileNameDisplayAdmin.textContent = '';
             adminPubFormElements.pdfFileNameDisplayAdmin.textContent = '';
-            adminPubFormElements.abstractArPdfFileNameDisplayAdmin.textContent = ''; 
-            adminPubFormElements.abstractEnPdfFileNameDisplayAdmin.textContent = ''; 
+            adminPubFormElements.abstractArPdfFileNameDisplayAdmin.textContent = '';
+            adminPubFormElements.abstractEnPdfFileNameDisplayAdmin.textContent = '';
             adminPubFormElements.abstractItPdfFileNameDisplayAdmin.textContent = '';
-            // Reset currentPubFiles state
-            currentPubFiles = {coverUrl:'',coverFileName:'',pdfUrl:'',pdfFileName:'',abstracts:{ar:{text:'',url:'',fileName:''},en:{text:'',url:'',fileName:''},it:{text:'',url:'',fileName:''}}};
-        }
-        adminPubFormElements.cancelEditPublicationBtn.addEventListener('click', resetAddPublicationForm);
 
+            // Reset current file states
+            currentPubFiles = {
+                coverUrl: '', coverFileName: '',
+                pdfUrl: '', pdfFileName: '',
+                abstracts: { ar: { text: '', url: '', fileName: '' }, en: { text: '', url: '', fileName: '' }, it: { text: '', url: '', fileName: '' } }
+            };
+        }
+        // Removed `document.getElementById('clearPublicationForm')` as it doesn't exist in the HTML provided.
+        // If you had a clear button in your HTML, add an ID 'clearPublicationForm' to it.
+        // For now, cancel edit button also performs reset:
+        adminPubFormElements.cancelEditPublicationBtn.addEventListener('click', resetAddPublicationForm); // Cancel edit also resets
+
+        // Edit Publication
         async function editPublication(pubId) {
-            showLoadingSpinner(); 
+            showLoadingSpinner();
             try {
-                // Corrected Firestore path construction for publication document
-                const docRef = doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_PUB_COLLECTION_NAME, pubId); 
+                const docRef = doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME, pubId);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                    const d = docSnap.data(); 
+                    const d = docSnap.data();
                     editingPublicationId = pubId;
 
-                    adminPubFormElements.bookTitleInput.value=d.title||''; 
-                    adminPubFormElements.bookAuthorsInput.value=d.authors||''; 
-                    adminPubFormElements.bookYearInput.value=d.year!=null?d.year:''; 
-                    adminPubFormElements.bookDescriptionInput.value=d.description||''; 
-                    adminPubFormElements.bookISBNInput.value=d.isbn||''; 
-                    adminPubFormElements.bookISSNInput.value=d.issn||''; 
-                    adminPubFormElements.abstractArTextInput.value=d.abstracts?.ar?.text||''; 
-                    adminPubFormElements.abstractEnTextInput.value=d.abstracts?.en?.text||''; 
-                    adminPubFormElements.abstractItTextInput.value=d.abstracts?.it?.text||''; 
-                    adminPubFormElements.bookIsCurrentIssueCheckbox.checked=d.isCurrentIssue||false;
-                    
-                    // Update currentPubFiles state with fetched data
+                    // Populate form fields
+                    adminPubFormElements.bookTitleInput.value = d.title || '';
+                    adminPubFormElements.bookAuthorsInput.value = d.authors || '';
+                    adminPubFormElements.bookYearInput.value = d.year != null ? d.year : '';
+                    adminPubFormElements.bookDescriptionInput.value = d.description || '';
+                    adminPubFormElements.bookISBNInput.value = d.isbn || '';
+                    adminPubFormElements.bookISSNInput.value = d.issn || '';
+                    adminPubFormElements.abstractArTextInput.value = d.abstracts?.ar?.text || '';
+                    adminPubFormElements.abstractEnTextInput.value = d.abstracts?.en?.text || '';
+                    adminPubFormElements.abstractItTextInput.value = d.abstracts?.it?.text || '';
+                    adminPubFormElements.bookIsCurrentIssueCheckbox.checked = d.isCurrentIssue || false;
+
+                    // Store current file URLs/names for potential deletion
                     currentPubFiles = {
-                        coverUrl:d.coverImageUrl||'',
-                        coverFileName:d.coverImageFileName||'',
-                        pdfUrl:d.pdfUrl||'',
-                        pdfFileName:d.pdfFileName||'',
-                        abstracts:{
-                            ar:d.abstracts?.ar||{text:'',url:'',fileName:''},
-                            en:d.abstracts?.en||{text:'',url:'',fileName:''},
-                            it:d.abstracts?.it||{text:'',url:'',fileName:''}
+                        coverUrl: d.coverImageUrl || '',
+                        coverFileName: d.coverImageFileName || '',
+                        pdfUrl: d.pdfUrl || '',
+                        pdfFileName: d.pdfFileName || '',
+                        abstracts: {
+                            ar: d.abstracts?.ar || { text: '', url: '', fileName: '' },
+                            en: d.abstracts?.en || { text: '', url: '', fileName: '' },
+                            it: d.abstracts?.it || { text: '', url: '', fileName: '' }
                         }
                     };
 
-                    adminPubFormElements.uploadedCoverPreviewAdmin.src=currentPubFiles.coverUrl; 
-                    adminPubFormElements.uploadedCoverPreviewAdmin.style.display=currentPubFiles.coverUrl?'block':'none';
-                    adminPubFormElements.coverImageFileNameDisplayAdmin.textContent=currentPubFiles.coverFileName?`${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.coverFileName)}`:'';
-                    adminPubFormElements.pdfFileNameDisplayAdmin.textContent=currentPubFiles.pdfFileName?`${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.pdfFileName)}`:'';
-                    adminPubFormElements.abstractArPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.ar.fileName?`${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.ar.fileName)}`:'';
-                    adminPubFormElements.abstractEnPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.en.fileName?`${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.en.fileName)}`:'';
-                    adminPubFormElements.abstractItPdfFileNameDisplayAdmin.textContent=currentPubFiles.abstracts.it.fileName?`${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentPubFiles.abstracts.it.fileName)}`:'';
+                    // Update file input previews
+                    updateFileUploadPreviewDisplay('coverImagePreviewContainer', 'uploadedCoverPreviewAdmin', 'coverImageFileNameDisplayAdmin', currentPubFiles.coverUrl, currentPubFiles.coverFileName, true);
+                    updateFileUploadPreviewDisplay('pdfFileNameDisplayAdmin', '', 'pdfFileNameDisplayAdmin', currentPubFiles.pdfUrl, currentPubFiles.pdfFileName, false);
+                    updateFileUploadPreviewDisplay('abstractArPdfFileNameDisplayAdmin', '', 'abstractArPdfFileNameDisplayAdmin', currentPubFiles.abstracts.ar.url, currentPubFiles.abstracts.ar.fileName, false);
+                    updateFileUploadPreviewDisplay('abstractEnPdfFileNameDisplayAdmin', '', 'abstractEnPdfFileNameDisplayAdmin', currentPubFiles.abstracts.en.url, currentPubFiles.abstracts.en.fileName, false);
+                    updateFileUploadPreviewDisplay('abstractItPdfFileNameDisplayAdmin', '', 'abstractItPdfFileNameDisplayAdmin', currentPubFiles.abstracts.it.url, currentPubFiles.abstracts.it.fileName, false);
+
+                    // Clear file inputs so user can select new files
+                    adminPubFormElements.bookCoverInput.value = '';
+                    adminPubFormElements.bookPdfInput.value = '';
+                    adminPubFormElements.abstractArPdfInput.value = '';
+                    adminPubFormElements.abstractEnPdfInput.value = '';
+                    adminPubFormElements.abstractItPdfInput.value = '';
+
+                    // Update form title and buttons
+                    adminPubFormElements.adminFormTitle.textContent = translations[currentLanguage]?.updatePublicationButton || "Update Publication";
+                    adminPubFormElements.submitPublicationBtn.textContent = translations[currentLanguage]?.updatePublicationButton || "Update Publication";
+                    adminPubFormElements.cancelEditPublicationBtn.classList.remove('hidden'); // Show cancel button
                     
-                    // Clear file inputs so user has to re-select to change files
-                    adminPubFormElements.bookCoverInput.value=''; 
-                    adminPubFormElements.bookPdfInput.value=''; 
-                    adminPubFormElements.abstractArPdfInput.value=''; 
-                    adminPubFormElements.abstractEnPdfInput.value=''; 
-                    adminPubFormElements.abstractItPdfInput.value='';
-                    
-                    adminPubFormElements.adminFormTitle.textContent=translations[currentLanguage]?.updatePublicationButton || "Update Publication"; 
-                    adminPubFormElements.submitPublicationBtn.textContent=translations[currentLanguage]?.updatePublicationButton || "Update Publication"; 
-                    adminPubFormElements.cancelEditPublicationBtn.classList.remove('hidden');
-                    window.scrollTo({top:0,behavior:'smooth'});
-                } else showMessageModal("errorMessage","publicationNotFoundForEdit","error");
-            }catch(e){console.error("Edit pub error:",e);showMessageModal("errorMessage",(translations[currentLanguage]?.errorLoadingPublicationForEdit || "Error loading publication for edit: ") + e.message,"error");}
-            finally{hideLoadingSpinner();}
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top of form
+                } else {
+                    showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.publicationNotFoundForEdit || "Publication not found for editing.", "error");
+                }
+            } catch (e) {
+                console.error("Error editing publication:", e);
+                showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.errorLoadingPublicationForEdit + e.message, "error");
+            } finally {
+                hideLoadingSpinner();
+            }
         }
 
+        // Delete Publication
         function confirmDeletePublication(pubId) {
-            showMessageModal("confirmDelete","confirmDeleteMsg","confirm", async (confirmed) => {
-                if(confirmed){ showLoadingSpinner(); 
+            showMessageModal(translations[currentLanguage]?.confirmDelete || "Confirm Delete", translations[currentLanguage]?.confirmDeleteMsg || "Are you sure?", "confirm", async (confirmed) => {
+                if (confirmed) {
+                    showLoadingSpinner();
                     try {
-                        // Corrected Firestore path construction for publication document
-                        const docRef=doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_PUB_COLLECTION_NAME, pubId); 
-                        const docSnap=await getDoc(docRef);
-                        if(docSnap.exists()){ 
-                            const d=docSnap.data();
-                            if(d.coverImageFileName) await deleteFile(d.coverImageFileName,STORAGE_PATH_COVERS); 
-                            if(d.pdfFileName) await deleteFile(d.pdfFileName,STORAGE_PATH_PDFS);
-                            if(d.abstracts?.ar?.fileName) await deleteFile(d.abstracts.ar.fileName,STORAGE_PATH_ABSTRACTS); 
-                            if(d.abstracts?.en?.fileName) await deleteFile(d.abstracts.en.fileName,STORAGE_PATH_ABSTRACTS); 
-                            if(d.abstracts?.it?.fileName) await deleteFile(d.abstracts.it.fileName,STORAGE_PATH_ABSTRACTS);
-                            await deleteDoc(docRef); 
-                            showMessageModal("successMessage","publicationDeleted","success");
+                        const docRef = doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_PUB_COLLECTION_NAME, pubId);
+                        const docSnap = await getDoc(docRef);
+                        if (docSnap.exists()) {
+                            const d = docSnap.data();
+                            // Delete associated files from storage
+                            if (d.coverImageFileName) await deleteFile(d.coverImageFileName, STORAGE_PATH_COVERS);
+                            if (d.pdfFileName) await deleteFile(d.pdfFileName, STORAGE_PATH_PDFS);
+                            if (d.abstracts?.ar?.fileName) await deleteFile(d.abstracts.ar.fileName, STORAGE_PATH_ABSTRACTS);
+                            if (d.abstracts?.en?.fileName) await deleteFile(d.abstracts.en.fileName, STORAGE_PATH_ABSTRACTS);
+                            if (d.abstracts?.it?.fileName) await deleteFile(d.abstracts.it.fileName, STORAGE_PATH_ABSTRACTS);
 
-                            // If the deleted publication was the current issue, remove it from the dedicated document
-                            const currentIssueDocRef = doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, CURRENT_ISSUE_DOC_ID);
-                            const currentIssueSnap = await getDoc(currentIssueDocRef);
-                            if (currentIssueSnap.exists() && currentIssueSnap.data().id === pubId) {
-                                await deleteDoc(currentIssueDocRef);
-                            }
-                        } else showMessageModal("errorMessage","publicationNotFoundForDeletion","error");
-                    } catch(e){console.error("Del pub error:",e);showMessageModal("errorMessage",(translations[currentLanguage]?.errorDeletingPublication || "Error deleting publication: ") + e.message,"error");}
-                    finally{hideLoadingSpinner();} 
+                            await deleteDoc(docRef); // Delete the document from Firestore
+                            showMessageModal(translations[currentLanguage]?.successMessage || "Success", translations[currentLanguage]?.publicationDeleted || "Publication deleted successfully!", "success");
+                        } else {
+                            showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.publicationNotFoundForDeletion || "Publication not found for deletion.", "error");
+                        }
+                    } catch (e) {
+                        console.error("Error deleting publication:", e);
+                        showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.errorDeletingPublication + e.message, "error");
+                    } finally {
+                        hideLoadingSpinner();
+                    }
                 }
             });
         }
 
-        // Helper object for admin news form elements
-        const adminNewsFormElements = { 
-            newsTitleInput: document.getElementById('newsTitle'), 
-            newsDescriptionInput: document.getElementById('newsDescription'), 
-            newsImageInput: document.getElementById('newsImage'), 
-            uploadedNewsImagePreviewAdmin: document.getElementById('uploadedNewsImagePreviewAdmin'), 
-            newsImageFileNameDisplayAdmin: document.getElementById('newsImageFileNameDisplayAdmin'), 
-            submitNewsBtn: document.getElementById('submitNewsBtn'), 
-            cancelEditNewsBtn: document.getElementById('cancelEditNewsBtn') 
-        };
-        function resetAddNewsItemForm() {
-            document.getElementById('addNewsItemForm').reset(); 
-            adminNewsFormElements.newsTitleInput.value='';
-            adminNewsFormElements.newsDescriptionInput.value='';
-            adminNewsFormElements.newsImageInput.value=''; 
-            adminNewsFormElements.uploadedNewsImagePreviewAdmin.src='';
-            adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display='none'; 
-            adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=''; 
-            currentNewsImage={url:'',fileName:''}; 
-            editingNewsItemId=null; 
-            adminNewsFormElements.submitNewsBtn.textContent=translations[currentLanguage]?.addNewsItemButton||'Add News'; 
-            adminNewsFormElements.cancelEditNewsBtn.classList.add('hidden');
-        }
+        // News Form Actions
         document.getElementById('addNewsItemForm').addEventListener('submit', async (e) => {
-            e.preventDefault(); showLoadingSpinner();
-            if(!auth.currentUser){showMessageModal("permissionDenied","noPermissionAddNews","error");hideLoadingSpinner();return;}
-            const title=adminNewsFormElements.newsTitleInput.value.trim(); 
-            const description=adminNewsFormElements.newsDescriptionInput.value.trim();
-            let imageUrl=currentNewsImage.url;
-            let imageFileName=currentNewsImage.fileName;
-            try {
-                if(adminNewsFormElements.newsImageInput.files && adminNewsFormElements.newsImageInput.files[0]){ 
-                    if(currentNewsImage.fileName) await deleteFile(currentNewsImage.fileName,STORAGE_PATH_NEWS_IMAGES); 
-                    const res=await uploadFile(adminNewsFormElements.newsImageInput.files[0],STORAGE_PATH_NEWS_IMAGES); 
-                    imageUrl=res.url; 
-                    imageFileName=res.fileName;
-                } else if (!adminNewsFormElements.newsImageInput.files[0] && editingNewsItemId && currentNewsImage.url) { 
-                     // If input is cleared during edit and there was a previous image
-                    if(currentNewsImage.fileName) await deleteFile(currentNewsImage.fileName, STORAGE_PATH_NEWS_IMAGES); 
-                    imageUrl = ''; 
-                    imageFileName = '';
-                } 
+            e.preventDefault();
+            showLoadingSpinner();
+            if (!auth.currentUser) {
+                showMessageModal(translations[currentLanguage]?.permissionDenied || "Permission Denied", translations[currentLanguage]?.noPermissionAddNews || "You do not have permission to add/edit news.", "error");
+                hideLoadingSpinner();
+                return;
+            }
 
-                const newsData={title,description,imageUrl,imageFileName,timestamp:new Date().toISOString()};
-                if(editingNewsItemId){
-                    // Corrected Firestore path construction for news document
-                    await updateDoc(doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_NEWS_COLLECTION_NAME, editingNewsItemId),newsData); 
-                    showMessageModal("successMessage","newsItemUpdated","success");
+            const { newsTitleInput, newsDescriptionInput, newsImageInput } = adminNewsFormElements;
+            const title = newsTitleInput.value.trim();
+            const description = newsDescriptionInput.value.trim();
+            
+            let imageUrl = currentNewsImage.url;
+            let imageFileName = currentNewsImage.fileName;
+
+            try {
+                if (newsImageInput.files[0]) {
+                    if (currentNewsImage.fileName) { // Delete old image if new one is uploaded
+                        await deleteFile(currentNewsImage.fileName, STORAGE_PATH_NEWS_IMAGES);
+                    }
+                    const res = await uploadFile(newsImageInput.files[0], STORAGE_PATH_NEWS_IMAGES);
+                    imageUrl = res.url;
+                    imageFileName = res.fileName;
+                } else if (editingNewsItemId && currentNewsImage.fileName && !imageUrl) {
+                    // If editing, and no new file but previous image existed and was implicitly cleared (e.g. by not re-selecting)
+                    await deleteFile(currentNewsImage.fileName, STORAGE_PATH_NEWS_IMAGES);
+                    imageUrl = ''; // Clear URL if image was explicitly removed
+                    imageFileName = '';
+                }
+
+                const newsData = {
+                    title,
+                    description,
+                    imageUrl,
+                    imageFileName,
+                    timestamp: new Date().toISOString() // Store as ISO string
+                };
+
+                if (editingNewsItemId) {
+                    await updateDoc(doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME, editingNewsItemId), newsData);
+                    showMessageModal(translations[currentLanguage]?.successMessage || "Success", translations[currentLanguage]?.newsItemUpdated || "News item updated successfully!", "success");
                 } else {
-                    // Corrected Firestore path construction for news collection
-                    await addDoc(collection(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_NEWS_COLLECTION_NAME),newsData); 
-                    showMessageModal("successMessage","newsItemAdded","success");
+                    await addDoc(collection(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME), newsData);
+                    showMessageModal(translations[currentLanguage]?.successMessage || "Success", translations[currentLanguage]?.newsItemAdded || "News item added successfully!", "success");
                 }
                 resetAddNewsItemForm();
-            }catch(err){console.error("Save news err:",err);showMessageModal("errorMessage",(translations[currentLanguage]?.errorSavingNewsItem || "Error saving news item: ") + err.message,"error");}
-            finally{hideLoadingSpinner();}
+            } catch (err) {
+                console.error("Error saving news item:", err);
+                showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.errorSavingNewsItem + err.message, "error");
+            } finally {
+                hideLoadingSpinner();
+            }
         });
+
+        // Reset News Form
+        function resetAddNewsItemForm() {
+            document.getElementById('addNewsItemForm').reset();
+            editingNewsItemId = null;
+            adminNewsFormElements.newsTitleInput.value = '';
+            adminNewsFormElements.newsDescriptionInput.value = '';
+            adminNewsFormElements.newsImageInput.value = ''; // Clear file input
+            adminNewsFormElements.uploadedNewsImagePreviewAdmin.src = '';
+            adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display = 'none';
+            adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent = '';
+            currentNewsImage = { url: '', fileName: '' }; // Reset current image state
+            adminNewsFormElements.submitNewsBtn.textContent = translations[currentLanguage]?.addNewsItemButton || 'Add News Item';
+            adminNewsFormElements.cancelEditNewsBtn.classList.add('hidden');
+        }
+        // Removed `document.getElementById('clearNewsForm')` for same reason as clearPublicationForm
+        adminNewsFormElements.cancelEditNewsBtn.addEventListener('click', resetAddNewsItemForm); // Cancel edit also resets
+
         adminNewsFormElements.newsImageInput.addEventListener('change', (e) => {
-            const file=e.target.files[0];
-            if(file){ adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=`${translations[currentLanguage]?.selectedLabel}: ${file.name}`; const r=new FileReader();r.onload=(ev)=>{adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=ev.target.result;adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display='block';};r.readAsDataURL(file);}
-            else{ adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=currentNewsImage.fileName?`${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}`:''; adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=currentNewsImage.url; adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display=currentNewsImage.url?'block':'none';}
+            const file = e.target.files[0];
+            if (file) {
+                adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent = `${translations[currentLanguage]?.selectedLabel}: ${file.name}`;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    adminNewsFormElements.uploadedNewsImagePreviewAdmin.src = ev.target.result;
+                    adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // If input cleared, show current image if available
+                adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent = currentNewsImage.fileName ? `${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}` : '';
+                adminNewsFormElements.uploadedNewsImagePreviewAdmin.src = currentNewsImage.url;
+                adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display = currentNewsImage.url ? 'block' : 'none';
+            }
         });
-        adminNewsFormElements.cancelEditNewsBtn.addEventListener('click', resetAddNewsItemForm);
 
-        async function editNewsItem(newsId){
-            showLoadingSpinner(); 
-            try{
-                // Corrected Firestore path construction for news document
-                const docRef=doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_NEWS_COLLECTION_NAME, newsId); 
-                const docSnap=await getDoc(docRef);
-                if(docSnap.exists()){ 
-                    const d=docSnap.data(); 
-                    editingNewsItemId=newsId;
-                    adminNewsFormElements.newsTitleInput.value=d.title||''; 
-                    adminNewsFormElements.newsDescriptionInput.value=d.description||'';
-                    currentNewsImage={url:d.imageUrl||'',fileName:d.imageFileName||''};
-                    adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent=currentNewsImage.fileName?`${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}`:'';
-                    adminNewsFormElements.uploadedNewsImagePreviewAdmin.src=currentNewsImage.url; 
-                    adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display=currentNewsImage.url?'block':'none';
-                    adminNewsFormElements.newsImageInput.value=''; 
-                    adminNewsFormElements.submitNewsBtn.textContent=translations[currentLanguage]?.updateNewsItemButton || "Update News Item"; 
+        // Edit News Item
+        async function editNewsItem(newsId) {
+            showLoadingSpinner();
+            try {
+                const docRef = doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME, newsId);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const d = docSnap.data();
+                    editingNewsItemId = newsId;
+
+                    adminNewsFormElements.newsTitleInput.value = d.title || '';
+                    adminNewsFormElements.newsDescriptionInput.value = d.description || '';
+                    // Populate currentNewsImage state
+                    currentNewsImage = { url: d.imageUrl || '', fileName: d.imageFileName || '' };
+
+                    // Update preview and clear input
+                    adminNewsFormElements.newsImageFileNameDisplayAdmin.textContent = currentNewsImage.fileName ? `${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentNewsImage.fileName)}` : '';
+                    adminNewsFormElements.uploadedNewsImagePreviewAdmin.src = currentNewsImage.url;
+                    adminNewsFormElements.uploadedNewsImagePreviewAdmin.style.display = currentNewsImage.url ? 'block' : 'none';
+                    adminNewsFormElements.newsImageInput.value = ''; // Clear file input for new selection
+
+                    adminNewsFormElements.submitNewsBtn.textContent = translations[currentLanguage]?.updateNewsItemButton || "Update News Item";
                     adminNewsFormElements.cancelEditNewsBtn.classList.remove('hidden');
-                    window.scrollTo({top:0,behavior:'smooth'});
-                }else showMessageModal("errorMessage","newsItemNotFoundForEdit","error");
-            }catch(e){console.error("Edit news err:",e);showMessageModal("errorMessage",(translations[currentLanguage]?.errorLoadingNewsItemForEdit || "Error loading news item for edit: ") + e.message,"error");}
-            finally{hideLoadingSpinner();}
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.newsItemNotFoundForEdit || "News item not found for editing.", "error");
+                }
+            } catch (e) {
+                console.error("Error editing news item:", e);
+                showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.errorLoadingNewsItemForEdit + e.message, "error");
+            } finally {
+                hideLoadingSpinner();
+            }
         }
 
-        function confirmDeleteNewsItem(newsId){
-            showMessageModal("confirmDelete","confirmDeleteMsg","confirm",async(confirmed)=>{
-                if(confirmed){showLoadingSpinner();try{
-                    // Corrected Firestore path construction for news document
-                    const newsRef=doc(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_NEWS_COLLECTION_NAME, newsId); 
-                    const newsDoc=await getDoc(newsRef);
-                    if(newsDoc.exists()){ 
-                        const d=newsDoc.data(); 
-                        if(d.imageFileName) await deleteFile(d.imageFileName,STORAGE_PATH_NEWS_IMAGES); 
-                        await deleteDoc(newsRef); 
-                        showMessageModal("successMessage","newsItemDeleted","success");
-                    } else showMessageModal("errorMessage","newsItemNotFoundForDeletion","error");
-                }catch(e){console.error("Del news err:",e);showMessageModal("errorMessage",(translations[currentLanguage]?.errorDeletingNewsItem || "Error deleting news item: ") + e.message,"error");}
-                finally{hideLoadingSpinner();}}
-            });
-        }
-
-        function listenForAdminNews() {
-            // Corrected Firestore path construction for news collection
-            const newsCollRef = collection(db, ROOT_COLLECTION_ID, appId, PUBLIC_SUBCOLLECTION_ID, DATA_SUBCOLLECTION_ID, PUBLIC_NEWS_COLLECTION_NAME); 
-            const q = query(newsCollRef, orderBy("timestamp", "desc"));
-            console.log("Listening for admin news at:", q.path); // Log the path property of the query
-            onSnapshot(q, (snapshot) => {
-                const listBody = document.getElementById('adminNewsList'); 
-                listBody.innerHTML = '';
-                const noNewsMsg = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4" data-lang-key="noNewsToManage">${translations[currentLanguage]?.noNewsToManage||'No news.'}</td></tr>`;
-                if (snapshot.empty) { listBody.innerHTML = noNewsMsg; return; }
-                snapshot.forEach(d => {
-                    const news = { id: d.id, ...d.data() }; 
-                    const row = listBody.insertRow(); 
-                    row.className = 'admin-table-row';
-                    row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm">${news.title||translations[currentLanguage]?.noTitle||'No Title'}</td><td class="px-6 py-4 whitespace-nowrap text-sm">${new Date(news.timestamp).toLocaleDateString(currentLanguage==='it'?'it-IT':'en-US')}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm flex space-x-2"><button class="text-blue-600 hover:text-blue-800 edit-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="editButton">${translations[currentLanguage]?.editButton||'Edit'}</button><button class="text-red-600 hover:text-red-800 delete-news-button admin-button text-xs p-2" data-id="${news.id}" data-lang-key="deleteButton">${translations[currentLanguage]?.deleteButton||'Delete'}</button></td>`;
-                });
-                document.querySelectorAll('.edit-news-button').forEach(btn => btn.addEventListener('click', (e) => editNewsItem(e.target.dataset.id)));
-                document.querySelectorAll('.delete-news-button').forEach(btn => btn.addEventListener('click', (e) => confirmDeleteNewsItem(e.target.dataset.id)));
-            }, (error) => { 
-                console.error("Error admin news:", error); 
-                document.getElementById('adminNewsList').innerHTML = `<tr class="admin-table-row"><td colspan="3" class="px-6 py-4 text-red-500">${translations[currentLanguage]?.errorLoadingAdminNews||'Error.'}</td></tr>`;
+        // Delete News Item
+        function confirmDeleteNewsItem(newsId) {
+            showMessageModal(translations[currentLanguage]?.confirmDelete || "Confirm Delete", translations[currentLanguage]?.confirmDeleteMsg || "Are you sure?", "confirm", async (confirmed) => {
+                if (confirmed) {
+                    showLoadingSpinner();
+                    try {
+                        const newsRef = doc(db, PUBLIC_DATA_BASE_PATH, PUBLIC_NEWS_COLLECTION_NAME, newsId);
+                        const newsDoc = await getDoc(newsRef);
+                        if (newsDoc.exists()) {
+                            const d = newsDoc.data();
+                            if (d.imageFileName) await deleteFile(d.imageFileName, STORAGE_PATH_NEWS_IMAGES);
+                            await deleteDoc(newsRef);
+                            showMessageModal(translations[currentLanguage]?.successMessage || "Success", translations[currentLanguage]?.newsItemDeleted || "News item deleted successfully!", "success");
+                        } else {
+                            showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.newsItemNotFoundForDeletion || "News item not found for deletion.", "error");
+                        }
+                    } catch (e) {
+                        console.error("Error deleting news item:", e);
+                        showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.errorDeletingNewsItem + e.message, "error");
+                    } finally {
+                        hideLoadingSpinner();
+                    }
+                }
             });
         }
         
-        // Modal functions
-        const messageModalElement = document.getElementById('messageModal'); 
-        const messageTextElement = document.getElementById('messageText'); 
-        const modalButtonsElement = document.getElementById('modalButtons'); 
-        const closeMessageModalElement = document.getElementById('closeMessageModal');
-        closeMessageModalElement.addEventListener('click', () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); });
-        messageModalElement.addEventListener('click', (e) => { if (e.target === messageModalElement) { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); }});
-        function showMessageModal(titleKey, messageKey, type = "alert", callback = null) {
-            messageTextElement.innerHTML = `<strong>${translations[currentLanguage]?.[titleKey] || titleKey}</strong><br>${translations[currentLanguage]?.[messageKey] || messageKey}`;
-            modalButtonsElement.innerHTML = '';
-            if (type === "confirm") {
-                const yesBtn = document.createElement('button'); yesBtn.textContent=translations[currentLanguage]?.yesButton||'Yes'; yesBtn.className='nav-button bg-red-600'; yesBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback(true);}; modalButtonsElement.appendChild(yesBtn);
-                const noBtn = document.createElement('button'); noBtn.textContent=translations[currentLanguage]?.noButton||'No'; noBtn.className='nav-button bg-gray-500'; noBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback(false);}; modalButtonsElement.appendChild(noBtn);
+        // Site Settings (Logo Upload)
+        function handleLogoFileInput(inputElement, previewImgElement, fileNameDisplayElement, currentLogoState, defaultUrl, noMsgKey) {
+            const file = inputElement.files[0];
+            if (file) {
+                fileNameDisplayElement.textContent = `${translations[currentLanguage]?.selectedLabel}: ${file.name}`;
+                if (previewImgElement) { 
+                    const reader = new FileReader(); 
+                    reader.onload = (event) => { 
+                        previewImgElement.src = event.target.result; 
+                        previewImgElement.style.display = 'block'; 
+                    }; 
+                    reader.readAsDataURL(file); 
+                }
             } else {
-                const okBtn = document.createElement('button'); okBtn.textContent=translations[currentLanguage]?.okButton||'OK'; okBtn.className='nav-button bg-blue-600'; okBtn.onclick=()=>{messageModalElement.classList.remove('flex');messageModalElement.classList.add('hidden');if(callback)callback();}; modalButtonsElement.appendChild(okBtn);
+                // If input cleared, revert to current/default state
+                fileNameDisplayElement.textContent = currentLogoState.fileName ? `${translations[currentLanguage]?.currentLabel}: ${getOriginalFileNameFromUnique(currentLogoState.fileName)}` : (translations[currentLanguage]?.[noMsgKey] || '');
+                if (previewImgElement) { 
+                    previewImgElement.src = currentLogoState.url || defaultUrl; 
+                    previewImgElement.style.display = (currentLogoState.url && currentLogoState.fileName) ? 'block' : 'none'; 
+                }
             }
-            messageModalElement.classList.remove('hidden'); messageModalElement.classList.add('flex');
         }
-        const publicationDetailsModal = document.getElementById('publicationDetailsModal'); 
-        const closePublicationDetailsModal = document.getElementById('closePublicationDetailsModal');
-        closePublicationDetailsModal.addEventListener('click', () => {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');});
-        publicationDetailsModal.addEventListener('click', (e) => { if (e.target === publicationDetailsModal) {publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden');}});
-        function showPublicationDetailsModal(book) {
-            document.getElementById('detailCoverImage').src = book.coverImageUrl || 'https://placehold.co/400x600/cccccc/333333?text=No+Image';
-            document.getElementById('detailTitle').textContent = book.title || translations[currentLanguage]?.noTitle||'No Title';
-            document.getElementById('detailAuthors').textContent = book.authors || translations[currentLanguage]?.noAuthors||'No Authors';
-            document.getElementById('detailYear').textContent = book.year || translations[currentLanguage]?.noYear||'No Year';
-            document.getElementById('detailDescription').textContent = book.description || translations[currentLanguage]?.noDescription||'No Description';
-            document.getElementById('detailISBN').textContent = book.isbn || 'N/A'; 
-            document.getElementById('detailISSN').textContent = book.issn || 'N/A';
-            document.getElementById('detailAbstractArText').textContent = book.abstracts?.ar?.text || translations[currentLanguage]?.noArabicAbstract||'N/A';
-            document.getElementById('detailAbstractEnText').textContent = book.abstracts?.en?.text || translations[currentLanguage]?.noEnglishAbstract||'N/A';
-            document.getElementById('detailAbstractItText').textContent = book.abstracts?.it?.text || translations[currentLanguage]?.noItalianAbstract||'N/A';
-            const updateDownloadLink = (id, url, key) => { 
-                const link=document.getElementById(id); 
-                link.href=url||'#'; 
-                link.classList.toggle('disabled',!url); 
-                link.onclick=url?null:(e)=>{e.preventDefault();showMessageModal("unavailable",key,"alert");};
-            };
-            updateDownloadLink('detailDownloadPdfBtn', book.pdfUrl, 'fullPdfUnavailable'); 
-            updateDownloadLink('detailDownloadAbstractArBtn', book.abstracts?.ar?.url, 'arabicAbstractPdfUnavailable'); 
-            updateDownloadLink('detailDownloadAbstractEnBtn', book.abstracts?.en?.url, 'englishAbstractPdfUnavailable'); 
-            updateDownloadLink('detailDownloadAbstractItBtn', book.abstracts?.it?.url, 'italianAbstractPdfUnavailable');
-            publicationDetailsModal.classList.remove('hidden'); 
-            publicationDetailsModal.classList.add('flex');
-        }
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        function showLoadingSpinner() { loadingSpinner.classList.remove('hidden'); }
-        function hideLoadingSpinner() { loadingSpinner.classList.add('hidden'); }
+        document.getElementById('headerLogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('headerLogoPreview'), document.getElementById('headerLogoFileNameDisplayAdmin'), currentHeaderLogo, DEFAULT_HEADER_LOGO_URL, 'noCustomHeaderLogo'));
+        document.getElementById('footerLogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('footerLogoPreview'), document.getElementById('footerLogoFileNameDisplayAdmin'), currentFooterLogo, DEFAULT_FOOTER_LOGO_URL, 'noCustomFooterLogo'));
+        document.getElementById('contributor1LogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('contributor1LogoPreview'), document.getElementById('contributor1FileNameDisplayAdmin'), currentContributor1Logo, DEFAULT_CONTRIB1_LOGO_URL, 'noLERMALogo'));
+        document.getElementById('contributor2LogoUpload').addEventListener('change', (e) => handleLogoFileInput(e.target, document.getElementById('contributor2LogoPreview'), document.getElementById('contributor2FileNameDisplayAdmin'), currentContributor2Logo, DEFAULT_CONTRIB2_LOGO_URL, 'noMEDALogo'));
 
+        document.getElementById('logoUploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showLoadingSpinner();
+            if (!auth.currentUser) { 
+                showMessageModal(translations[currentLanguage]?.permissionDenied || "Permission Denied", translations[currentLanguage]?.noPermissionUpdateSiteSettings || "You do not have permission to update site settings.", "error"); 
+                hideLoadingSpinner(); 
+                return; 
+            }
+
+            const headerFile = document.getElementById('headerLogoUpload').files[0];
+            const footerFile = document.getElementById('footerLogoUpload').files[0];
+
+            let newHeaderLogo = { ...currentHeaderLogo };
+            let newFooterLogo = { ...currentFooterLogo };
+
+            try {
+                if (headerFile) {
+                    if (currentHeaderLogo.fileName) await deleteFile(currentHeaderLogo.fileName, STORAGE_PATH_SITE_LOGOS);
+                    newHeaderLogo = await uploadFile(headerFile, STORAGE_PATH_SITE_LOGOS);
+                }
+                if (footerFile) {
+                    if (currentFooterLogo.fileName) await deleteFile(currentFooterLogo.fileName, STORAGE_PATH_SITE_LOGOS);
+                    newFooterLogo = await uploadFile(footerFile, STORAGE_PATH_SITE_LOGOS);
+                }
+
+                // Update siteConfiguration document
+                await setDoc(doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID), {
+                    headerLogoUrl: newHeaderLogo.url,
+                    headerLogoFileName: newHeaderLogo.fileName,
+                    footerLogoUrl: newFooterLogo.url,
+                    footerLogoFileName: newFooterLogo.fileName
+                }, { merge: true });
+
+                showMessageModal(translations[currentLanguage]?.successMessage || "Success", translations[currentLanguage]?.siteLogosUpdated || "Site logos updated successfully!", "success");
+                currentHeaderLogo = newHeaderLogo; // Update global state
+                currentFooterLogo = newFooterLogo; // Update global state
+                updateSiteLogosUI(); // Refresh UI
+                document.getElementById('headerLogoUpload').value = ''; // Clear file inputs
+                document.getElementById('footerLogoUpload').value = '';
+            } catch (error) {
+                console.error("Error updating site logos:", error);
+                showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.errorUpdatingLogos + error.message, "error");
+            } finally {
+                hideLoadingSpinner();
+            }
+        });
+
+        document.getElementById('contributorLogoUploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showLoadingSpinner();
+            if (!auth.currentUser) { 
+                showMessageModal(translations[currentLanguage]?.permissionDenied || "Permission Denied", translations[currentLanguage]?.noPermissionUpdateSiteSettings || "You do not have permission to update site settings.", "error"); 
+                hideLoadingSpinner(); 
+                return; 
+            }
+
+            const c1File = document.getElementById('contributor1LogoUpload').files[0];
+            const c2File = document.getElementById('contributor2LogoUpload').files[0];
+
+            let newC1Logo = { ...currentContributor1Logo };
+            let newC2Logo = { ...currentContributor2Logo };
+
+            try {
+                if (c1File) {
+                    if (currentContributor1Logo.fileName) await deleteFile(currentContributor1Logo.fileName, STORAGE_PATH_SITE_LOGOS);
+                    newC1Logo = await uploadFile(c1File, STORAGE_PATH_SITE_LOGOS);
+                }
+                if (c2File) {
+                    if (currentContributor2Logo.fileName) await deleteFile(currentContributor2Logo.fileName, STORAGE_PATH_SITE_LOGOS);
+                    newC2Logo = await uploadFile(c2File, STORAGE_PATH_SITE_LOGOS);
+                }
+
+                // Update siteConfiguration document
+                await setDoc(doc(db, PUBLIC_DATA_BASE_PATH, SITE_CONFIGURATION_DOC_ID), {
+                    contributor1LogoUrl: newC1Logo.url,
+                    contributor1LogoFileName: newC1Logo.fileName,
+                    contributor2LogoUrl: newC2Logo.url,
+                    contributor2LogoFileName: newC2Logo.fileName
+                }, { merge: true });
+
+                showMessageModal(translations[currentLanguage]?.successMessage || "Success", translations[currentLanguage]?.contributorLogosUpdated || "Contributor logos updated successfully!", "success");
+                currentContributor1Logo = newC1Logo; // Update global state
+                currentContributor2Logo = newC2Logo; // Update global state
+                updateSiteLogosUI(); // Refresh UI
+                document.getElementById('contributor1LogoUpload').value = ''; // Clear file inputs
+                document.getElementById('contributor2LogoUpload').value = '';
+            } catch (error) {
+                console.error("Error updating contributor logos:", error);
+                showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.errorUpdatingContributorLogos + error.message, "error");
+            } finally {
+                hideLoadingSpinner();
+            }
+        });
+
+        // --- Initial Setup on Window Load ---
         window.onload = function() {
-            // Populate views object
+            // Populate views object (elements must exist in HTML)
             views.aboutUs = document.getElementById('aboutUsView');
             views.editorialBoard = document.getElementById('editorialBoardView');
             views.currentIssue = document.getElementById('currentIssueView');
@@ -1575,36 +1869,120 @@
             views.adminLogin = document.getElementById('adminLoginView');
             views.adminDashboard = document.getElementById('adminDashboardView');
             
-            // Check if translations object is properly defined, provide a minimal fallback if not
-            if (typeof translations === 'undefined' || !translations.en || !translations.it) {
-                console.error("CRITICAL: Full translations object not found or incomplete. Text will not display correctly. Ensure it's pasted above.");
-                window.translations = { 
-                    en: { 
-                        noPublicationsToManage: "No publications", 
-                        noNewsToManage: "No news", 
-                        loadingPublications: "Loading publications...",
-                        noPubsFound: "No publications found.",
-                        noNewsUpdates: "No news updates at this time.",
-                        adminLoginButton: "Admin Login",
-                        logoutButton: "Logout"
-                    }, 
-                    it: { 
-                        noPublicationsToManage: "Nessuna pubblicazione", 
-                        noNewsToManage: "Nessuna notizia", 
-                        loadingPublications: "Caricamento pubblicazioni...",
-                        noPubsFound: "Nessuna pubblicazione trovata.",
-                        noNewsUpdates: "Nessun aggiornamento di notizie al momento.",
-                        adminLoginButton: "Accesso Admin",
-                        logoutButton: "Esci"
-                    } 
-                };
-            }
-
-            applyTranslations(currentLanguage); // Apply initial language
-            initializeFirebase(); // Initialize Firebase and set up auth listener
+            // Apply initial language translations
+            applyTranslations(currentLanguage); 
+            
+            // Initialize Firebase and set up auth listener
+            initializeFirebase(); 
+            
+            // Set current year in footer
             document.getElementById('currentYear').textContent = new Date().getFullYear();
-            showView('aboutUs'); // Explicitly show the default view
+            
+            // Explicitly show the default view (About Us)
+            showView('aboutUs'); 
         };
+
+        // --- Event Listeners for Page Interactions ---
+        // Navigation buttons
+        document.querySelectorAll('.view-button').forEach(button => {
+            button.addEventListener('click', (e) => showView(e.target.dataset.view));
+        });
+
+        // Language buttons
+        document.querySelectorAll('.lang-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                applyTranslations(e.target.dataset.lang);
+            });
+        });
+
+        // Modal close buttons
+        document.getElementById('closeMessageModal').addEventListener('click', () => { messageModalElement.classList.remove('flex'); messageModalElement.classList.add('hidden'); });
+        document.getElementById('closePublicationDetailsModal').addEventListener('click', () => { publicationDetailsModal.classList.remove('flex'); publicationDetailsModal.classList.add('hidden'); });
+
+        // Admin login form submission
+        document.getElementById('adminLoginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            showLoadingSpinner();
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const loginErrorMessage = document.getElementById('loginErrorMessage');
+
+            loginErrorMessage.textContent = ''; // Clear previous error message
+
+            try {
+                console.log("Attempting admin login for:", email);
+                await signInWithEmailAndPassword(auth, email, password);
+                // Auth state change is handled by onAuthStateChanged listener, which calls updateAuthUI
+                document.getElementById('adminEmail').value = ''; // Clear form on success
+                document.getElementById('adminPassword').value = '';
+            } catch (error) {
+                console.error("Login error:", error.code, error.message);
+                let errorMessage = translations[currentLanguage]?.invalidCredentials || "Invalid email or password.";
+                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    errorMessage = translations[currentLanguage]?.invalidCredentials || "Invalid email or password.";
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = translations[currentLanguage]?.tooManyLoginAttempts || "Too many failed login attempts. Please try again later.";
+                }
+                loginErrorMessage.textContent = errorMessage;
+            } finally {
+                hideLoadingSpinner();
+            }
+        });
+
+        // Admin dashboard navigation buttons
+        document.getElementById('managePublicationsBtn').addEventListener('click', () => {
+            document.getElementById('adminManagePublications').classList.remove('hidden');
+            document.getElementById('adminManageNews').classList.add('hidden');
+            document.getElementById('adminManageSiteSettings').classList.add('hidden');
+            resetAddPublicationForm(); // Reset form when switching to manage publications
+            listenForAdminPublications(); // Re-listen for admin publications
+        });
+        document.getElementById('manageNewsBtn').addEventListener('click', () => {
+            document.getElementById('adminManagePublications').classList.add('hidden');
+            document.getElementById('adminManageNews').classList.remove('hidden');
+            document.getElementById('adminManageSiteSettings').classList.add('hidden');
+            resetAddNewsItemForm(); // Reset form when switching to manage news
+            listenForAdminNews(); // Re-listen for admin news
+        });
+        document.getElementById('manageSiteSettingsBtn').addEventListener('click', () => {
+            document.getElementById('adminManagePublications').classList.add('hidden');
+            document.getElementById('adminManageNews').classList.add('hidden');
+            document.getElementById('adminManageSiteSettings').classList.remove('hidden');
+            updateSiteLogosUI(); // Load current site settings for display
+        });
+        document.getElementById('adminLogoutBtn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                showMessageModal(translations[currentLanguage]?.successMessage || "Success", translations[currentLanguage]?.logoutSuccessful || "Logged out successfully!", "success");
+            } catch (error) {
+                console.error("Logout error:", error);
+                showMessageModal(translations[currentLanguage]?.errorMessage || "Error", translations[currentLanguage]?.logoutFailed + error.message, "error");
+            }
+        });
+
+        // Search and Sort Event Listeners for Public Publications
+        document.getElementById('publicationSearch').addEventListener('input', () => filterAndSortPublications('publicationsList'));
+        document.getElementById('sortPublications').addEventListener('change', () => filterAndSortPublications('publicationsList'));
+
+        // Filter for Admin Publications Table (Note: you will need to add an input field with ID 'filterPublications' in your HTML for this to work)
+        // For example: <input type="text" id="filterPublications" placeholder="Filter publications..." class="admin-input w-full mb-4">
+        const filterPublicationsInput = document.getElementById('filterPublications');
+        if (filterPublicationsInput) {
+            filterPublicationsInput.addEventListener('input', (e) => {
+                const filterText = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('#adminPublicationsList .admin-table-row');
+                rows.forEach(row => {
+                    const title = row.children[0].textContent.toLowerCase();
+                    const authors = row.children[1].textContent.toLowerCase();
+                    const year = row.children[2].textContent.toLowerCase();
+                    if (title.includes(filterText) || authors.includes(filterText) || year.includes(filterText)) {
+                        row.classList.remove('hidden');
+                    } else {
+                        row.classList.add('hidden');
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html>
